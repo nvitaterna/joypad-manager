@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./src/",
+      "outDir": "./dist/",
+      "sourceMap": true,
+      "noImplicitAny": true,
+      "target": "ESNext",
+      "strict": true,
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "moduleResolution": "Node",
+      "resolveJsonModule": true,
+      "lib": [
+        "DOM",
+        "DOM.Iterable",
+        "ESNext"
+      ],
+      "paths": {
+        "@/*": ["*"]
+      }
+    },
+    "exclude": ["node_modules"]
+  }

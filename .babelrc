@@ -1,0 +1,17 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "useBuiltIns": "entry"
+      }
+    ],
+    "@babel/typescript"
+  ],
+  "plugins": [
+    "@babel/transform-runtime",
+    "@babel/proposal-class-properties",
+    "@babel/plugin-proposal-optional-chaining"
+  ]
+}
