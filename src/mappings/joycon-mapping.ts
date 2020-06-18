@@ -1,4 +1,5 @@
 export default {
+  id: 'Joy-Con L+R (STANDARD GAMEPAD Vendor: 057e Product: 200e)',
   buttons: [
     {
       name: 'buttonSouth',
@@ -20,11 +21,9 @@ export default {
     },
     {
       name: 'leftTrigger',
-      analog: true,
     },
     {
       name: 'rightTrigger',
-      analog: true,
     },
     {
       name: 'select',
@@ -71,4 +70,4 @@ export default {
       name: 'rightStickY',
     },
   ],
-};
+} as GamepadMap;

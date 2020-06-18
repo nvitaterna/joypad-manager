@@ -29,3 +29,7 @@ gm.gamepads[0].addEventListener('axischange', (x: any, y: any) => {
   console.log('axis change');
   console.log(y);
 });
+
+gm.gamepads[1]?.addEventListener('buttonpress', (x: any, y: any) => {
+  console.log('change', x, y, 'GP1');
+});

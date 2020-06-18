@@ -1,4 +1,3 @@
-import type GamepadManager from './GamepadManager';
 import EventEmitter from './EventEmitter';
 import generateButtonState from './helpers/generateButtonState';
 
@@ -7,11 +6,12 @@ const ANALOG_CHANGE_THRESHOLD = 0.1;
 const AXIS_DEADZONE = 0.2;
 
 export default class Gamepad extends EventEmitter {
-  buttonState = generateButtonState();
+  buttonState!: ReturnType<typeof generateButtonState>;
+
+  id?: string;
 
   constructor(
     public index: number,
-    private gamepadManager: GamepadManager,
   ) {
     super();
 
@@ -39,7 +39,16 @@ export default class Gamepad extends EventEmitter {
     });
   }
 
-  connected() {
+  setId(id: string) {
+    if (this.id !== id) {
+      this.id = id;
+      this.buttonState = generateButtonState(id);
+    }
+  }
+
+  connected(gamepad: globalThis.Gamepad) {
+    // set the id
+    this.setId(gamepad.id);
     this.dispatchEvent('connected', this);
   }
 
@@ -52,55 +61,58 @@ export default class Gamepad extends EventEmitter {
       this.disconnected();
       return;
     }
+    if (!this.id) {
+      this.setId(nativePad.id);
+    }
     nativePad.buttons.forEach((nativeButton, index) => {
-      const button = this.buttonState.buttons[index];
-      if (!button) {
+      const buttonState = this.buttonState.buttons[index];
+      if (!buttonState) {
         return;
       }
 
       // if this is an analog button - send the event for valuechanged
-      if (nativeButton.value !== button.value && button.type === 'analog') {
-        if (!(nativeButton.value % 1) || !(button.value % 1) || !nativeButton.value || !button.value || Math.abs(nativeButton.value - button.value) >= ANALOG_CHANGE_THRESHOLD) {
-          button.pressed = nativeButton.pressed;
-          button.touched = nativeButton.touched;
-          button.value = nativeButton.value;
-          this.dispatchEvent('buttonchange', button.name, button, index, nativeButton);
+      if (nativeButton.value !== buttonState.value && buttonState.analog) {
+        if (!(nativeButton.value % 1) || !(buttonState.value % 1) || !nativeButton.value || !buttonState.value || Math.abs(nativeButton.value - buttonState.value) >= ANALOG_CHANGE_THRESHOLD) {
+          buttonState.pressed = nativeButton.pressed;
+          buttonState.touched = nativeButton.touched;
+          buttonState.value = nativeButton.value;
+          this.dispatchEvent('buttonchange', buttonState.name, buttonState, index, nativeButton);
         }
       }
       // send the regular pressed event regardless
-      if (nativeButton.pressed && !button.pressed) {
-        button.pressed = nativeButton.pressed;
-        button.touched = nativeButton.touched;
-        button.value = nativeButton.value;
-        this.dispatchEvent('buttonpress', button.name, button, index, nativeButton);
-      } else if (!nativeButton.pressed && button.pressed) {
+      if (nativeButton.pressed && !buttonState.pressed) {
+        buttonState.pressed = nativeButton.pressed;
+        buttonState.touched = nativeButton.touched;
+        buttonState.value = nativeButton.value;
+        this.dispatchEvent('buttonpress', buttonState.name, buttonState, index, nativeButton);
+      } else if (!nativeButton.pressed && buttonState.pressed) {
         // send released event
-        button.pressed = nativeButton.pressed;
-        button.touched = nativeButton.touched;
-        button.value = nativeButton.value;
-        this.dispatchEvent('buttonrelease', button.name, button, index, nativeButton);
+        buttonState.pressed = nativeButton.pressed;
+        buttonState.touched = nativeButton.touched;
+        buttonState.value = nativeButton.value;
+        this.dispatchEvent('buttonrelease', buttonState.name, buttonState, index, nativeButton);
       }
     });
 
     nativePad.axes.forEach((value, index) => {
-      const axis = this.buttonState.axes[index];
-      if (!axis) {
+      const axisState = this.buttonState.axes[index];
+      if (!axisState) {
         return;
       }
-      if (value !== axis.value) {
+      if (value !== axisState.value) {
         if (
           !(value % 1)
-          || !(axis.value % 1)
-          || (Math.abs(axis.value) <= AXIS_DEADZONE && Math.abs(value) > AXIS_DEADZONE)
-          || (Math.abs(value) <= AXIS_DEADZONE && Math.abs(axis.value) > AXIS_DEADZONE)
-          || Math.abs(value - axis.value) >= ANALOG_CHANGE_THRESHOLD) {
-          const initialValue = axis.value;
-          axis.value = value;
-          this.dispatchEvent('axischange', axis.name, axis, index);
+          || !(axisState.value % 1)
+          || (Math.abs(axisState.value) <= AXIS_DEADZONE && Math.abs(value) > AXIS_DEADZONE)
+          || (Math.abs(value) <= AXIS_DEADZONE && Math.abs(axisState.value) > AXIS_DEADZONE)
+          || Math.abs(value - axisState.value) >= ANALOG_CHANGE_THRESHOLD) {
+          const initialValue = axisState.value;
+          axisState.value = value;
+          this.dispatchEvent('axischange', axisState.name, axisState, index);
           if ((value >= AXIS_PRESS_THRESHOLD && initialValue < AXIS_PRESS_THRESHOLD) || (value <= -AXIS_PRESS_THRESHOLD && initialValue > -AXIS_PRESS_THRESHOLD)) {
-            this.dispatchEvent('axispress', axis.name, axis, index);
+            this.dispatchEvent('axispress', axisState.name, axisState, index);
           } else if ((value < AXIS_PRESS_THRESHOLD && initialValue >= AXIS_PRESS_THRESHOLD) || (value > -AXIS_PRESS_THRESHOLD && initialValue <= -AXIS_PRESS_THRESHOLD)) {
-            this.dispatchEvent('axisrelease', axis.name, axis, index);
+            this.dispatchEvent('axisrelease', axisState.name, axisState, index);
           }
         }
       }

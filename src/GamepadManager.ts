@@ -14,7 +14,7 @@ export default class GamepadManager {
     maxGamepads = 4,
   ) {
     for (let i = 0; i < maxGamepads; i += 1) {
-      this.gamepads[i] = new Gamepad(i, this);
+      this.gamepads[i] = new Gamepad(i);
     }
   }
 
@@ -50,7 +50,7 @@ export default class GamepadManager {
   initializeEventListeners() {
     window.addEventListener('gamepadconnected', (evt) => {
       const { gamepad } = evt as GamepadEvent;
-      this.gamepads[gamepad.index].connected();
+      this.gamepads[gamepad.index].connected(gamepad);
     });
   }
 }
