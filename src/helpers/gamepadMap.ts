@@ -1,48 +1,74 @@
-export const BUTTON_MAP = {
-  buttonSouth: 0,
-  buttonEast: 1,
-  buttonWest: 2,
-  buttonNorth: 3,
-  leftShoulder: 4,
-  rightShoulder: 5,
-  leftTrigger: 6,
-  rightTrigger: 7,
-  select: 8,
-  start: 9,
-  leftStickButton: 10,
-  rightStickButton: 11,
-  up: 12,
-  down: 13,
-  left: 14,
-  right: 15,
-  home: 16,
-  share: 17,
+export default {
+  buttons: [
+    {
+      name: 'buttonSouth',
+    },
+    {
+      name: 'buttonEast',
+    },
+    {
+      name: 'buttonWest',
+    },
+    {
+      name: 'buttonNorth',
+    },
+    {
+      name: 'leftShoulder',
+    },
+    {
+      name: 'rightShoulder',
+    },
+    {
+      name: 'leftTrigger',
+      analog: true,
+    },
+    {
+      name: 'rightTrigger',
+      analog: true,
+    },
+    {
+      name: 'select',
+    },
+    {
+      name: 'start',
+    },
+    {
+      name: 'leftStickButton',
+    },
+    {
+      name: 'rightStickButton',
+    },
+    {
+      name: 'up',
+    },
+    {
+      name: 'down',
+    },
+    {
+      name: 'left',
+    },
+    {
+      name: 'right',
+    },
+    {
+      name: 'home',
+    },
+    {
+      name: 'share',
+    },
+  ],
+  axes: [
+    {
+      name: 'leftStickX',
+    },
+    {
+      name: 'leftStickY',
+    },
+    {
+      name: 'rightStickX',
+    },
+    {
+      name: 'rightStickY',
+    },
+  ],
 };
-
-export const buttonMap = [
-  'buttonSouth',
-  'buttonEast',
-  'buttonWest',
-  'buttonNorth',
-  'leftShoulder',
-  'rightShoulder',
-  'leftTrigger',
-  'rightTrigger',
-  'select',
-  'start',
-  'leftStickButton',
-  'rightStickButton',
-  'up',
-  'down',
-  'left',
-  'right',
-  'home',
-  'share',
-];
-
-export const axisMap = [
-  'leftStickX',
-  'leftStickY',
-  'rightStickX',
-  'rightStickY',
-];

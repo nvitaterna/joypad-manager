@@ -1,4 +1,4 @@
-import { /* axisMap, */ buttonMap } from './gamepadMap';
+import gamepadMap from './gamepadMap';
 
 export interface ButtonState {
   type: 'button' | 'axis';
@@ -9,12 +9,22 @@ export interface ButtonState {
 }
 
 export default function generateButtonState() {
-  const bs = buttonMap.map((button) => ({
-    type: 'button',
+  const buttons = gamepadMap.buttons.map((button) => ({
+    type: button.analog ? 'analog' : 'digital',
     pressed: false,
     touched: false,
     value: 0,
-    alias: button,
-  } as ButtonState));
-  return bs;
+    name: button.name,
+  }));
+
+  const axes = gamepadMap.axes.map((axis) => ({
+    type: 'analog',
+    value: 0,
+    name: axis.name,
+  }));
+
+  return {
+    axes,
+    buttons,
+  };
 }
