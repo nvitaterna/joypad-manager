@@ -1,6 +1,6 @@
 import joyconMapping from './joycon-mapping';
 import defaultMapping from './default-mapping';
-import xboxoneMapping from './xboxone-mapping';
+import xboxoneMapping from './xbox-mapping';
 
 export default [
   defaultMapping,
