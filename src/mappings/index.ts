@@ -1,10 +1,10 @@
 import { JoypadMap } from '@/types';
-import joyconMapping from './joycon-mapping';
+import nintendoSwitch from './nintendo-switch';
 import defaultMapping from './default-mapping';
 import xboxoneMapping from './xbox-mapping';
 
 export default [
   defaultMapping,
   xboxoneMapping,
-  joyconMapping,
+  nintendoSwitch,
 ] as JoypadMap[];

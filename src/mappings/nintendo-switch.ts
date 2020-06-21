@@ -1,5 +1,9 @@
+import defaultMapping from './default-mapping';
+
 export default {
   ids: [
+    'Pro Controller (STANDARD GAMEPAD Vendor: 057e Product: 2009)',
+    '057e-2009-Pro Controller',
     'Joy-Con L+R (STANDARD GAMEPAD Vendor: 057e Product: 200e)',
   ],
   buttons: [
@@ -58,18 +62,5 @@ export default {
       name: 'share',
     },
   ],
-  axes: [
-    {
-      name: 'leftStickX',
-    },
-    {
-      name: 'leftStickY',
-    },
-    {
-      name: 'rightStickX',
-    },
-    {
-      name: 'rightStickY',
-    },
-  ],
+  axes: defaultMapping.axes,
 };

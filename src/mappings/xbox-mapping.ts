@@ -1,78 +1,10 @@
+import defaultMapping from './default-mapping';
+
 export default {
   ids: [
     'Xbox 360 Controller (XInput STANDARD GAMEPAD)',
     'xinput',
   ],
-  buttons: [
-    {
-      name: 'buttonSouth',
-    },
-    {
-      name: 'buttonEast',
-    },
-    {
-      name: 'buttonWest',
-    },
-    {
-      name: 'buttonNorth',
-    },
-    {
-      name: 'leftShoulder',
-    },
-    {
-      name: 'rightShoulder',
-    },
-    {
-      name: 'leftTrigger',
-      analog: true,
-    },
-    {
-      name: 'rightTrigger',
-      analog: true,
-    },
-    {
-      name: 'select',
-    },
-    {
-      name: 'start',
-    },
-    {
-      name: 'leftStickButton',
-    },
-    {
-      name: 'rightStickButton',
-    },
-    {
-      name: 'up',
-    },
-    {
-      name: 'down',
-    },
-    {
-      name: 'left',
-    },
-    {
-      name: 'right',
-    },
-    {
-      name: 'home',
-    },
-    {
-      name: 'share',
-    },
-  ],
-  axes: [
-    {
-      name: 'leftStickX',
-    },
-    {
-      name: 'leftStickY',
-    },
-    {
-      name: 'rightStickX',
-    },
-    {
-      name: 'rightStickY',
-    },
-  ],
+  buttons: defaultMapping.buttons,
+  axes: defaultMapping.axes,
 };

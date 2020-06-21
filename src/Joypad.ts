@@ -20,9 +20,8 @@ export default class Joypad extends JoypadEventEmitter {
 
   setId(id: string) {
     if (this.id !== id) {
-      console.log('setting id');
       this.id = id;
-      this.buttonState = generateButtonState();
+      this.buttonState = generateButtonState(this.id);
     }
   }
 

@@ -1,6 +1,5 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 let mode = 'development';
 
@@ -14,7 +13,7 @@ const config = {
   mode,
   entry: './src/index.ts',
   output: {
-    filename: '[name].bundle.js',
+    filename: 'joypad-manager.js',
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
@@ -43,20 +42,23 @@ const config = {
       chunks: 'all',
       maxSize: 244000,
     },
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        compress: {
+          drop_console: true,
+        },
+      },
+    })],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      alwaysWriteToDisk: true,
-    }),
-    new HtmlWebpackHarddiskPlugin({
-      outputPath: path.resolve(__dirname, 'dist'),
-    }),
-  ],
+  target: 'web',
 };
 
 if (devMode) {
   config.devtool = 'inline-source-map';
   delete config.optimization;
+} else {
+  config.devtool = 'source-map';
 }
 
 module.exports = config;
