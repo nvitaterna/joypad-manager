@@ -1,3 +1,5 @@
+import { GamepadMap } from '@/types';
+
 export default {
   ids: [
     'Joy-Con L+R (STANDARD GAMEPAD Vendor: 057e Product: 200e)',

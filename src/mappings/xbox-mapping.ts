@@ -1,3 +1,5 @@
+import { GamepadMap } from '@/types';
+
 export default {
   ids: [
     'Xbox 360 Controller (XInput STANDARD GAMEPAD)',

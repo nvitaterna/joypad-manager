@@ -1,3 +1,5 @@
+import { GamepadMap } from '@/types';
+
 export default {
   ids: [
     'default',
