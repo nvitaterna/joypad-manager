@@ -51,6 +51,7 @@ if (devMode) {
   configs = baseConfig;
 } else {
   baseConfig.output.path = path.resolve(__dirname, 'dist');
+  baseConfig.devtool = 'source-map';
 
   const terserOptions = {
     compress: {
@@ -83,7 +84,6 @@ if (devMode) {
         terserOptions,
       })],
     },
-    devtool: 'source-map',
     plugins: [
       new CleanWebpackPlugin(),
     ],
