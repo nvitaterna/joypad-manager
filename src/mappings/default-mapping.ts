@@ -1,5 +1,3 @@
-import { GamepadMap } from '@/types';
-
 export default {
   ids: [
     'default',
@@ -76,4 +74,4 @@ export default {
       name: 'rightStickY',
     },
   ],
-} as GamepadMap;
+};

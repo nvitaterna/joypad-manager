@@ -1,5 +1,5 @@
 import JoypadEventEmitter from './JoypadEventEmitter';
-import * as JOYPAD_EVENTS from './JoypadEventTracker';
+import * as JOYPAD_EVENTS from './eventNames';
 import generateButtonState from './helpers/generateButtonState';
 
 const ANALOG_CHANGE_THRESHOLD = 0.1;
@@ -22,7 +22,7 @@ export default class Joypad extends JoypadEventEmitter {
     if (this.id !== id) {
       console.log('setting id');
       this.id = id;
-      this.buttonState = generateButtonState(id);
+      this.buttonState = generateButtonState();
     }
   }
 

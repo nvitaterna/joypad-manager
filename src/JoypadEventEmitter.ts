@@ -1,6 +1,7 @@
-import JoypadEventTracker, * as JOYPAD_EVENTS from './JoypadEventTracker';
+import JoypadEventTracker from './JoypadEventTracker';
+import * as JOYPAD_EVENTS from './eventNames';
 import {
-  JoypadEventName, JoypadButtonEventCallback, JoypadAxisEventCallback, JoypadEventCallback, JoypadEvents,
+  JoypadEventName, JoypadEventMap,
 } from './types';
 
 const events = {
@@ -15,17 +16,17 @@ const events = {
 export default class JoypadEventEmitter {
   events = events;
 
-  dispatchEvent(eventName: JoypadEventName, event: JoypadEvents) {
+  dispatchEvent<K extends keyof JoypadEventMap>(eventName: JoypadEventName, event: JoypadEventMap[K]) {
     this.events[eventName].callbacks.forEach((callback) => {
       callback(event);
     });
   }
 
-  addEventListener(name: JoypadEventName, callback: JoypadButtonEventCallback | JoypadAxisEventCallback | JoypadEventCallback) {
+  addEventListener<K extends keyof JoypadEventMap>(name: K, callback: (event: JoypadEventMap[K]) => void) {
     this.events[name].registerCallback(callback);
   }
 
-  removeEventListener(name: JoypadEventName, callback: JoypadButtonEventCallback | JoypadAxisEventCallback | JoypadEventCallback) {
+  removeEventListener<K extends keyof JoypadEventMap>(name: K, callback: (event: JoypadEventMap[K]) => void) {
     this.events[name].unRegisterCallback(callback);
   }
 }

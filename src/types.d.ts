@@ -9,7 +9,7 @@ export interface ButtonMapping {
   analog?: boolean;
 }
 
-export interface GamepadMap {
+export interface JoypadMap {
   ids: string[];
   buttons: ButtonMapping[];
   axes: AxisMapping[];
@@ -25,8 +25,6 @@ export interface ButtonState {
   name: string;
   value: number;
 }
-
-export type JoypadEventName = 'connect' |'disconnect' |'buttonpress' |'buttonrelease' | 'buttonchange' | 'axismove';
 
 export type JoypadButtonEvent = {
   button: ButtonState;
@@ -47,8 +45,13 @@ export type JoypadEvent = {
   nativePad: Gamepad | null;
 };
 
-export type JoypadEvents = JoypadButtonEvent | JoypadAxisEvent | JoypadEvent;
+export interface JoypadEventMap {
+  connect: JoypadEvent;
+  disconnect: JoypadEvent;
+  buttonpress: JoypadButtonEvent;
+  buttonrelease: JoypadButtonEvent;
+  buttonchange: JoypadButtonEvent;
+  axismove: JoypadAxisEvent;
+}
 
-export type JoypadButtonEventCallback = (event: JoypadButtonEvent) => void;
-export type JoypadAxisEventCallback = (event: JoypadAxisEvent) => void;
-export type JoypadEventCallback = (event: JoypadEvent) => void;
+export type JoypadEventName = keyof JoypadEventMap;
