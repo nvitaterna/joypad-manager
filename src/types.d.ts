@@ -11,8 +11,8 @@ export interface ButtonMapping {
 
 export interface JoypadMap {
   ids: string[];
-  buttons: ButtonMapping[];
-  axes: AxisMapping[];
+  buttons?: ButtonMapping[];
+  axes?: AxisMapping[];
 }
 
 export interface AxisState {

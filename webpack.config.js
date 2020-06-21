@@ -1,5 +1,6 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 let mode = 'development';
 
@@ -7,14 +8,19 @@ if (process.env.NODE_ENV) {
   mode = process.env.NODE_ENV;
 }
 
+const name = 'joypad-manager';
+
 const devMode = mode === 'development';
 
-const config = {
+let configs;
+
+const baseConfig = {
   mode,
   entry: './src/index.ts',
   output: {
-    filename: 'joypad-manager.js',
-    path: path.resolve(__dirname, 'dist'),
+    libraryTarget: 'umd',
+    globalObject: 'this',
+    library: 'joypadManager',
   },
   module: {
     rules: [
@@ -22,12 +28,6 @@ const config = {
         test: /\.ts$/,
         use: ['babel-loader', 'ts-loader', 'eslint-loader'],
         exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        use: [
-          'css-loader',
-        ],
       },
     ],
   },
@@ -37,28 +37,58 @@ const config = {
       '@': path.resolve(__dirname, 'src'),
     },
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      maxSize: 244000,
-    },
-    minimize: true,
-    minimizer: [new TerserPlugin({
-      terserOptions: {
-        compress: {
-          drop_console: true,
-        },
-      },
-    })],
-  },
   target: 'web',
 };
 
 if (devMode) {
-  config.devtool = 'inline-source-map';
-  delete config.optimization;
+  baseConfig.devtool = 'inline-source-map';
+  baseConfig.watch = true;
+  baseConfig.output.filename = `${name}.js`;
+  baseConfig.output.path = path.resolve(__dirname, 'dev');
+  baseConfig.plugins = [
+    new CleanWebpackPlugin(),
+  ];
+  configs = baseConfig;
 } else {
-  config.devtool = 'source-map';
+  baseConfig.output.path = path.resolve(__dirname, 'dist');
+
+  const terserOptions = {
+    compress: {
+      drop_console: true,
+    },
+  };
+
+  const minConfig = {
+    ...baseConfig,
+    output: {
+      ...baseConfig.output,
+      filename: `${name}.min.js`,
+    },
+    optimization: {
+      minimize: true,
+      minimizer: [new TerserPlugin({
+        terserOptions,
+      })],
+    },
+  };
+  const prodConfig = {
+    ...baseConfig,
+    output: {
+      ...baseConfig.output,
+      filename: `${name}.js`,
+    },
+    optimization: {
+      minimize: false,
+      minimizer: [new TerserPlugin({
+        terserOptions,
+      })],
+    },
+    devtool: 'source-map',
+    plugins: [
+      new CleanWebpackPlugin(),
+    ],
+  };
+  configs = [minConfig, prodConfig];
 }
 
-module.exports = config;
+module.exports = configs;

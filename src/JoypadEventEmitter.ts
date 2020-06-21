@@ -1,5 +1,5 @@
 import JoypadEventTracker from './JoypadEventTracker';
-import * as JOYPAD_EVENTS from './eventNames';
+import * as JOYPAD_EVENTS from './event-names';
 import {
   JoypadEventName, JoypadEventMap,
 } from './types';

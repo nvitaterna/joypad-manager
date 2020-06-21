@@ -1,6 +1,7 @@
 import JoypadEventEmitter from './JoypadEventEmitter';
-import * as JOYPAD_EVENTS from './eventNames';
-import generateButtonState from './helpers/generateButtonState';
+import * as JOYPAD_EVENTS from './event-names';
+import generateButtonState from './generate-button-state';
+import { JoypadMap } from './types';
 
 const ANALOG_CHANGE_THRESHOLD = 0.1;
 const AXIS_DEADZONE = 0.3;
@@ -14,6 +15,7 @@ export default class Joypad extends JoypadEventEmitter {
 
   constructor(
     readonly index: number,
+    private mappings: JoypadMap[],
   ) {
     super();
   }
@@ -21,7 +23,7 @@ export default class Joypad extends JoypadEventEmitter {
   setId(id: string) {
     if (this.id !== id) {
       this.id = id;
-      this.buttonState = generateButtonState(this.id);
+      this.buttonState = generateButtonState(this.id, this.mappings);
     }
   }
 
