@@ -1,5 +1,7 @@
 export default {
-  id: 'Joy-Con L+R (STANDARD GAMEPAD Vendor: 057e Product: 200e)',
+  ids: [
+    'Joy-Con L+R (STANDARD GAMEPAD Vendor: 057e Product: 200e)',
+  ],
   buttons: [
     {
       name: 'buttonSouth',

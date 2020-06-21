@@ -1,5 +1,8 @@
 export default {
-  id: 'Pro Controller (STANDARD GAMEPAD Vendor: 057e Product: 2009)',
+  ids: [
+    'Pro Controller (STANDARD GAMEPAD Vendor: 057e Product: 2009)',
+    '057e-2009-Pro Controller',
+  ],
   buttons: [
     {
       name: 'buttonSouth',

@@ -3,7 +3,7 @@ import generateButtonState from './helpers/generateButtonState';
 
 const AXIS_PRESS_THRESHOLD = 0.8;
 const ANALOG_CHANGE_THRESHOLD = 0.1;
-const AXIS_DEADZONE = 0.2;
+const AXIS_DEADZONE = 0.3;
 
 export default class Gamepad extends EventEmitter {
   buttonState!: ReturnType<typeof generateButtonState>;
@@ -41,6 +41,7 @@ export default class Gamepad extends EventEmitter {
 
   setId(id: string) {
     if (this.id !== id) {
+      console.log('setting id');
       this.id = id;
       this.buttonState = generateButtonState(id);
     }
@@ -101,11 +102,10 @@ export default class Gamepad extends EventEmitter {
       }
       if (value !== axisState.value) {
         if (
-          !(value % 1)
-          || !(axisState.value % 1)
-          || (Math.abs(axisState.value) <= AXIS_DEADZONE && Math.abs(value) > AXIS_DEADZONE)
+          (Math.abs(axisState.value) <= AXIS_DEADZONE && Math.abs(value) > AXIS_DEADZONE)
           || (Math.abs(value) <= AXIS_DEADZONE && Math.abs(axisState.value) > AXIS_DEADZONE)
-          || Math.abs(value - axisState.value) >= ANALOG_CHANGE_THRESHOLD) {
+          || (Math.abs(value) >= AXIS_DEADZONE && Math.abs(value - axisState.value) >= ANALOG_CHANGE_THRESHOLD)
+        ) {
           const initialValue = axisState.value;
           axisState.value = value;
           this.dispatchEvent('axischange', axisState.name, axisState, index);

@@ -4,11 +4,11 @@ interface AxisMapping {
 
 interface ButtonMapping {
   name: string
-  analog?: true
+  analog?: boolean
 }
 
 interface GamepadMap {
-  id: string
+  ids: string[]
   buttons: ButtonMapping[]
   axes: AxisMapping[]
 }
@@ -21,7 +21,7 @@ interface AxisState {
 
 interface ButtonState {
   name: string
-  analog?: true
+  analog: boolean
   value: number
   pressed: boolean
   touched: boolean

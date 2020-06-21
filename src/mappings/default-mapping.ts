@@ -1,5 +1,7 @@
 export default {
-  id: 'default',
+  ids: [
+    'default',
+  ],
   buttons: [
     {
       name: 'buttonSouth',

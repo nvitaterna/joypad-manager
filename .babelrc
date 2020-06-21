@@ -3,8 +3,7 @@
     [
       "@babel/preset-env",
       {
-        "modules": false,
-        "useBuiltIns": "entry"
+        "modules": false
       }
     ],
     "@babel/typescript"

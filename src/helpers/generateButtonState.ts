@@ -1,9 +1,9 @@
 import mappings from '../mappings';
 
 export default function generateButtonState(id: string) {
-  const gamepadMap = mappings.find((mapping) => mapping.id === id) || mappings[0];
+  const gamepadMap = mappings.find((mapping) => mapping.ids.includes(id)) || mappings[0];
   const buttons = gamepadMap.buttons.map((button) => ({
-    analog: button.analog,
+    analog: !!button.analog,
     pressed: false,
     touched: false,
     value: 0,

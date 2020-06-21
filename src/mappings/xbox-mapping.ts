@@ -1,5 +1,8 @@
 export default {
-  id: 'Xbox 360 Controller (XInput STANDARD GAMEPAD)',
+  ids: [
+    'Xbox 360 Controller (XInput STANDARD GAMEPAD)',
+    'xinput',
+  ],
   buttons: [
     {
       name: 'buttonSouth',
