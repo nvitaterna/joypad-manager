@@ -32,6 +32,9 @@ const baseConfig = {
           loader: 'ts-loader',
           options: {
             configFile: path.resolve(__dirname, devMode ? './tsconfig.json' : './tsconfig.build.json'),
+            compilerOptions: {
+              target: 'ESNext',
+            },
           },
         }, 'eslint-loader'],
         exclude: /node_modules/,
