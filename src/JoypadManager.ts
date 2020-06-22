@@ -6,7 +6,7 @@ import { JoypadMap, JoypadConfig } from './types';
  */
 const configDefaults: JoypadConfig = {
   analogThreshold: 0.1,
-  axisDeadzone: 0.3,
+  axisDeadzone: 0.15,
   maxJoypads: 4,
 };
 

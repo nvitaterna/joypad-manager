@@ -35,7 +35,7 @@ export type JoypadButtonEvent = {
 
 // no need for native axis - it's just a value
 export type JoypadAxisEvent = {
-  button: AxisState;
+  axis: AxisState;
   joypad: Joypad;
   nativePad: Gamepad;
 };

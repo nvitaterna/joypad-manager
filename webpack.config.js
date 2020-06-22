@@ -58,7 +58,7 @@ if (devMode) {
     }),
     new HtmlWebpackHarddiskPlugin(),
   ];
-  baseConfig.entry = './dev/index.ts';
+  baseConfig.entry = './test/dev.ts';
   configs = baseConfig;
 } else {
   baseConfig.output.path = path.resolve(__dirname, 'dist');

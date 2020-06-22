@@ -3,6 +3,5 @@
   "exclude": [
     "node_modules",
     "test",
-    "dev",
   ]
 }

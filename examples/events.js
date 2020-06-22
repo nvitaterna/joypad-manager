@@ -24,12 +24,12 @@ joypad.addEventListener('disconnect', (event) => {
 
 joypad.addEventListener('axismove', (event) => {
   /* AXIS STATE
-  button: {
+  event.axis = {
     name: string;
     value: number;
   }
   */
-  console.log(event.button);
+  console.log(event.axis);
   console.log(event.joypad);
   console.log(event.nativePad);
 });
@@ -37,7 +37,7 @@ joypad.addEventListener('axismove', (event) => {
 joypad.addEventListener('buttonchange', (event) => {
   // all button events have the same structure
   /* BUTTON STATE
-  button: {
+  event.button = {
     analog: boolean;
     name: string;
     value: number;

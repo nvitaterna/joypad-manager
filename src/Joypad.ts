@@ -14,6 +14,8 @@ export default class Joypad extends JoypadEventEmitter {
    */
   private connected = false;
 
+  private nativePad?: Gamepad;
+
   /**
    * The id - retrieved from the native id
    */
@@ -90,6 +92,9 @@ export default class Joypad extends JoypadEventEmitter {
     } if (nativePad?.connected && !this.connected) {
       this.connect(nativePad);
     }
+    if (nativePad && this.nativePad !== nativePad) {
+      this.nativePad = nativePad;
+    }
     if (!this.id) {
       this.setId(nativePad.id);
     }
@@ -103,7 +108,12 @@ export default class Joypad extends JoypadEventEmitter {
       if (nativeButton.value !== buttonState.value) {
         // if it is analog, check against the threshold
         if (buttonState.analog) {
-          if (!(nativeButton.value % 1) || !(buttonState.value % 1) || !nativeButton.value || !buttonState.value || Math.abs(nativeButton.value - buttonState.value) >= this.joypadConfig.analogThreshold) {
+          if (
+            // always send event if value is 0 or 1
+            nativeButton.value === 1 || buttonState.value === 1 || nativeButton.value === 0 || buttonState.value === 0
+            // send event if the change is larger than the threshold
+            || Math.abs(nativeButton.value - buttonState.value) >= this.joypadConfig.analogThreshold) {
+            buttonState.value = nativeButton.value;
             this.dispatchEvent('buttonchange', {
               button: buttonState,
               joypad: this,
@@ -113,15 +123,17 @@ export default class Joypad extends JoypadEventEmitter {
           }
         }
 
-        // allows us to use analog buttons press/release
-        if (nativeButton.value === 1) {
+        // we will still process these events for analog buttons so analog buttons can be treated as digital
+        if (nativeButton.value === 1 && buttonState.value === 0) {
+          buttonState.value = nativeButton.value;
           this.dispatchEvent('buttonpress', {
             button: buttonState,
             joypad: this,
             nativeButton,
             nativePad,
           });
-        } else if (nativeButton.value === 0) {
+        } else if (nativeButton.value === 0 && buttonState.value === 1) {
+          buttonState.value = nativeButton.value;
           this.dispatchEvent('buttonrelease', {
             button: buttonState,
             joypad: this,
@@ -129,29 +141,46 @@ export default class Joypad extends JoypadEventEmitter {
             nativePad,
           });
         }
-        buttonState.value = nativeButton.value;
       }
     });
 
     nativePad.axes.forEach((value, index) => {
       const axisState = this.buttonState.axes[index];
+      const nativeValue = Math.abs(value);
+      const stateValue = Math.abs(axisState.value);
+      const nativeIsDead = nativeValue <= this.joypadConfig.axisDeadzone;
+      const stateIsDead = stateValue <= this.joypadConfig.axisDeadzone;
       if (!axisState) {
         return;
       }
-      if (value !== axisState.value) {
+      if (nativeValue !== stateValue) {
         if (
-          (Math.abs(axisState.value) <= this.joypadConfig.axisDeadzone && Math.abs(value) > this.joypadConfig.axisDeadzone)
-          || (Math.abs(value) <= this.joypadConfig.axisDeadzone && Math.abs(axisState.value) > this.joypadConfig.axisDeadzone)
-          || (Math.abs(value) >= this.joypadConfig.axisDeadzone && Math.abs(value - axisState.value) >= this.joypadConfig.analogThreshold)
+        // do not send event if both are dead - means both are considered zero
+          stateIsDead !== nativeIsDead
+            // OR send event if either are dead or either are 1
+            || !stateIsDead || !nativeIsDead
+            // OR send event if they are 1
+            || nativeValue === 1 || stateValue === 1
         ) {
-          axisState.value = value;
+          axisState.value = nativeIsDead ? 0 : value;
           this.dispatchEvent(JOYPAD_EVENTS.AXIS_MOVE, {
-            button: axisState,
+            axis: axisState,
             joypad: this,
             nativePad,
           });
         }
       }
+    });
+  }
+
+  vibrate() {
+    console.log((this.nativePad as any)?.vibrationActuator);
+    this.nativePad?.hapticActuators?.[0].pulse(10, 5);
+    (this.nativePad as any)?.vibrationActuator.playEffect('dual-rumble', {
+      startDelay: 0,
+      duration: 1000,
+      weakMagnitude: 0,
+      strongMagnitude: 1.0,
     });
   }
 }
