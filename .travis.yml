@@ -5,6 +5,7 @@ script:
   - yarn build
 cache: yarn
 deploy:
+  skip_cleanup: true
   provider: npm
   email: nvitaterna@gmail.com
   api_key:
