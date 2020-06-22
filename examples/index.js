@@ -1,7 +1,84 @@
-// example of basic events
 const JoypadManager = require('../dist/joypad-manager');
 
-const joypadManager = new JoypadManager({});
+// you may provide a custom mapping
+// the array index maps to the native button index
+const mapping = {
+  ids: [
+    'default',
+  ],
+  buttons: [
+    {
+      name: 'A',
+    },
+    {
+      name: 'B',
+    },
+    {
+      name: 'X',
+    },
+    {
+      name: 'Y',
+    },
+    {
+      name: 'L1',
+    },
+    {
+      name: 'R1',
+    },
+    {
+      name: 'L2',
+      analog: true,
+    },
+    {
+      name: 'R2',
+      analog: true,
+    },
+    {
+      name: 'SELECT',
+    },
+    {
+      name: 'START',
+    },
+    {
+      name: 'L3',
+    },
+    {
+      name: 'R3',
+    },
+    {
+      name: 'UP',
+    },
+    {
+      name: 'DOWN',
+    },
+    {
+      name: 'LEFT',
+    },
+    {
+      name: 'RIGHT',
+    },
+  ],
+  axes: [
+    {
+      name: 'leftStickX',
+    },
+    {
+      name: 'leftStickY',
+    },
+    {
+      name: 'rightStickX',
+    },
+    {
+      name: 'rightStickY',
+    },
+  ],
+};
+
+const joypadManager = new JoypadManager({
+  maxJoypads: 1,
+  analogThreshold: 0.1,
+  axisDeadzone: 0.25,
+}, mapping);
 
 const joypad = joypadManager.joypads[0];
 
@@ -61,3 +138,11 @@ joypad.addEventListener('buttonrelease', (event) => {
   console.log(event.joypad);
   console.log(event.nativePad);
 });
+
+// this would normally be your game event loop
+function update() {
+  joypadManager.update();
+  requestAnimationFrame(update);
+}
+
+update();

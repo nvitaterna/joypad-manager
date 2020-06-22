@@ -25,7 +25,7 @@ export default class JoypadManager {
    * @param mappings custom mappings
    */
   constructor(
-    private joypadConfig: Partial<JoypadConfig> = {},
+    joypadConfig: Partial<JoypadConfig> = {},
     mappings: JoypadMap[] = [],
   ) {
     const parsedConfig = {

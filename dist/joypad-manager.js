@@ -754,11 +754,9 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
 
     classCallCheck_default()(this, JoypadManager);
 
-    this.joypadConfig = joypadConfig;
     /**
      * The array of joypads.
      */
-
     this.joypads = [];
 
     var parsedConfig = _objectSpread(_objectSpread({}, configDefaults), joypadConfig);
