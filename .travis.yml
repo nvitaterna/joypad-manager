@@ -1,15 +1,15 @@
 language: node_js
 node_js:
-  - lts/*
+- lts/*
 script:
-  - yarn build
+- yarn build
 cache: yarn
 deploy:
   skip_cleanup: true
   provider: npm
   email: nvitaterna@gmail.com
   api_key:
-    secure: GAVwS4yQi7OCBP2VFCRxQSroVhFV+wNPwRxtNsQqieQOQqVz+85mXxnYWmz+348yfQMjU0zE3d+j+vnMUZjtHGRwHufMC4r2eJfXX4KV0lBe7j74BbastDi/tBFn/IwZglJyRPOh0rkXJUn3Ra3BcBQMi9qts7frFGu7UJHVhdTqUJz2rigrYviXQ2g2U3N6btW6U+2fwZ9+y1eUhPDmAdClA9oHBYf0WN+VFKROhi8aNX/jBb4zzF5M/lPCpQMd1xUXU5gKKedPJ8tLCJMnGFXjBaftI1Ive8jwc7byS0OGCOm/rCSeSQz3i5OVD5mNNjN4W/rPugsy6YwAjqmaXOovkm1tbQp2cHGCy5aCpQOwflGa13D76QrsAKfE7DuQgA6tcgOvXysE6qZBpKFZ5iOJCdI5jjMrCaYDJRPHB4gv9egd1RMDAOMudBRCL56gqB8nQMI05/wcJeBmHNWWeDvzyOnIc8f8ISGUQURY/0430PX43LpGJu3728wn9WoGYOBC/JBRSeMEqBhpUBWoLg5pXfb3BjwwWw6XizB0K+y4oSReK70Ymr1nFMV3AC1J7WyMmmrvCz55937uXQtv/GxRJSVjlt2MhznES1vzttitIthH8yHCSp5XW4LcGvAeuGDTpeqHAXfO8tbUkZOUQJBVg5Eyg3BJcCmGHzJjGpw=
+    secure: IZ1IrXEpLo0oPLb3iS/KD6iNg9rsuho3vnc266PRuHHlVtE+iigcOJPDVuGD+crjv1T67qRRPDfIUuY/rFwwysKtzoFGHZnMtr5quBUH3/JAeCHK0jRG+JdKELN+r7OvNVaFBfBBIAoG0gMAHgZ/uv7hdN2goXRw3G4Pmkmnj90T2l4anjC6RiakyfCxCD3Ab+L5fEi+MTiSB1RH89ZwJuE4nqj39j3WobsEvWB2vN2DRx1NtDJdy1Y/yo1keE0xURBGA7DiPKQozT+Ps3+3tWEJRPP0K6M0iQoFJir5b7znGMvLFloDyeNwPq2gbvTpYZ6Xc2DIpunEfc0B7T05QlRbeYcgs1HBDiKc2dvVtl2yxZ4T5bsKXOjTJ3uDzw5POmVmYw7arrrdKpJfq/208v6wMg/u8Ww9iEXsnkOBVxFCTGKj54uZmBZXLT+82Kz0K0kFHM3jt1sg4gLbQZRqRJWHh+XYRzzPAm4BTe9oY1MrUCiwV8GwT9dWn83lSP8t3IftTLWY+prHbOinLY6DIn/GWfn/YM5oASNOiWvRj5vkoOgXVzu2T+IpAZZfixDoslvdo/3SG1KfFmgw0UXa80elpE41kp92v//WwsV+DvTCAkYXSYlaGaOpbq/tDo5kgL6A7vgahGnamN9T52Y/S2v5SLCLeaxvzDlr+1vZjiw=
   on:
     tags: true
     repo: nvitaterna/joypad-manager
