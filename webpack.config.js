@@ -18,7 +18,7 @@ let configs;
 
 const baseConfig = {
   mode,
-  entry: './test/index.ts',
+  entry: './src/test.ts',
   output: {
     libraryTarget: 'umd',
     globalObject: 'this',

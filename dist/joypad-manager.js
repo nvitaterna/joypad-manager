@@ -755,7 +755,7 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
 // CONCATENATED MODULE: ./src/index.ts
 
 /* harmony default export */ var src = (JoypadManager_JoypadManager);
-// CONCATENATED MODULE: ./test/index.ts
+// CONCATENATED MODULE: ./src/test.ts
 
 var joypadManager = new src({
   maxJoypads: 1

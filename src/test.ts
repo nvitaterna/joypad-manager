@@ -1,4 +1,4 @@
-import JoypadManager from '../src';
+import JoypadManager from '.';
 
 const joypadManager = new JoypadManager({
   maxJoypads: 1,
