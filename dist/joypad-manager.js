@@ -530,10 +530,6 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
     _this.index = index;
     _this.joypadConfig = joypadConfig;
     _this.mappings = mappings;
-    /**
-     * Whether or not the controller is connected
-     */
-
     _this.connected = false;
     return _this;
   }
@@ -738,15 +734,12 @@ var configDefaults = {
   axisDeadzone: 0.15,
   maxJoypads: 4
 };
-/**
- * The JoypadManager class used for managing joypads.
- */
 
 var JoypadManager_JoypadManager = /*#__PURE__*/function () {
   /**
-   *
-   * @param joypadConfig
-   * @param mappings custom mappings
+   * Initiate the JoypadManager
+   * @param joypadConfig Optional Joypad configuration
+   * @param mappings Custom list of mappings
    */
   function JoypadManager() {
     var joypadConfig = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -766,7 +759,7 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
     }
   }
   /**
-   * The main update loop - update each joypad.
+   * The main update loop - updates every joypad and passes the reference to the native gamepad.
    */
 
 

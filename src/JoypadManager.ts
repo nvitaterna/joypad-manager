@@ -2,8 +2,18 @@ import Joypad from './Joypad';
 import { JoypadMap } from './mappings';
 
 export interface JoypadConfig {
+  /**
+   * The max number of joypads you plan on using.
+   * The JoypadManager will loop through this many Joypads each update cycle.
+   */
   maxJoypads: number;
+  /**
+   * The threshold for analog movement.
+   */
   analogThreshold: number;
+  /**
+   * The analog stick deadzone
+   */
   axisDeadzone: number;
 }
 
@@ -16,9 +26,6 @@ const configDefaults: JoypadConfig = {
   maxJoypads: 4,
 };
 
-/**
- * The JoypadManager class used for managing joypads.
- */
 export default class JoypadManager {
   /**
    * The array of joypads.
@@ -26,9 +33,9 @@ export default class JoypadManager {
   readonly joypads: Joypad[] = [];
 
   /**
-   *
-   * @param joypadConfig
-   * @param mappings custom mappings
+   * Initiate the JoypadManager
+   * @param joypadConfig Optional Joypad configuration
+   * @param mappings Custom list of mappings
    */
   constructor(
     joypadConfig: Partial<JoypadConfig> = {},
@@ -44,7 +51,7 @@ export default class JoypadManager {
   }
 
   /**
-   * The main update loop - update each joypad.
+   * The main update loop - updates every joypad and passes the reference to the native gamepad.
    */
   update() {
     const nativePads = navigator.getGamepads();

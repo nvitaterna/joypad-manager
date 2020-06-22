@@ -14,13 +14,7 @@ export default class Joypad extends JoypadEventEmitter {
     readonly index: number;
     private joypadConfig;
     private mappings;
-    /**
-     * Button state object
-     */
     private buttonState;
-    /**
-     * Whether or not the controller is connected
-     */
     private connected;
     private nativePad?;
     /**

@@ -16,14 +16,8 @@ export interface ButtonState {
 }
 
 export default class Joypad extends JoypadEventEmitter {
-  /**
-   * Button state object
-   */
   private buttonState!: ReturnType<typeof generateButtonState>;
 
-  /**
-   * Whether or not the controller is connected
-   */
   private connected = false;
 
   private nativePad?: Gamepad;

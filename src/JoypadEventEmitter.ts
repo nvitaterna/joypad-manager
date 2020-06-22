@@ -5,26 +5,26 @@ import type Joypad from './Joypad';
 // eslint-disable-next-line import/no-duplicates
 import type { ButtonState, AxisState } from './Joypad';
 
-export type JoypadButtonEvent = {
+export interface JoypadButtonEvent {
   button: ButtonState;
   joypad: Joypad;
   nativeButton: GamepadButton;
   nativePad: Gamepad;
   index: number;
-};
+}
 
 // no need for native axis - it's just a value
-export type JoypadAxisEvent = {
+export interface JoypadAxisEvent {
   axis: AxisState;
   joypad: Joypad;
   nativePad: Gamepad;
   index: number;
-};
+}
 
-export type JoypadEvent = {
+export interface JoypadEvent {
   joypad: Joypad;
   nativePad: Gamepad | null;
-};
+}
 
 export interface JoypadEventMap {
   connect: JoypadEvent;
