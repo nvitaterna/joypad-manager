@@ -41,12 +41,6 @@ const baseConfig = {
     },
   },
   target: 'web',
-  plugins: [
-    new HtmlWebpackPlugin({
-      alwaysWriteToDisk: true,
-    }),
-    new HtmlWebpackHarddiskPlugin(),
-  ],
 };
 
 if (devMode) {
@@ -54,6 +48,12 @@ if (devMode) {
   baseConfig.watch = true;
   baseConfig.output.filename = `${name}.js`;
   baseConfig.output.path = path.resolve(__dirname, 'dev');
+  baseConfig.plugins = [
+    new HtmlWebpackPlugin({
+      alwaysWriteToDisk: true,
+    }),
+    new HtmlWebpackHarddiskPlugin(),
+  ];
   configs = baseConfig;
 } else {
   baseConfig.output.path = path.resolve(__dirname, 'dist');
