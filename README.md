@@ -18,9 +18,9 @@ Yarn
 ## Documentation
 
 ```js
-const JoypadManager = require('joypad-manager');
+const { JoypadManager } = require('joypad-manager');
 ```
 or
 ```js
-import JoypadManager from 'joypad-manager';
+import { JoypadManager } from 'joypad-manager';
 ```

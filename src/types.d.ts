@@ -55,3 +55,8 @@ export interface JoypadEventMap {
 }
 
 export type JoypadEventName = keyof JoypadEventMap;
+
+export interface JoypadConfig {
+  analogThreshold: number;
+  axisDeadzone: number;
+}

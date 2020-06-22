@@ -1,10 +1,7 @@
 import JoypadEventEmitter from './JoypadEventEmitter';
 import * as JOYPAD_EVENTS from './event-names';
 import generateButtonState from './generate-button-state';
-import { JoypadMap } from './types';
-
-const ANALOG_CHANGE_THRESHOLD = 0.1;
-const AXIS_DEADZONE = 0.3;
+import { JoypadMap, JoypadConfig } from './types';
 
 export default class Joypad extends JoypadEventEmitter {
   private buttonState!: ReturnType<typeof generateButtonState>;
@@ -16,6 +13,7 @@ export default class Joypad extends JoypadEventEmitter {
   constructor(
     readonly index: number,
     private mappings: JoypadMap[],
+    private joypadConfig: JoypadConfig,
   ) {
     super();
   }
@@ -74,7 +72,7 @@ export default class Joypad extends JoypadEventEmitter {
       if (nativeButton.value !== buttonState.value) {
         // if it is analog, check against the threshold
         if (buttonState.analog) {
-          if (!(nativeButton.value % 1) || !(buttonState.value % 1) || !nativeButton.value || !buttonState.value || Math.abs(nativeButton.value - buttonState.value) >= ANALOG_CHANGE_THRESHOLD) {
+          if (!(nativeButton.value % 1) || !(buttonState.value % 1) || !nativeButton.value || !buttonState.value || Math.abs(nativeButton.value - buttonState.value) >= this.joypadConfig.analogThreshold) {
             this.dispatchEvent('buttonchange', {
               button: buttonState,
               joypad: this,
@@ -82,15 +80,17 @@ export default class Joypad extends JoypadEventEmitter {
               nativePad,
             });
           }
-        // if it's digital, dispatch press/release
-        } else if (nativeButton.value) {
+        }
+
+        // allows us to use analog buttons press/release
+        if (nativeButton.value === 1) {
           this.dispatchEvent('buttonpress', {
             button: buttonState,
             joypad: this,
             nativeButton,
             nativePad,
           });
-        } else {
+        } else if (nativeButton.value === 0) {
           this.dispatchEvent('buttonrelease', {
             button: buttonState,
             joypad: this,
@@ -109,9 +109,9 @@ export default class Joypad extends JoypadEventEmitter {
       }
       if (value !== axisState.value) {
         if (
-          (Math.abs(axisState.value) <= AXIS_DEADZONE && Math.abs(value) > AXIS_DEADZONE)
-          || (Math.abs(value) <= AXIS_DEADZONE && Math.abs(axisState.value) > AXIS_DEADZONE)
-          || (Math.abs(value) >= AXIS_DEADZONE && Math.abs(value - axisState.value) >= ANALOG_CHANGE_THRESHOLD)
+          (Math.abs(axisState.value) <= this.joypadConfig.axisDeadzone && Math.abs(value) > this.joypadConfig.axisDeadzone)
+          || (Math.abs(value) <= this.joypadConfig.axisDeadzone && Math.abs(axisState.value) > this.joypadConfig.axisDeadzone)
+          || (Math.abs(value) >= this.joypadConfig.axisDeadzone && Math.abs(value - axisState.value) >= this.joypadConfig.analogThreshold)
         ) {
           axisState.value = value;
           this.dispatchEvent(JOYPAD_EVENTS.AXIS_MOVE, {

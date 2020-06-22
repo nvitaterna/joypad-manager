@@ -1,6 +1,8 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 let mode = 'development';
 
@@ -16,11 +18,12 @@ let configs;
 
 const baseConfig = {
   mode,
-  entry: './src/index.ts',
+  entry: './test/index.ts',
   output: {
     libraryTarget: 'umd',
     globalObject: 'this',
-    library: 'joypadManager',
+    library: 'JoypadManager',
+    libraryExport: 'default',
   },
   module: {
     rules: [
@@ -38,6 +41,12 @@ const baseConfig = {
     },
   },
   target: 'web',
+  plugins: [
+    new HtmlWebpackPlugin({
+      alwaysWriteToDisk: true,
+    }),
+    new HtmlWebpackHarddiskPlugin(),
+  ],
 };
 
 if (devMode) {
@@ -45,9 +54,6 @@ if (devMode) {
   baseConfig.watch = true;
   baseConfig.output.filename = `${name}.js`;
   baseConfig.output.path = path.resolve(__dirname, 'dev');
-  baseConfig.plugins = [
-    new CleanWebpackPlugin(),
-  ];
   configs = baseConfig;
 } else {
   baseConfig.output.path = path.resolve(__dirname, 'dist');
