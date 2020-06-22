@@ -119,6 +119,7 @@ export default class Joypad extends JoypadEventEmitter {
               joypad: this,
               nativeButton,
               nativePad,
+              index,
             });
           }
         }
@@ -131,6 +132,7 @@ export default class Joypad extends JoypadEventEmitter {
             joypad: this,
             nativeButton,
             nativePad,
+            index,
           });
         } else if (nativeButton.value === 0 && buttonState.value === 1) {
           buttonState.value = nativeButton.value;
@@ -139,6 +141,7 @@ export default class Joypad extends JoypadEventEmitter {
             joypad: this,
             nativeButton,
             nativePad,
+            index,
           });
         }
       }
@@ -167,6 +170,7 @@ export default class Joypad extends JoypadEventEmitter {
             axis: axisState,
             joypad: this,
             nativePad,
+            index,
           });
         }
       }

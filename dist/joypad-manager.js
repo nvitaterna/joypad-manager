@@ -636,7 +636,8 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
                 button: buttonState,
                 joypad: _this2,
                 nativeButton: nativeButton,
-                nativePad: nativePad
+                nativePad: nativePad,
+                index: index
               });
             }
           } // we will still process these events for analog buttons so analog buttons can be treated as digital
@@ -649,7 +650,8 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
               button: buttonState,
               joypad: _this2,
               nativeButton: nativeButton,
-              nativePad: nativePad
+              nativePad: nativePad,
+              index: index
             });
           } else if (nativeButton.value === 0 && buttonState.value === 1) {
             buttonState.value = nativeButton.value;
@@ -658,7 +660,8 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
               button: buttonState,
               joypad: _this2,
               nativeButton: nativeButton,
-              nativePad: nativePad
+              nativePad: nativePad,
+              index: index
             });
           }
         }
@@ -684,7 +687,8 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
             _this2.dispatchEvent(AXIS_MOVE, {
               axis: axisState,
               joypad: _this2,
-              nativePad: nativePad
+              nativePad: nativePad,
+              index: index
             });
           }
         }
