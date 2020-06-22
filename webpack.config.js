@@ -18,7 +18,6 @@ let configs;
 
 const baseConfig = {
   mode,
-  entry: './src/test.ts',
   output: {
     libraryTarget: 'umd',
     globalObject: 'this',
@@ -29,7 +28,12 @@ const baseConfig = {
     rules: [
       {
         test: /\.ts$/,
-        use: ['babel-loader', 'ts-loader', 'eslint-loader'],
+        use: ['babel-loader', {
+          loader: 'ts-loader',
+          options: {
+            configFile: path.resolve(__dirname, devMode ? './tsconfig.json' : './tsconfig.build.json'),
+          },
+        }, 'eslint-loader'],
         exclude: /node_modules/,
       },
     ],
@@ -54,10 +58,12 @@ if (devMode) {
     }),
     new HtmlWebpackHarddiskPlugin(),
   ];
+  baseConfig.entry = './dev/index.ts';
   configs = baseConfig;
 } else {
   baseConfig.output.path = path.resolve(__dirname, 'dist');
   baseConfig.devtool = 'source-map';
+  baseConfig.entry = './src/index.ts';
 
   const terserOptions = {
     compress: {

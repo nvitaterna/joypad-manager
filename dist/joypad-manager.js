@@ -754,38 +754,7 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
 
 // CONCATENATED MODULE: ./src/index.ts
 
-/* harmony default export */ var src = (JoypadManager_JoypadManager);
-// CONCATENATED MODULE: ./src/test.ts
-
-var joypadManager = new src({
-  maxJoypads: 1
-});
-var joypad = joypadManager.joypads[0]; // joypad.addEventListener('connect', (event) => {
-//   console.log(event.joypad);
-// });
-// joypad.addEventListener('disconnect', (event) => {
-//   console.log(event.joypad);
-// });
-// joypad.addEventListener('axismove', (event) => {
-//   console.log(event);
-// });
-// joypad.addEventListener('buttonchange', (event) => {
-//   console.log(event);
-// });
-
-joypad.addEventListener('buttonpress', function (event) {
-  console.log(event);
-});
-joypad.addEventListener('buttonrelease', function (event) {
-  console.log(event);
-});
-
-function test_update() {
-  joypadManager.update();
-  requestAnimationFrame(test_update);
-}
-
-test_update();
+/* harmony default export */ var src = __webpack_exports__["default"] = (JoypadManager_JoypadManager);
 
 /***/ })
 /******/ ])["default"];
