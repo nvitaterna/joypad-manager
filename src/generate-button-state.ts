@@ -1,5 +1,5 @@
-import { ButtonState, AxisState, JoypadMap } from '@/types';
-import mappings from './mappings';
+import mappings, { JoypadMap } from '@/mappings';
+import type { ButtonState, AxisState } from './Joypad';
 
 export default function generateButtonState(id: string, customMappings: JoypadMap[]) {
   const gamepadMap = mappings.concat(customMappings).find((mapping) => mapping.ids.includes(id)) || mappings[0];

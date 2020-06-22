@@ -1,5 +1,10 @@
 import Joypad from './Joypad';
-import { JoypadMap, JoypadConfig } from './types';
+import { JoypadMap } from './mappings';
+export interface JoypadConfig {
+    maxJoypads: number;
+    analogThreshold: number;
+    axisDeadzone: number;
+}
 /**
  * The JoypadManager class used for managing joypads.
  */

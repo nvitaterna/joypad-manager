@@ -1,5 +1,15 @@
 import JoypadEventEmitter from './JoypadEventEmitter';
-import { JoypadMap, JoypadConfig } from './types';
+import type { JoypadConfig } from './JoypadManager';
+import type { JoypadMap } from './mappings';
+export interface AxisState {
+    name: string;
+    value: number;
+}
+export interface ButtonState {
+    analog: boolean;
+    name: string;
+    value: number;
+}
 export default class Joypad extends JoypadEventEmitter {
     readonly index: number;
     private joypadConfig;

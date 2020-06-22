@@ -1,4 +1,4 @@
-import { JoypadEventName } from './types';
+import type { JoypadEventName } from './JoypadEventEmitter';
 export default class JoypadEventTracker {
     name: JoypadEventName;
     callbacks: Function[];

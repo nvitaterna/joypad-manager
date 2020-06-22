@@ -1,8 +1,41 @@
 import JoypadEventTracker from './JoypadEventTracker';
 import * as JOYPAD_EVENTS from './event-names';
-import {
-  JoypadEventName, JoypadEventMap,
-} from './types';
+// eslint-disable-next-line import/no-duplicates
+import type Joypad from './Joypad';
+// eslint-disable-next-line import/no-duplicates
+import type { ButtonState, AxisState } from './Joypad';
+
+export type JoypadButtonEvent = {
+  button: ButtonState;
+  joypad: Joypad;
+  nativeButton: GamepadButton;
+  nativePad: Gamepad;
+  index: number;
+};
+
+// no need for native axis - it's just a value
+export type JoypadAxisEvent = {
+  axis: AxisState;
+  joypad: Joypad;
+  nativePad: Gamepad;
+  index: number;
+};
+
+export type JoypadEvent = {
+  joypad: Joypad;
+  nativePad: Gamepad | null;
+};
+
+export interface JoypadEventMap {
+  connect: JoypadEvent;
+  disconnect: JoypadEvent;
+  buttonpress: JoypadButtonEvent;
+  buttonrelease: JoypadButtonEvent;
+  buttonchange: JoypadButtonEvent;
+  axismove: JoypadAxisEvent;
+}
+
+export type JoypadEventName = keyof JoypadEventMap;
 
 const events = {
   [JOYPAD_EVENTS.GAMEPAD_CONNECT]: new JoypadEventTracker(JOYPAD_EVENTS.GAMEPAD_CONNECT),

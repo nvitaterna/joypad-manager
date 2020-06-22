@@ -1,4 +1,4 @@
-import { JoypadEventName } from './types';
+import type { JoypadEventName } from './JoypadEventEmitter';
 
 const GAMEPAD_CONNECT = 'connect' as JoypadEventName;
 const GAMEPAD_DISCONNECT = 'disconnect' as JoypadEventName;
