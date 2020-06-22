@@ -78,7 +78,7 @@ const joypadManager = new JoypadManager({
   maxJoypads: 1,
   analogThreshold: 0.1,
   axisDeadzone: 0.25,
-}, mapping);
+}, [mapping]);
 
 const joypad = joypadManager.joypads[0];
 
