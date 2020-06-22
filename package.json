@@ -1,6 +1,6 @@
 {
   "name": "joypad-manager",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "dist/joypad-manager.js",
   "license": "MIT",
   "scripts": {
