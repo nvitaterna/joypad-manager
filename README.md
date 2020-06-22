@@ -15,12 +15,30 @@ NPM
 Yarn  
 `yarn add joypad-manager`
 
-## Documentation
+Or you can use it in the browser with the following downloads:
+
+#### Minified
+[joypad.min.js](https://raw.githubusercontent.com/nvitaterna/joypad-manager/master/dist/joypad-manager.min.js)
+
+#### Uncompressed
+[joypad.js](https://raw.githubusercontent.com/nvitaterna/joypad-manager/master/dist/joypad-manager.js)
+
+## Usage
 
 ```js
-const { JoypadManager } = require('joypad-manager');
+const JoypadManager = require('joypad-manager');
 ```
 or
 ```js
-import { JoypadManager } from 'joypad-manager';
+import JoypadManager from 'joypad-manager';
+```
+or
+```html
+<script src="joypad-manager.js"></script>
+```
+
+### JoypadManager
+
+```js
+new Joypadmanager(config, mappings)
 ```

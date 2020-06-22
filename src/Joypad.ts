@@ -4,33 +4,57 @@ import generateButtonState from './generate-button-state';
 import { JoypadMap, JoypadConfig } from './types';
 
 export default class Joypad extends JoypadEventEmitter {
+  /**
+   * Button state object
+   */
   private buttonState!: ReturnType<typeof generateButtonState>;
 
+  /**
+   * Whether or not the controller is connected
+   */
   private connected = false;
 
+  /**
+   * The id - retrieved from the native id
+   */
   id?: string;
 
+  /**
+   * @param index the gamepad index in the JoypadManager.joypads array
+   * @param joypadConfig the joypad config
+   * @param mappings custom gamepad button mappings
+   */
   constructor(
     readonly index: number,
-    private mappings: JoypadMap[],
     private joypadConfig: JoypadConfig,
+    private mappings: JoypadMap[],
   ) {
     super();
   }
 
-  setId(id: string) {
+  /**
+   * Set the id
+   * @param id the native id
+   */
+  private setId(id: string) {
     if (this.id !== id) {
       this.id = id;
       this.buttonState = generateButtonState(this.id, this.mappings);
     }
   }
 
+  /**
+   * Check of the controller is connected
+   */
   get isConnected() {
     return this.connected;
   }
 
+  /**
+   * The function to call to initiate the connect event
+   * @param nativePad the native HTML5 Gamepad
+   */
   private connect(nativePad: Gamepad) {
-    // set the id
     this.setId(nativePad.id);
     this.connected = true;
     this.dispatchEvent('connect', {
@@ -39,6 +63,10 @@ export default class Joypad extends JoypadEventEmitter {
     });
   }
 
+  /**
+   * The function to call to initiate the disconnect event
+   * @param nativePad the native HTML5 Gamepad
+   */
   private disconnect(nativePad: Gamepad | null) {
     if (this.connected) {
       this.connected = false;
@@ -49,9 +77,12 @@ export default class Joypad extends JoypadEventEmitter {
     }
   }
 
+  /**
+   * The main update loop function
+   * @param nativePad the native HTML5 Gamepad object
+   */
   update(nativePad: Gamepad | null) {
     if (!nativePad || !nativePad.connected) {
-      // send disconnect event if status has changed
       if (this.connected) {
         this.disconnect(nativePad);
       }

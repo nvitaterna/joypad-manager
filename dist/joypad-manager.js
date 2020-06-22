@@ -98,6 +98,27 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ (function(module, exports) {
 
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -107,7 +128,7 @@ function _classCallCheck(instance, Constructor) {
 module.exports = _classCallCheck;
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports) {
 
 function _defineProperties(target, props) {
@@ -127,27 +148,6 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 
 module.exports = _createClass;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-module.exports = _defineProperty;
 
 /***/ }),
 /* 3 */
@@ -262,12 +262,16 @@ module.exports = _assertThisInitialized;
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
+var defineProperty = __webpack_require__(0);
+var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/classCallCheck.js
-var classCallCheck = __webpack_require__(0);
+var classCallCheck = __webpack_require__(1);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/createClass.js
-var createClass = __webpack_require__(1);
+var createClass = __webpack_require__(2);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/inherits.js
@@ -281,10 +285,6 @@ var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possi
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(3);
 var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
-var defineProperty = __webpack_require__(2);
-var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 
 // CONCATENATED MODULE: ./src/JoypadEventTracker.ts
 
@@ -516,18 +516,32 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
 
   var _super = _createSuper(Joypad);
 
-  function Joypad(index, mappings, joypadConfig) {
+  /**
+   * @param index the gamepad index in the JoypadManager.joypads array
+   * @param joypadConfig the joypad config
+   * @param mappings custom gamepad button mappings
+   */
+  function Joypad(index, joypadConfig, mappings) {
     var _this;
 
     classCallCheck_default()(this, Joypad);
 
     _this = _super.call(this);
     _this.index = index;
-    _this.mappings = mappings;
     _this.joypadConfig = joypadConfig;
+    _this.mappings = mappings;
+    /**
+     * Whether or not the controller is connected
+     */
+
     _this.connected = false;
     return _this;
   }
+  /**
+   * Set the id
+   * @param id the native id
+   */
+
 
   createClass_default()(Joypad, [{
     key: "setId",
@@ -537,10 +551,18 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         this.buttonState = generateButtonState(this.id, this.mappings);
       }
     }
+    /**
+     * Check of the controller is connected
+     */
+
   }, {
     key: "connect",
+
+    /**
+     * The function to call to initiate the connect event
+     * @param nativePad the native HTML5 Gamepad
+     */
     value: function connect(nativePad) {
-      // set the id
       this.setId(nativePad.id);
       this.connected = true;
       this.dispatchEvent('connect', {
@@ -548,6 +570,11 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         nativePad: nativePad
       });
     }
+    /**
+     * The function to call to initiate the disconnect event
+     * @param nativePad the native HTML5 Gamepad
+     */
+
   }, {
     key: "disconnect",
     value: function disconnect(nativePad) {
@@ -559,13 +586,17 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         });
       }
     }
+    /**
+     * The main update loop function
+     * @param nativePad the native HTML5 Gamepad object
+     */
+
   }, {
     key: "update",
     value: function update(nativePad) {
       var _this2 = this;
 
       if (!nativePad || !nativePad.connected) {
-        // send disconnect event if status has changed
         if (this.connected) {
           this.disconnect(nativePad);
         }
@@ -657,27 +688,54 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
 
 
 
-var DEFAULT_ANALOG_CHANGE_THRESHOLD = 0.1;
-var DEFAULT_AXIS_DEADZONE = 0.3;
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+
+/**
+ * The defaults for the joypad config
+ */
+
+var configDefaults = {
+  analogThreshold: 0.1,
+  axisDeadzone: 0.3,
+  maxJoypads: 4
+};
+/**
+ * The JoypadManager class used for managing joypads.
+ */
 
 var JoypadManager_JoypadManager = /*#__PURE__*/function () {
+  /**
+   *
+   * @param joypadConfig
+   * @param mappings custom mappings
+   */
   function JoypadManager() {
-    var maxJoypads = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 4;
+    var joypadConfig = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var mappings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-    var joypadConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
-      analogThreshold: DEFAULT_ANALOG_CHANGE_THRESHOLD,
-      axisDeadzone: DEFAULT_AXIS_DEADZONE
-    };
 
     classCallCheck_default()(this, JoypadManager);
 
     this.joypadConfig = joypadConfig;
+    /**
+     * The array of joypads.
+     */
+
     this.joypads = [];
 
-    for (var i = 0; i < maxJoypads; i += 1) {
-      this.joypads[i] = new Joypad_Joypad(i, mappings, joypadConfig);
+    var parsedConfig = _objectSpread(_objectSpread({}, configDefaults), joypadConfig);
+
+    for (var i = 0; i < parsedConfig.maxJoypads; i += 1) {
+      this.joypads[i] = new Joypad_Joypad(i, parsedConfig, mappings);
     }
   }
+  /**
+   * The main update loop - update each joypad.
+   */
+
 
   createClass_default()(JoypadManager, [{
     key: "update",
@@ -699,20 +757,22 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
 /* harmony default export */ var src = (JoypadManager_JoypadManager);
 // CONCATENATED MODULE: ./test/index.ts
 
-var joypadManager = new src(1);
-var joypad = joypadManager.joypads[0];
-joypad.addEventListener('connect', function (event) {
-  console.log(event);
+var joypadManager = new src({
+  maxJoypads: 1
 });
-joypad.addEventListener('disconnect', function (event) {
-  console.log(event);
-});
-joypad.addEventListener('axismove', function (event) {
-  console.log(event);
-});
-joypad.addEventListener('buttonchange', function (event) {
-  console.log(event);
-});
+var joypad = joypadManager.joypads[0]; // joypad.addEventListener('connect', (event) => {
+//   console.log(event.joypad);
+// });
+// joypad.addEventListener('disconnect', (event) => {
+//   console.log(event.joypad);
+// });
+// joypad.addEventListener('axismove', (event) => {
+//   console.log(event);
+// });
+// joypad.addEventListener('buttonchange', (event) => {
+//   console.log(event);
+// });
+
 joypad.addEventListener('buttonpress', function (event) {
   console.log(event);
 });

@@ -1,25 +1,45 @@
 import Joypad from './Joypad';
 import { JoypadMap, JoypadConfig } from './types';
 
-const DEFAULT_ANALOG_CHANGE_THRESHOLD = 0.1;
-const DEFAULT_AXIS_DEADZONE = 0.3;
+/**
+ * The defaults for the joypad config
+ */
+const configDefaults: JoypadConfig = {
+  analogThreshold: 0.1,
+  axisDeadzone: 0.3,
+  maxJoypads: 4,
+};
 
+/**
+ * The JoypadManager class used for managing joypads.
+ */
 export default class JoypadManager {
+  /**
+   * The array of joypads.
+   */
   readonly joypads: Joypad[] = [];
 
+  /**
+   *
+   * @param joypadConfig
+   * @param mappings custom mappings
+   */
   constructor(
-    maxJoypads = 4,
+    private joypadConfig: Partial<JoypadConfig> = {},
     mappings: JoypadMap[] = [],
-    public joypadConfig: JoypadConfig = {
-      analogThreshold: DEFAULT_ANALOG_CHANGE_THRESHOLD,
-      axisDeadzone: DEFAULT_AXIS_DEADZONE,
-    },
   ) {
-    for (let i = 0; i < maxJoypads; i += 1) {
-      this.joypads[i] = new Joypad(i, mappings, joypadConfig);
+    const parsedConfig = {
+      ...configDefaults,
+      ...joypadConfig,
+    };
+    for (let i = 0; i < parsedConfig.maxJoypads; i += 1) {
+      this.joypads[i] = new Joypad(i, parsedConfig, mappings);
     }
   }
 
+  /**
+   * The main update loop - update each joypad.
+   */
   update() {
     const nativePads = navigator.getGamepads();
     this.joypads.forEach((joypad, index) => {
