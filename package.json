@@ -1,7 +1,7 @@
 {
   "name": "joypad-manager",
   "description": "This is a wrapper for the HTML5 Gamepad API that adds event and button mapping.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "dist/joypad-manager.js",
   "module": "lib/index.js",
   "license": "MIT",
