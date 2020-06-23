@@ -2,7 +2,8 @@
   "name": "joypad-manager",
   "description": "This is a wrapper for the HTML5 Gamepad API that adds event and button mapping.",
   "version": "0.3.0",
-  "main": "lib",
+  "main": "dist/joypad-manager.js",
+  "module": "lib/index.js",
   "license": "MIT",
   "repository": "git@github.com:nvitaterna/joypad-manager.git",
   "homepage": "https://github.com/nvitaterna/joypad-manager",
@@ -15,7 +16,7 @@
     "postversion": "git push && git push --tags",
     "build": "yarn build:web && yarn build:lib",
     "build:web": "NODE_ENV=production webpack",
-    "build:lib": "rm -rf lib && tsc -p tsconfig.build.json"
+    "build:lib": "rm -rf lib && tsc -p tsconfig.lib.json"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
@@ -46,7 +47,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "files": [
-    "/lib"
+    "dist",
+    "lib"
   ],
   "husky": {
     "hooks": {

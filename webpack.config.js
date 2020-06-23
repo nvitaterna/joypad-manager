@@ -31,7 +31,7 @@ const baseConfig = {
         use: ['babel-loader', {
           loader: 'ts-loader',
           options: {
-            configFile: path.resolve(__dirname, devMode ? './tsconfig.json' : './tsconfig.build.json'),
+            configFile: path.resolve(__dirname, devMode ? './tsconfig.json' : './tsconfig.web.json'),
             compilerOptions: {
               target: 'ESNext',
             },
