@@ -1329,14 +1329,14 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
     _this.connected = false;
     return _this;
   }
-  /**
-   * Set the id
-   * @param id the native id
-   */
-
 
   createClass_default()(Joypad, [{
     key: "setId",
+
+    /**
+     * Set the id
+     * @param id the native id
+     */
     value: function setId(id) {
       if (this.id !== id) {
         this.id = id;
@@ -1568,6 +1568,16 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
 
       return stopVibrate;
     }()
+  }, {
+    key: "buttons",
+    get: function get() {
+      return this.buttonState.buttons;
+    }
+  }, {
+    key: "axes",
+    get: function get() {
+      return this.buttonState.axes;
+    }
   }, {
     key: "isConnected",
     get: function get() {

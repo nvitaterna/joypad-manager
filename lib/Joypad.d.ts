@@ -40,6 +40,8 @@ export default class Joypad extends JoypadEventEmitter {
      * @param mappings custom gamepad button mappings
      */
     constructor(index: number, joypadConfig: JoypadConfig, mappings: JoypadMap[]);
+    get buttons(): ButtonState[];
+    get axes(): AxisState[];
     /**
      * Set the id
      * @param id the native id

@@ -56,6 +56,14 @@ export default class Joypad extends JoypadEventEmitter {
     super();
   }
 
+  get buttons() {
+    return this.buttonState.buttons;
+  }
+
+  get axes() {
+    return this.buttonState.axes;
+  }
+
   /**
    * Set the id
    * @param id the native id
