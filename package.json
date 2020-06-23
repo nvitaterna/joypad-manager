@@ -49,7 +49,8 @@
   },
   "files": [
     "dist",
-    "lib"
+    "lib",
+    "src"
   ],
   "husky": {
     "hooks": {
