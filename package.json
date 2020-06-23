@@ -1,7 +1,7 @@
 {
   "name": "joypad-manager",
   "description": "This is a wrapper for the HTML5 Gamepad API that adds event and button mapping.",
-  "version": "0.2.10",
+  "version": "0.3.0",
   "main": "lib",
   "license": "MIT",
   "repository": "git@github.com:nvitaterna/joypad-manager.git",
