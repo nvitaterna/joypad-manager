@@ -46,13 +46,14 @@ or
 ```js
 const config = {
   // The minimum value change needed to emit an axis change or button change event.
-  analogThreshold: 0.2,
+  analogThreshold: 0.1,
   // The axis deadzone - any values below this will return 0.
   axisDeadzone: 0.15,
   // The max number of joypads to loop through. If you connect more joypads than this number, they will not be processed by this plugin.
-  maxJoypads: 2
+  maxJoypads: 4
 }
 
+// the config is optional, defaults are above
 const joypadManager = new Joypadmanager(config)
 
 // then in your game update loop, call joypadManager.update and it will begin polling for events every game update
@@ -147,15 +148,16 @@ As of now - vibration is only available in Chrome.
 ```js
 const params = {
   // delay in milliseconds before starting the vibration
-  startDelay: 0;
+  startDelay: 0,
   // duration in milliseconds
-  duration: number;
-  // the magnitude of the weak motor 
-  weakMagnitude: number;
-  // the magnitude of the strong motor
-  strongMagnitude: number;
+  duration: 1000,
+  // the magnitude of the weak motor between 0 and 1
+  weakMagnitude: 1,
+  // the magnitude of the strong motor between 0 and 1
+  strongMagnitude: 1,
 }
 
+// params are optional, defaults are above
 joypadOne.vibrate(params).then(result => {
   result == 'invalid-parameter' || 'complete' || 'preempted'
 })
