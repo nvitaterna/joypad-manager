@@ -12,6 +12,9 @@ export interface JoypadAxisEvent {
     axis: AxisState;
     joypad: Joypad;
     nativePad: Gamepad;
+    nativeAxis: {
+        value: number;
+    };
     index: number;
 }
 export interface JoypadEvent {

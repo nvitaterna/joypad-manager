@@ -10,6 +10,19 @@ export interface ButtonState {
     name: string;
     value: number;
 }
+export interface VibrationParameters {
+    startDelay: number;
+    duration: number;
+    weakMagnitude: number;
+    strongMagnitude: number;
+}
+export interface VibrationActuator {
+    playEffect: (type: 'dual-rumble', parameters: VibrationParameters) => Promise<'invalid-parameter' | 'complete' | 'preempted'>;
+    reset: () => Promise<'complete'>;
+}
+interface Gamepad extends globalThis.Gamepad {
+    vibrationActuator?: VibrationActuator;
+}
 export default class Joypad extends JoypadEventEmitter {
     readonly index: number;
     private joypadConfig;
@@ -51,5 +64,11 @@ export default class Joypad extends JoypadEventEmitter {
      * @param nativePad the native HTML5 Gamepad object
      */
     update(nativePad: Gamepad | null): void;
-    vibrate(): void;
+    /**
+     *
+     * @param parameters vibrations paramter
+     */
+    vibrate(parameters: Partial<VibrationParameters>): Promise<"complete" | "invalid-parameter" | "preempted" | undefined>;
+    stopVibrate(): Promise<"complete" | undefined>;
 }
+export {};

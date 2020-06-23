@@ -15,6 +15,22 @@ export interface ButtonState {
   value: number;
 }
 
+export interface VibrationParameters {
+  startDelay: number;
+  duration: number;
+  weakMagnitude: number;
+  strongMagnitude: number;
+}
+
+export interface VibrationActuator {
+  playEffect: (type: 'dual-rumble', parameters: VibrationParameters) => Promise<'invalid-parameter' | 'complete' | 'preempted'>;
+  reset: () => Promise<'complete'>;
+}
+
+interface Gamepad extends globalThis.Gamepad {
+  vibrationActuator?: VibrationActuator;
+}
+
 export default class Joypad extends JoypadEventEmitter {
   private buttonState!: ReturnType<typeof generateButtonState>;
 
@@ -176,6 +192,9 @@ export default class Joypad extends JoypadEventEmitter {
             axis: axisState,
             joypad: this,
             nativePad,
+            nativeAxis: {
+              value,
+            },
             index,
           });
         }
@@ -183,14 +202,22 @@ export default class Joypad extends JoypadEventEmitter {
     });
   }
 
-  vibrate() {
-    console.log((this.nativePad as any)?.vibrationActuator);
-    this.nativePad?.hapticActuators?.[0].pulse(10, 5);
-    (this.nativePad as any)?.vibrationActuator.playEffect('dual-rumble', {
+  /**
+   *
+   * @param parameters vibrations paramter
+   */
+  async vibrate(parameters: Partial<VibrationParameters>) {
+    const parsedParams = {
       startDelay: 0,
       duration: 1000,
-      weakMagnitude: 0,
-      strongMagnitude: 1.0,
-    });
+      weakMagnitude: 1,
+      strongMagnitude: 1,
+      ...parameters,
+    };
+    return this.nativePad?.vibrationActuator?.playEffect('dual-rumble', parsedParams);
+  }
+
+  async stopVibrate() {
+    return this.nativePad?.vibrationActuator?.reset();
   }
 }
