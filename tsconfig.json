@@ -3,7 +3,7 @@
     "baseUrl": "./src/",
     "sourceMap": true,
     "noImplicitAny": true,
-    "target": "ES6",
+    "target": "ESNext",
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
