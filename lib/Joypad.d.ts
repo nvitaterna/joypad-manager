@@ -68,7 +68,7 @@ export default class Joypad extends JoypadEventEmitter {
      *
      * @param parameters vibrations paramter
      */
-    vibrate(parameters: Partial<VibrationParameters>): Promise<"complete" | "invalid-parameter" | "preempted" | undefined>;
+    vibrate({ startDelay, duration, weakMagnitude, strongMagnitude, }: Partial<VibrationParameters>): Promise<"complete" | "invalid-parameter" | "preempted" | undefined>;
     stopVibrate(): Promise<"complete" | undefined>;
 }
 export {};

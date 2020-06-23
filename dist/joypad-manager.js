@@ -98,27 +98,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ (function(module, exports) {
 
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-module.exports = _defineProperty;
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -128,7 +107,7 @@ function _classCallCheck(instance, Constructor) {
 module.exports = _classCallCheck;
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports) {
 
 function _defineProperties(target, props) {
@@ -148,6 +127,27 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 
 module.exports = _createClass;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty;
 
 /***/ }),
 /* 3 */
@@ -1046,16 +1046,12 @@ module.exports = _assertThisInitialized;
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
-var defineProperty = __webpack_require__(0);
-var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
-
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/classCallCheck.js
-var classCallCheck = __webpack_require__(1);
+var classCallCheck = __webpack_require__(0);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/createClass.js
-var createClass = __webpack_require__(2);
+var createClass = __webpack_require__(1);
 var createClass_default = /*#__PURE__*/__webpack_require__.n(createClass);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
@@ -1077,6 +1073,10 @@ var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possi
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/getPrototypeOf.js
 var getPrototypeOf = __webpack_require__(5);
 var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
+var defineProperty = __webpack_require__(2);
+var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 
 // CONCATENATED MODULE: ./src/JoypadEventTracker.ts
 
@@ -1297,11 +1297,6 @@ function generateButtonState(id, customMappings) {
 
 
 
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = getPrototypeOf_default()(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = getPrototypeOf_default()(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return possibleConstructorReturn_default()(this, result); }; }
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
@@ -1500,21 +1495,22 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
   }, {
     key: "vibrate",
     value: function () {
-      var _vibrate = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(parameters) {
+      var _vibrate = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(_ref) {
         var _this$nativePad, _this$nativePad$vibra;
 
-        var parsedParams;
+        var _ref$startDelay, startDelay, _ref$duration, duration, _ref$weakMagnitude, weakMagnitude, _ref$strongMagnitude, strongMagnitude;
+
         return regenerator_default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                parsedParams = _objectSpread({
-                  startDelay: 0,
-                  duration: 1000,
-                  weakMagnitude: 1,
-                  strongMagnitude: 1
-                }, parameters);
-                return _context.abrupt("return", (_this$nativePad = this.nativePad) === null || _this$nativePad === void 0 ? void 0 : (_this$nativePad$vibra = _this$nativePad.vibrationActuator) === null || _this$nativePad$vibra === void 0 ? void 0 : _this$nativePad$vibra.playEffect('dual-rumble', parsedParams));
+                _ref$startDelay = _ref.startDelay, startDelay = _ref$startDelay === void 0 ? 0 : _ref$startDelay, _ref$duration = _ref.duration, duration = _ref$duration === void 0 ? 1000 : _ref$duration, _ref$weakMagnitude = _ref.weakMagnitude, weakMagnitude = _ref$weakMagnitude === void 0 ? 1 : _ref$weakMagnitude, _ref$strongMagnitude = _ref.strongMagnitude, strongMagnitude = _ref$strongMagnitude === void 0 ? 1 : _ref$strongMagnitude;
+                return _context.abrupt("return", (_this$nativePad = this.nativePad) === null || _this$nativePad === void 0 ? void 0 : (_this$nativePad$vibra = _this$nativePad.vibrationActuator) === null || _this$nativePad$vibra === void 0 ? void 0 : _this$nativePad$vibra.playEffect('dual-rumble', {
+                  startDelay: startDelay,
+                  duration: duration,
+                  weakMagnitude: weakMagnitude,
+                  strongMagnitude: strongMagnitude
+                }));
 
               case 2:
               case "end":
@@ -1572,29 +1568,19 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
 
 
 
-function JoypadManager_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function JoypadManager_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { JoypadManager_ownKeys(Object(source), true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { JoypadManager_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-
-/**
- * The defaults for the joypad config
- */
-
-var configDefaults = {
-  analogThreshold: 0.1,
-  axisDeadzone: 0.15,
-  maxJoypads: 4
-};
-
 var JoypadManager_JoypadManager = /*#__PURE__*/function () {
   /**
    * Initiate the JoypadManager
    * @param joypadConfig Optional Joypad configuration
    * @param mappings Custom list of mappings
    */
-  function JoypadManager() {
-    var joypadConfig = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  function JoypadManager(_ref) {
+    var _ref$analogThreshold = _ref.analogThreshold,
+        analogThreshold = _ref$analogThreshold === void 0 ? 0.1 : _ref$analogThreshold,
+        _ref$axisDeadzone = _ref.axisDeadzone,
+        axisDeadzone = _ref$axisDeadzone === void 0 ? 0.15 : _ref$axisDeadzone,
+        _ref$maxJoypads = _ref.maxJoypads,
+        maxJoypads = _ref$maxJoypads === void 0 ? 4 : _ref$maxJoypads;
     var mappings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
     classCallCheck_default()(this, JoypadManager);
@@ -1604,10 +1590,12 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
      */
     this.joypads = [];
 
-    var parsedConfig = JoypadManager_objectSpread(JoypadManager_objectSpread({}, configDefaults), joypadConfig);
-
-    for (var i = 0; i < parsedConfig.maxJoypads; i += 1) {
-      this.joypads[i] = new Joypad_Joypad(i, parsedConfig, mappings);
+    for (var i = 0; i < maxJoypads; i += 1) {
+      this.joypads[i] = new Joypad_Joypad(i, {
+        analogThreshold: analogThreshold,
+        axisDeadzone: axisDeadzone,
+        maxJoypads: maxJoypads
+      }, mappings);
     }
   }
   /**

@@ -206,15 +206,18 @@ export default class Joypad extends JoypadEventEmitter {
    *
    * @param parameters vibrations paramter
    */
-  async vibrate(parameters: Partial<VibrationParameters>) {
-    const parsedParams = {
-      startDelay: 0,
-      duration: 1000,
-      weakMagnitude: 1,
-      strongMagnitude: 1,
-      ...parameters,
-    };
-    return this.nativePad?.vibrationActuator?.playEffect('dual-rumble', parsedParams);
+  async vibrate({
+    startDelay = 0,
+    duration = 1000,
+    weakMagnitude = 1,
+    strongMagnitude = 1,
+  }: Partial<VibrationParameters>) {
+    return this.nativePad?.vibrationActuator?.playEffect('dual-rumble', {
+      startDelay,
+      duration,
+      weakMagnitude,
+      strongMagnitude,
+    });
   }
 
   async stopVibrate() {

@@ -17,15 +17,6 @@ export interface JoypadConfig {
   axisDeadzone: number;
 }
 
-/**
- * The defaults for the joypad config
- */
-const configDefaults: JoypadConfig = {
-  analogThreshold: 0.1,
-  axisDeadzone: 0.15,
-  maxJoypads: 4,
-};
-
 export default class JoypadManager {
   /**
    * The array of joypads.
@@ -38,15 +29,15 @@ export default class JoypadManager {
    * @param mappings Custom list of mappings
    */
   constructor(
-    joypadConfig: Partial<JoypadConfig> = {},
+    {
+      analogThreshold = 0.1,
+      axisDeadzone = 0.15,
+      maxJoypads = 4,
+    }: Partial<JoypadConfig>,
     mappings: JoypadMap[] = [],
   ) {
-    const parsedConfig = {
-      ...configDefaults,
-      ...joypadConfig,
-    };
-    for (let i = 0; i < parsedConfig.maxJoypads; i += 1) {
-      this.joypads[i] = new Joypad(i, parsedConfig, mappings);
+    for (let i = 0; i < maxJoypads; i += 1) {
+      this.joypads[i] = new Joypad(i, { analogThreshold, axisDeadzone, maxJoypads }, mappings);
     }
   }
 
