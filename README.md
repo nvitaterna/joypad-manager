@@ -18,10 +18,10 @@ Yarn
 Or you can use it in the browser with the following downloads:
 
 #### Minified
-[joypad.min.js](https://cdn.jsdelivr.net/npm/joypad-manager/dist/joypad-manager.min.js)
+[joypad.min.js](https://cdn.jsdelivr.net/gh/nvitaterna/joypad-manager/dist/joypad-manager.min.js)
 
 #### Uncompressed
-[joypad.js](https://cdn.jsdelivr.net/npm/joypad-manager/dist/joypad-manager.js)
+[joypad.js](https://cdn.jsdelivr.net/gh/nvitaterna/joypad-manager/dist/joypad-manager.js)
 
 
 ## Documentation
