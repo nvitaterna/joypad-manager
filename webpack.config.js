@@ -43,9 +43,6 @@ const baseConfig = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
   },
   target: 'web',
 };

@@ -1,4 +1,4 @@
-import mappings, { JoypadMap } from '@/mappings';
+import mappings, { JoypadMap } from './mappings';
 import type { ButtonState, AxisState } from './Joypad';
 
 export default function generateButtonState(id: string, customMappings: JoypadMap[]) {
