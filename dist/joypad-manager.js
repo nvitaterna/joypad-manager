@@ -1121,17 +1121,19 @@ var AXIS_MOVE = 'axismove';
 
 
 
-var _events;
 
 
+function generateEvents() {
+  var _ref;
 
-var events = (_events = {}, defineProperty_default()(_events, GAMEPAD_CONNECT, new JoypadEventTracker_JoypadEventTracker(GAMEPAD_CONNECT)), defineProperty_default()(_events, GAMEPAD_DISCONNECT, new JoypadEventTracker_JoypadEventTracker(GAMEPAD_DISCONNECT)), defineProperty_default()(_events, BUTTON_PRESS, new JoypadEventTracker_JoypadEventTracker(BUTTON_PRESS)), defineProperty_default()(_events, BUTTON_RELEASE, new JoypadEventTracker_JoypadEventTracker(BUTTON_RELEASE)), defineProperty_default()(_events, BUTTON_CHANGE, new JoypadEventTracker_JoypadEventTracker(BUTTON_CHANGE)), defineProperty_default()(_events, AXIS_MOVE, new JoypadEventTracker_JoypadEventTracker(AXIS_MOVE)), _events);
+  return _ref = {}, defineProperty_default()(_ref, GAMEPAD_CONNECT, new JoypadEventTracker_JoypadEventTracker(GAMEPAD_CONNECT)), defineProperty_default()(_ref, GAMEPAD_DISCONNECT, new JoypadEventTracker_JoypadEventTracker(GAMEPAD_DISCONNECT)), defineProperty_default()(_ref, BUTTON_PRESS, new JoypadEventTracker_JoypadEventTracker(BUTTON_PRESS)), defineProperty_default()(_ref, BUTTON_RELEASE, new JoypadEventTracker_JoypadEventTracker(BUTTON_RELEASE)), defineProperty_default()(_ref, BUTTON_CHANGE, new JoypadEventTracker_JoypadEventTracker(BUTTON_CHANGE)), defineProperty_default()(_ref, AXIS_MOVE, new JoypadEventTracker_JoypadEventTracker(AXIS_MOVE)), _ref;
+}
 
 var JoypadEventEmitter_JoypadEventEmitter = /*#__PURE__*/function () {
   function JoypadEventEmitter() {
     classCallCheck_default()(this, JoypadEventEmitter);
 
-    this.events = events;
+    this.events = generateEvents();
   }
 
   createClass_default()(JoypadEventEmitter, [{

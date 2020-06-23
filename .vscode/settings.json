@@ -1,6 +1,13 @@
 {
     "editor.codeActionsOnSave": {
       "source.fixAll": true
+    },
+    "search.exclude": {
+      "**/dev": true,
+      "**/dist": true,
+      "**/examples": true,
+      "**/lib": true,
+      "**/test": true,
+      "**/src": true
     }
   }
-  
