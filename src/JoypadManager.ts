@@ -33,7 +33,11 @@ export default class JoypadManager {
       analogThreshold = 0.1,
       axisDeadzone = 0.15,
       maxJoypads = 4,
-    }: Partial<JoypadConfig>,
+    }: Partial<JoypadConfig> = {
+      analogThreshold: 0.1,
+      axisDeadzone: 0.15,
+      maxJoypads: 4,
+    },
     mappings: JoypadMap[] = [],
   ) {
     for (let i = 0; i < maxJoypads; i += 1) {

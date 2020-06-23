@@ -1495,16 +1495,30 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
   }, {
     key: "vibrate",
     value: function () {
-      var _vibrate = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee(_ref) {
+      var _vibrate = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
         var _this$nativePad, _this$nativePad$vibra;
 
-        var _ref$startDelay, startDelay, _ref$duration, duration, _ref$weakMagnitude, weakMagnitude, _ref$strongMagnitude, strongMagnitude;
+        var _ref,
+            _ref$startDelay,
+            startDelay,
+            _ref$duration,
+            duration,
+            _ref$weakMagnitude,
+            weakMagnitude,
+            _ref$strongMagnitude,
+            strongMagnitude,
+            _args = arguments;
 
         return regenerator_default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _ref$startDelay = _ref.startDelay, startDelay = _ref$startDelay === void 0 ? 0 : _ref$startDelay, _ref$duration = _ref.duration, duration = _ref$duration === void 0 ? 1000 : _ref$duration, _ref$weakMagnitude = _ref.weakMagnitude, weakMagnitude = _ref$weakMagnitude === void 0 ? 1 : _ref$weakMagnitude, _ref$strongMagnitude = _ref.strongMagnitude, strongMagnitude = _ref$strongMagnitude === void 0 ? 1 : _ref$strongMagnitude;
+                _ref = _args.length > 0 && _args[0] !== undefined ? _args[0] : {
+                  startDelay: 0,
+                  duration: 1000,
+                  weakMagnitude: 1,
+                  strongMagnitude: 1
+                }, _ref$startDelay = _ref.startDelay, startDelay = _ref$startDelay === void 0 ? 0 : _ref$startDelay, _ref$duration = _ref.duration, duration = _ref$duration === void 0 ? 1000 : _ref$duration, _ref$weakMagnitude = _ref.weakMagnitude, weakMagnitude = _ref$weakMagnitude === void 0 ? 1 : _ref$weakMagnitude, _ref$strongMagnitude = _ref.strongMagnitude, strongMagnitude = _ref$strongMagnitude === void 0 ? 1 : _ref$strongMagnitude;
                 return _context.abrupt("return", (_this$nativePad = this.nativePad) === null || _this$nativePad === void 0 ? void 0 : (_this$nativePad$vibra = _this$nativePad.vibrationActuator) === null || _this$nativePad$vibra === void 0 ? void 0 : _this$nativePad$vibra.playEffect('dual-rumble', {
                   startDelay: startDelay,
                   duration: duration,
@@ -1520,7 +1534,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         }, _callee, this);
       }));
 
-      function vibrate(_x) {
+      function vibrate() {
         return _vibrate.apply(this, arguments);
       }
 
@@ -1574,13 +1588,19 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
    * @param joypadConfig Optional Joypad configuration
    * @param mappings Custom list of mappings
    */
-  function JoypadManager(_ref) {
-    var _ref$analogThreshold = _ref.analogThreshold,
+  function JoypadManager() {
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+      analogThreshold: 0.1,
+      axisDeadzone: 0.15,
+      maxJoypads: 4
+    },
+        _ref$analogThreshold = _ref.analogThreshold,
         analogThreshold = _ref$analogThreshold === void 0 ? 0.1 : _ref$analogThreshold,
         _ref$axisDeadzone = _ref.axisDeadzone,
         axisDeadzone = _ref$axisDeadzone === void 0 ? 0.15 : _ref$axisDeadzone,
         _ref$maxJoypads = _ref.maxJoypads,
         maxJoypads = _ref$maxJoypads === void 0 ? 4 : _ref$maxJoypads;
+
     var mappings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
     classCallCheck_default()(this, JoypadManager);

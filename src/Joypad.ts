@@ -211,7 +211,12 @@ export default class Joypad extends JoypadEventEmitter {
     duration = 1000,
     weakMagnitude = 1,
     strongMagnitude = 1,
-  }: Partial<VibrationParameters>) {
+  }: Partial<VibrationParameters> = {
+    startDelay: 0,
+    duration: 1000,
+    weakMagnitude: 1,
+    strongMagnitude: 1,
+  }) {
     return this.nativePad?.vibrationActuator?.playEffect('dual-rumble', {
       startDelay,
       duration,
