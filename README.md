@@ -54,6 +54,13 @@ const config = {
 }
 
 const joypadManager = new Joypadmanager(config)
+
+// then in your game update loop, call joypadManager.update and it will begin polling for events every game update
+function gameUpdateLoop() {
+  // ...
+  joypadManager.update();
+  // ...
+}
 ```
 
 #### Joypads
