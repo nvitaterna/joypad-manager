@@ -7,7 +7,6 @@
       "**/dist": true,
       "**/examples": true,
       "**/lib": true,
-      "**/test": true,
-      "**/src": true
+      "**/test": true
     }
   }

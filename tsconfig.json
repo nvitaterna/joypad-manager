@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src/",
+    "rootDirs": ["test","src"],
+    "outDir": "lib",
     "sourceMap": true,
     "noImplicitAny": true,
     "target": "ESNext",
@@ -10,8 +11,7 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "declaration": true,
-    "outDir": "lib",
-    "lib": [
+      "lib": [
       "DOM",
       "DOM.Iterable",
       "ESNext"
