@@ -1,18 +1,5 @@
 import mappings, { JoypadMap } from './mappings';
-
-export interface StickState {
-  name: string;
-  value: {
-    x: number;
-    y: number;
-    angle: number;
-  };
-}
-
-export interface ButtonState {
-  name: string;
-  value: number;
-}
+import type { ButtonState, StickState } from './Joypad';
 
 export default function generateButtonState(id: string, customMappings: JoypadMap[]) {
   const gamepadMap = customMappings.concat(mappings).find((mapping) => mapping.ids.includes(id));

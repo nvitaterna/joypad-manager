@@ -1046,6 +1046,37 @@ module.exports = _assertThisInitialized;
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "Types", function() { return /* reexport */ types_namespaceObject; });
+
+// NAMESPACE OBJECT: ./src/JoypadEventEmitter.ts
+var JoypadEventEmitter_namespaceObject = {};
+__webpack_require__.r(JoypadEventEmitter_namespaceObject);
+__webpack_require__.d(JoypadEventEmitter_namespaceObject, "JoypadEventEmitter", function() { return JoypadEventEmitter_JoypadEventEmitter; });
+
+// NAMESPACE OBJECT: ./src/mappings/index.ts
+var mappings_namespaceObject = {};
+__webpack_require__.r(mappings_namespaceObject);
+__webpack_require__.d(mappings_namespaceObject, "default", function() { return src_mappings; });
+
+// NAMESPACE OBJECT: ./src/Joypad.ts
+var Joypad_namespaceObject = {};
+__webpack_require__.r(Joypad_namespaceObject);
+__webpack_require__.d(Joypad_namespaceObject, "Joypad", function() { return Joypad_Joypad; });
+
+// NAMESPACE OBJECT: ./src/JoypadManager.ts
+var JoypadManager_namespaceObject = {};
+__webpack_require__.r(JoypadManager_namespaceObject);
+__webpack_require__.d(JoypadManager_namespaceObject, "JoypadManager", function() { return JoypadManager_JoypadManager; });
+
+// NAMESPACE OBJECT: ./src/types.ts
+var types_namespaceObject = {};
+__webpack_require__.r(types_namespaceObject);
+__webpack_require__.d(types_namespaceObject, "Joypad", function() { return Joypad_namespaceObject; });
+__webpack_require__.d(types_namespaceObject, "JoypadManager", function() { return JoypadManager_namespaceObject; });
+__webpack_require__.d(types_namespaceObject, "Events", function() { return JoypadEventEmitter_namespaceObject; });
+__webpack_require__.d(types_namespaceObject, "Mapping", function() { return mappings_namespaceObject; });
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/classCallCheck.js
 var classCallCheck = __webpack_require__(0);
 var classCallCheck_default = /*#__PURE__*/__webpack_require__.n(classCallCheck);
@@ -1121,6 +1152,8 @@ var STICK_MOVE = 'stickmove';
 
 
 
+/* eslint-disable import/no-duplicates */
+
 
 
 function generateEvents() {
@@ -1157,8 +1190,6 @@ var JoypadEventEmitter_JoypadEventEmitter = /*#__PURE__*/function () {
 
   return JoypadEventEmitter;
 }();
-
-
 // CONCATENATED MODULE: ./src/mappings/default-mapping.ts
 /* harmony default export */ var default_mapping = ({
   ids: ['default'],
@@ -1311,7 +1342,6 @@ function generateButtonState(id, customMappings) {
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = getPrototypeOf_default()(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = getPrototypeOf_default()(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return possibleConstructorReturn_default()(this, result); }; }
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
 
 
 
@@ -1666,10 +1696,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
 
   return Joypad;
 }(JoypadEventEmitter_JoypadEventEmitter);
-
-
 // CONCATENATED MODULE: ./src/JoypadManager.ts
-
 
 
 
@@ -1723,11 +1750,17 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
 
   return JoypadManager;
 }();
+// CONCATENATED MODULE: ./src/types.ts
+
+
+
 
 
 // CONCATENATED MODULE: ./src/index.ts
 
+
 /* harmony default export */ var src = __webpack_exports__["default"] = (JoypadManager_JoypadManager);
+
 
 /***/ })
 /******/ ])["default"];

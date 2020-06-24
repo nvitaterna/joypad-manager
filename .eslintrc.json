@@ -16,5 +16,10 @@
       }
     }],
     "max-len": ["off"]
-  }
+  },
+  "ignorePatterns": [
+    "**/lib",
+    "**/dist",
+    "**/dev"
+  ]
 }

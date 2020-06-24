@@ -1,6 +1,5 @@
 import JoypadEventTracker from './JoypadEventTracker';
-import type { StickState, ButtonState } from './generate-button-state';
-import type Joypad from './Joypad';
+import type { ButtonState, StickState, Joypad } from './Joypad';
 export interface JoypadButtonEvent {
     button: ButtonState;
     joypad: Joypad;
@@ -31,7 +30,7 @@ export interface JoypadEventMap {
     stickmove: JoypadStickEvent;
 }
 export declare type JoypadEventName = keyof JoypadEventMap;
-export default class JoypadEventEmitter {
+export declare class JoypadEventEmitter {
     events: {
         connect: JoypadEventTracker;
         disconnect: JoypadEventTracker;

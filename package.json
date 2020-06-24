@@ -57,5 +57,6 @@
     "hooks": {
       "pre-commit": "yarn build && git add ."
     }
-  }
+  },
+  "dependencies": {}
 }

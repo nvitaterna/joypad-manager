@@ -1,4 +1,4 @@
-import Joypad from './Joypad';
+import { Joypad } from './Joypad';
 import { JoypadMap } from './mappings';
 export interface JoypadConfig {
     /**
@@ -11,7 +11,7 @@ export interface JoypadConfig {
      */
     axisDeadzone: number;
 }
-export default class JoypadManager {
+export declare class JoypadManager {
     /**
      * The array of joypads.
      */

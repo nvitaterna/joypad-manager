@@ -1,7 +1,7 @@
+/* eslint-disable import/no-duplicates */
 import JoypadEventTracker from './JoypadEventTracker';
 import * as JOYPAD_EVENTS from './event-names';
-import type { StickState, ButtonState } from './generate-button-state';
-import type Joypad from './Joypad';
+import type { ButtonState, StickState, Joypad } from './Joypad';
 
 export interface JoypadButtonEvent {
   button: ButtonState;
@@ -50,7 +50,7 @@ function generateEvents() {
   } as {[key in JoypadEventName]: JoypadEventTracker};
 }
 
-export default class JoypadEventEmitter {
+export class JoypadEventEmitter {
   events = generateEvents();
 
   dispatchEvent<K extends keyof JoypadEventMap>(eventName: JoypadEventName, event: JoypadEventMap[K]) {

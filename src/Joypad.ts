@@ -1,6 +1,6 @@
-import JoypadEventEmitter from './JoypadEventEmitter';
+import { JoypadEventEmitter } from './JoypadEventEmitter';
 import * as JOYPAD_EVENTS from './event-names';
-import generateButtonState, { ButtonState, StickState } from './generate-button-state';
+import generateButtonState from './generate-button-state';
 import type { JoypadConfig } from './JoypadManager';
 import type { JoypadMap } from './mappings';
 
@@ -11,7 +11,7 @@ export interface VibrationParameters {
   strongMagnitude: number;
 }
 
-export interface VibrationActuator {
+interface VibrationActuator {
   playEffect: (type: 'dual-rumble', parameters: VibrationParameters) => Promise<'invalid-parameter' | 'complete' | 'preempted'>;
   reset: () => Promise<'complete'>;
 }
@@ -20,7 +20,21 @@ interface Gamepad extends globalThis.Gamepad {
   vibrationActuator?: VibrationActuator;
 }
 
-export default class Joypad extends JoypadEventEmitter {
+export interface StickState {
+  name: string;
+  value: {
+    x: number;
+    y: number;
+    angle: number;
+  };
+}
+
+export interface ButtonState {
+  name: string;
+  value: number;
+}
+
+export class Joypad extends JoypadEventEmitter {
   private buttonState!: ReturnType<typeof generateButtonState>;
 
   private connected = false;
