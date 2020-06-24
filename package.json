@@ -17,7 +17,8 @@
     "postversion": "git push && git push --tags",
     "build": "yarn build:web && yarn build:lib",
     "build:web": "NODE_ENV=production webpack",
-    "build:lib": "rm -rf lib && tsc -p tsconfig.lib.json"
+    "build:lib": "rm -rf lib && tsc -p tsconfig.lib.json",
+    "lint": "eslint --fix ./src"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",

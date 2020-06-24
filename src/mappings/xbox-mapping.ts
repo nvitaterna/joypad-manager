@@ -1,4 +1,5 @@
 import defaultMapping from './default-mapping';
+import type { JoypadMap } from '.';
 
 export default {
   ids: [
@@ -6,5 +7,5 @@ export default {
     'xinput',
   ],
   buttons: defaultMapping.buttons,
-  axes: defaultMapping.axes,
-};
+  sticks: defaultMapping.sticks,
+} as JoypadMap;

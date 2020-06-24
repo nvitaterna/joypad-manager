@@ -1,5 +1,9 @@
-export interface AxisMapping {
+export interface StickMapping {
     name: string;
+    axes: {
+        x: number;
+        y: number;
+    };
 }
 export interface ButtonMapping {
     name: string;
@@ -8,7 +12,7 @@ export interface ButtonMapping {
 export interface JoypadMap {
     ids: string[];
     buttons?: ButtonMapping[];
-    axes?: AxisMapping[];
+    sticks?: StickMapping[];
 }
-declare const _default: JoypadMap[];
-export default _default;
+declare const mappings: JoypadMap[];
+export default mappings;

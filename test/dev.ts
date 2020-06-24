@@ -14,8 +14,12 @@ joypad.addEventListener('connect', (event) => {
 joypad.addEventListener('disconnect', (event) => {
   console.log(event.joypad);
 });
-joypad.addEventListener('axismove', (event) => {
-  console.log(event.axis.value, event.axis.name, event.index);
+joypad.addEventListener('stickmove', (event) => {
+  console.log(JSON.stringify({
+    stick: event.stick,
+    index: event.index,
+    native: event.nativeAxes,
+  }, null, '\t'));
 });
 joypad.addEventListener('buttonchange', (event) => {
   console.log(event.button.value, event.button.name, event.index);

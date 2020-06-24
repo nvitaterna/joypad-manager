@@ -4,17 +4,6 @@ import generateButtonState from './generate-button-state';
 import type { JoypadConfig } from './JoypadManager';
 import type { JoypadMap } from './mappings';
 
-export interface AxisState {
-  name: string;
-  value: number;
-}
-
-export interface ButtonState {
-  analog: boolean;
-  name: string;
-  value: number;
-}
-
 export interface VibrationParameters {
   startDelay: number;
   duration: number;
@@ -60,8 +49,20 @@ export default class Joypad extends JoypadEventEmitter {
     return this.buttonState.buttons;
   }
 
-  get axes() {
-    return this.buttonState.axes;
+  get sticks() {
+    return this.buttonState.sticks;
+  }
+
+  private get buttonMap() {
+    return this.buttonState.mapping?.buttons || [];
+  }
+
+  private get stickMap() {
+    return this.buttonState.mapping?.sticks || [];
+  }
+
+  get mapping() {
+    return this.buttonState.mapping;
   }
 
   /**
@@ -114,11 +115,25 @@ export default class Joypad extends JoypadEventEmitter {
    * @param nativePad the native HTML5 Gamepad object
    */
   update(nativePad: Gamepad | null) {
+    const connected = this.syncNativePad(nativePad);
+    if (!connected) {
+      return;
+    }
+
+    this.loopButtons();
+
+    this.loopSticks();
+  }
+
+  /**
+   * Sync this.nativePad with the updated gamepad, return whether or not it is connected.
+   */
+  private syncNativePad(nativePad: Gamepad | null) {
     if (!nativePad || !nativePad.connected) {
       if (this.connected) {
         this.disconnect(nativePad);
       }
-      return;
+      return false;
     } if (nativePad?.connected && !this.connected) {
       this.connect(nativePad);
     }
@@ -128,23 +143,34 @@ export default class Joypad extends JoypadEventEmitter {
     if (!this.id) {
       this.setId(nativePad.id);
     }
-    nativePad.buttons.forEach((nativeButton, index) => {
-      const buttonState = this.buttonState.buttons[index];
-      if (!buttonState) {
+    return true;
+  }
+
+  /**
+   * Loop through buttons
+   */
+  private loopButtons() {
+    const nativePad = this.nativePad!;
+    this.buttonMap.forEach((buttonMapping, index) => {
+      const nativeButton = nativePad.buttons[index];
+
+      if (!nativeButton) {
         return;
       }
+
+      const buttonState = this.buttonState.buttons[index];
 
       // if a button value is different than the new value
       if (nativeButton.value !== buttonState.value) {
         // if it is analog, check against the threshold
-        if (buttonState.analog) {
+        if (buttonMapping.analog) {
           if (
             // always send event if value is 0 or 1
             nativeButton.value === 1 || buttonState.value === 1 || nativeButton.value === 0 || buttonState.value === 0
             // send event if the change is larger than the threshold
             || Math.abs(nativeButton.value - buttonState.value) >= this.joypadConfig.analogThreshold) {
             buttonState.value = nativeButton.value;
-            this.dispatchEvent('buttonchange', {
+            this.dispatchEvent(JOYPAD_EVENTS.BUTTON_CHANGE, {
               button: buttonState,
               joypad: this,
               nativeButton,
@@ -157,7 +183,7 @@ export default class Joypad extends JoypadEventEmitter {
         // we will still process these events for analog buttons so analog buttons can be treated as digital
         if (nativeButton.value === 1 && buttonState.value === 0) {
           buttonState.value = nativeButton.value;
-          this.dispatchEvent('buttonpress', {
+          this.dispatchEvent(JOYPAD_EVENTS.BUTTON_PRESS, {
             button: buttonState,
             joypad: this,
             nativeButton,
@@ -166,7 +192,7 @@ export default class Joypad extends JoypadEventEmitter {
           });
         } else if (nativeButton.value === 0 && buttonState.value === 1) {
           buttonState.value = nativeButton.value;
-          this.dispatchEvent('buttonrelease', {
+          this.dispatchEvent(JOYPAD_EVENTS.BUTTON_RELEASE, {
             button: buttonState,
             joypad: this,
             nativeButton,
@@ -176,37 +202,69 @@ export default class Joypad extends JoypadEventEmitter {
         }
       }
     });
+  }
 
-    nativePad.axes.forEach((value, index) => {
-      const axisState = this.buttonState.axes[index];
-      const nativeValue = Math.abs(value);
-      const stateValue = Math.abs(axisState.value);
-      const nativeIsDead = nativeValue <= this.joypadConfig.axisDeadzone;
-      const stateIsDead = stateValue <= this.joypadConfig.axisDeadzone;
-      if (!axisState) {
+  /**
+   * Loop through analog sticks
+   */
+  private loopSticks() {
+    const nativePad = this.nativePad!;
+    this.stickMap.forEach((stickMapping, index) => {
+      let nativeX = nativePad.axes[stickMapping.axes.x];
+      let nativeY = nativePad.axes[stickMapping.axes.y];
+
+      // if both are undefined - no event
+      if (nativeX === undefined && !nativeY === undefined) {
         return;
       }
-      if (nativeValue !== stateValue) {
-        if (
-        // do not send event if both are dead - means both are considered zero
-          stateIsDead !== nativeIsDead
-            // OR send event if either are dead or either are 1
-            || !stateIsDead || !nativeIsDead
-            // OR send event if they are 1
-            || nativeValue === 1 || stateValue === 1
-        ) {
-          axisState.value = nativeIsDead ? 0 : value;
-          this.dispatchEvent(JOYPAD_EVENTS.AXIS_MOVE, {
-            axis: axisState,
-            joypad: this,
-            nativePad,
-            nativeAxis: {
-              value,
-            },
-            index,
-          });
-        }
+
+      // set either to 0 if they are undefined
+      nativeX = nativeX === undefined ? 0 : nativeX;
+      nativeY = nativeY === undefined ? 0 : nativeY;
+
+      const stickState = this.sticks[index];
+      const stateX = stickState.value.x;
+      // sticks aren't forced to have a y value
+      const stateY = stickState.value.y;
+
+      // if the values are the same - no event
+      if (nativeX === stateX && nativeY === stateY) {
+        return;
       }
+
+      const nativeXDead = Math.abs(nativeX) <= this.joypadConfig.axisDeadzone;
+      const nativeYDead = Math.abs(nativeY) <= this.joypadConfig.axisDeadzone;
+      const stateXDead = Math.abs(stateX) <= this.joypadConfig.axisDeadzone;
+      const stateYDead = Math.abs(stateY) <= this.joypadConfig.axisDeadzone;
+
+      // if everything is dead, they are all considered 0 - no change = no event
+      if (nativeXDead && nativeYDead && stateXDead && stateYDead) {
+        return;
+      }
+
+      // if nothing exceeds the analog movement threshold AND the values are not 1 or 0
+      if (
+        (Math.abs(stateX - nativeX) <= this.joypadConfig.analogThreshold
+        || Math.abs(stateY - nativeY) <= this.joypadConfig.analogThreshold)
+        && !nativeXDead && Math.abs(nativeX) !== 1 && !nativeYDead && Math.abs(nativeY) !== 1
+      ) {
+        return;
+      }
+
+      stickState.value.x = nativeXDead ? 0 : nativeX;
+      stickState.value.y = nativeYDead ? 0 : nativeY;
+      stickState.value.angle = (Math.atan2(stickState.value.x, stickState.value.y) * (180 / Math.PI) + 270) % 360;
+
+      this.dispatchEvent(JOYPAD_EVENTS.STICK_MOVE, {
+        stick: stickState,
+        joypad: this,
+        nativePad,
+        nativeAxes: {
+          x: nativeX,
+          y: nativeY,
+        },
+        index: [stickMapping.axes.x, stickMapping.axes.y],
+      });
     });
   }
 

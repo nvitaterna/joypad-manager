@@ -1,3 +1,5 @@
+import type { JoypadMap } from '.';
+
 export default {
   ids: [
     'default',
@@ -60,18 +62,20 @@ export default {
       name: 'share',
     },
   ],
-  axes: [
+  sticks: [
     {
-      name: 'leftStickX',
+      name: 'leftStick',
+      axes: {
+        x: 0,
+        y: 1,
+      },
     },
     {
-      name: 'leftStickY',
-    },
-    {
-      name: 'rightStickX',
-    },
-    {
-      name: 'rightStickY',
+      name: 'rightStick',
+      axes: {
+        x: 0,
+        y: 1,
+      },
     },
   ],
-};
+} as JoypadMap;

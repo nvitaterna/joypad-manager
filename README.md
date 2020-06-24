@@ -88,23 +88,28 @@ joypadOne.addEventListener('connect', (event) => {
 joypadOne.addEventListener('disconnect', (event) => { });
 
 // this is fired whenever an axis value changes more than the axis threshold
-joypadOne.addEventListener('axismove', (event) => {
-  // the axis state
-  event.axis == {
-    // the mapped name of the axis
+joypadOne.addEventListener('stickmove', (event) => {
+  // the stick state
+  event.stick == {
+    // the mapped name of the stick
     name: 'leftStick',
-    // the value of the axis - will be 0 if below the axis deadzone
-    value: 0.123176237
+    // the value of the axes - will be 0 if below the axis deadzone
+    value: {
+      x: 0.5185778141021729,
+			y: -0.3537498712539673,
+			angle: 34.30000535526602,
+    },
   }
 
   // the native axis information
   event.nativeAxis == {
-    // the value as reported by the native gamepad api
-    value: 0.123176237
-  }
+    // the values as reported by the native gamepad api
+      x: number,
+      y: number,
+    }
 
-  // the native index of the axis
-  event.index == 0;
+  // the native indexes of the axes
+  event.index == [0, 1];
 
   event.joypad == joypadOne
   event.nativePad == navigator.getGamepads()[event.joypad.index];

@@ -1,15 +1,6 @@
 import JoypadEventEmitter from './JoypadEventEmitter';
 import type { JoypadConfig } from './JoypadManager';
 import type { JoypadMap } from './mappings';
-export interface AxisState {
-    name: string;
-    value: number;
-}
-export interface ButtonState {
-    analog: boolean;
-    name: string;
-    value: number;
-}
 export interface VibrationParameters {
     startDelay: number;
     duration: number;
@@ -40,8 +31,11 @@ export default class Joypad extends JoypadEventEmitter {
      * @param mappings custom gamepad button mappings
      */
     constructor(index: number, joypadConfig: JoypadConfig, mappings: JoypadMap[]);
-    get buttons(): ButtonState[];
-    get axes(): AxisState[];
+    get buttons(): import("./generate-button-state").ButtonState[];
+    get sticks(): import("./generate-button-state").StickState[];
+    private get buttonMap();
+    private get stickMap();
+    get mapping(): JoypadMap | undefined;
     /**
      * Set the id
      * @param id the native id
@@ -66,6 +60,18 @@ export default class Joypad extends JoypadEventEmitter {
      * @param nativePad the native HTML5 Gamepad object
      */
     update(nativePad: Gamepad | null): void;
+    /**
+     * Sync this.nativePad with the updated gamepad, return whether or not it is connected.
+     */
+    private syncNativePad;
+    /**
+     * Loop through buttons
+     */
+    private loopButtons;
+    /**
+     * Loop through analog sticks
+     */
+    private loopSticks;
     /**
      *
      * @param parameters vibrations paramter

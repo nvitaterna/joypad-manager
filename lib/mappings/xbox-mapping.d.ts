@@ -1,14 +1,3 @@
-declare const _default: {
-    ids: string[];
-    buttons: ({
-        name: string;
-        analog?: undefined;
-    } | {
-        name: string;
-        analog: boolean;
-    })[];
-    axes: {
-        name: string;
-    }[];
-};
+import type { JoypadMap } from '.';
+declare const _default: JoypadMap;
 export default _default;

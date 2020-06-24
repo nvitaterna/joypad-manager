@@ -1,6 +1,6 @@
 import JoypadEventTracker from './JoypadEventTracker';
+import type { StickState, ButtonState } from './generate-button-state';
 import type Joypad from './Joypad';
-import type { ButtonState, AxisState } from './Joypad';
 export interface JoypadButtonEvent {
     button: ButtonState;
     joypad: Joypad;
@@ -8,14 +8,15 @@ export interface JoypadButtonEvent {
     nativePad: Gamepad;
     index: number;
 }
-export interface JoypadAxisEvent {
-    axis: AxisState;
+export interface JoypadStickEvent {
+    stick: StickState;
     joypad: Joypad;
     nativePad: Gamepad;
-    nativeAxis: {
-        value: number;
+    nativeAxes: {
+        x: number;
+        y: number;
     };
-    index: number;
+    index: [number, number];
 }
 export interface JoypadEvent {
     joypad: Joypad;
@@ -27,7 +28,7 @@ export interface JoypadEventMap {
     buttonpress: JoypadButtonEvent;
     buttonrelease: JoypadButtonEvent;
     buttonchange: JoypadButtonEvent;
-    axismove: JoypadAxisEvent;
+    stickmove: JoypadStickEvent;
 }
 export declare type JoypadEventName = keyof JoypadEventMap;
 export default class JoypadEventEmitter {
@@ -37,7 +38,7 @@ export default class JoypadEventEmitter {
         buttonpress: JoypadEventTracker;
         buttonrelease: JoypadEventTracker;
         buttonchange: JoypadEventTracker;
-        axismove: JoypadEventTracker;
+        stickmove: JoypadEventTracker;
     };
     dispatchEvent<K extends keyof JoypadEventMap>(eventName: JoypadEventName, event: JoypadEventMap[K]): void;
     addEventListener<K extends keyof JoypadEventMap>(name: K, callback: (event: JoypadEventMap[K]) => void): void;

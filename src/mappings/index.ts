@@ -2,8 +2,12 @@ import nintendoSwitch from './nintendo-switch';
 import defaultMapping from './default-mapping';
 import xboxoneMapping from './xbox-mapping';
 
-export interface AxisMapping {
+export interface StickMapping {
   name: string;
+  axes: {
+    x: number;
+    y: number;
+  };
 }
 
 export interface ButtonMapping {
@@ -14,11 +18,13 @@ export interface ButtonMapping {
 export interface JoypadMap {
   ids: string[];
   buttons?: ButtonMapping[];
-  axes?: AxisMapping[];
+  sticks?: StickMapping[];
 }
 
-export default [
+const mappings = [
   defaultMapping,
   xboxoneMapping,
   nintendoSwitch,
-] as JoypadMap[];
+];
+
+export default mappings;

@@ -1,22 +1,39 @@
 import mappings, { JoypadMap } from './mappings';
-import type { ButtonState, AxisState } from './Joypad';
+
+export interface StickState {
+  name: string;
+  value: {
+    x: number;
+    y: number;
+    angle: number;
+  };
+}
+
+export interface ButtonState {
+  name: string;
+  value: number;
+}
 
 export default function generateButtonState(id: string, customMappings: JoypadMap[]) {
-  const gamepadMap = mappings.concat(customMappings).find((mapping) => mapping.ids.includes(id)) || mappings[0];
+  const gamepadMap = customMappings.concat(mappings).find((mapping) => mapping.ids.includes(id));
 
-  const buttons = (gamepadMap.buttons || []).map((button) => ({
-    analog: !!button.analog,
+  const buttons: ButtonState[] = (gamepadMap?.buttons || []).map((button) => ({
     value: 0,
     name: button.name,
-  } as ButtonState));
+  }));
 
-  const axes = (gamepadMap.axes || []).map((axis) => ({
-    value: 0,
-    name: axis.name,
-  } as AxisState));
+  const sticks: StickState[] = (gamepadMap?.sticks || []).map((stick) => ({
+    name: stick.name,
+    value: {
+      x: 0,
+      y: 0,
+      angle: 0,
+    },
+  }));
 
   return {
-    axes,
+    mapping: gamepadMap,
     buttons,
+    sticks,
   };
 }

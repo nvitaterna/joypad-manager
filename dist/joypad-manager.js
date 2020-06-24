@@ -1114,7 +1114,7 @@ var GAMEPAD_DISCONNECT = 'disconnect';
 var BUTTON_PRESS = 'buttonpress';
 var BUTTON_RELEASE = 'buttonrelease';
 var BUTTON_CHANGE = 'buttonchange';
-var AXIS_MOVE = 'axismove';
+var STICK_MOVE = 'stickmove';
 
 // CONCATENATED MODULE: ./src/JoypadEventEmitter.ts
 
@@ -1126,7 +1126,7 @@ var AXIS_MOVE = 'axismove';
 function generateEvents() {
   var _ref;
 
-  return _ref = {}, defineProperty_default()(_ref, GAMEPAD_CONNECT, new JoypadEventTracker_JoypadEventTracker(GAMEPAD_CONNECT)), defineProperty_default()(_ref, GAMEPAD_DISCONNECT, new JoypadEventTracker_JoypadEventTracker(GAMEPAD_DISCONNECT)), defineProperty_default()(_ref, BUTTON_PRESS, new JoypadEventTracker_JoypadEventTracker(BUTTON_PRESS)), defineProperty_default()(_ref, BUTTON_RELEASE, new JoypadEventTracker_JoypadEventTracker(BUTTON_RELEASE)), defineProperty_default()(_ref, BUTTON_CHANGE, new JoypadEventTracker_JoypadEventTracker(BUTTON_CHANGE)), defineProperty_default()(_ref, AXIS_MOVE, new JoypadEventTracker_JoypadEventTracker(AXIS_MOVE)), _ref;
+  return _ref = {}, defineProperty_default()(_ref, GAMEPAD_CONNECT, new JoypadEventTracker_JoypadEventTracker(GAMEPAD_CONNECT)), defineProperty_default()(_ref, GAMEPAD_DISCONNECT, new JoypadEventTracker_JoypadEventTracker(GAMEPAD_DISCONNECT)), defineProperty_default()(_ref, BUTTON_PRESS, new JoypadEventTracker_JoypadEventTracker(BUTTON_PRESS)), defineProperty_default()(_ref, BUTTON_RELEASE, new JoypadEventTracker_JoypadEventTracker(BUTTON_RELEASE)), defineProperty_default()(_ref, BUTTON_CHANGE, new JoypadEventTracker_JoypadEventTracker(BUTTON_CHANGE)), defineProperty_default()(_ref, STICK_MOVE, new JoypadEventTracker_JoypadEventTracker(STICK_MOVE)), _ref;
 }
 
 var JoypadEventEmitter_JoypadEventEmitter = /*#__PURE__*/function () {
@@ -1201,14 +1201,18 @@ var JoypadEventEmitter_JoypadEventEmitter = /*#__PURE__*/function () {
   }, {
     name: 'share'
   }],
-  axes: [{
-    name: 'leftStickX'
+  sticks: [{
+    name: 'leftStick',
+    axes: {
+      x: 0,
+      y: 1
+    }
   }, {
-    name: 'leftStickY'
-  }, {
-    name: 'rightStickX'
-  }, {
-    name: 'rightStickY'
+    name: 'rightStick',
+    axes: {
+      x: 0,
+      y: 1
+    }
   }]
 });
 // CONCATENATED MODULE: ./src/mappings/nintendo-switch.ts
@@ -1252,42 +1256,47 @@ var JoypadEventEmitter_JoypadEventEmitter = /*#__PURE__*/function () {
   }, {
     name: 'share'
   }],
-  axes: default_mapping.axes
+  sticks: default_mapping.sticks
 });
 // CONCATENATED MODULE: ./src/mappings/xbox-mapping.ts
 
 /* harmony default export */ var xbox_mapping = ({
   ids: ['Xbox 360 Controller (XInput STANDARD GAMEPAD)', 'xinput'],
   buttons: default_mapping.buttons,
-  axes: default_mapping.axes
+  sticks: default_mapping.sticks
 });
 // CONCATENATED MODULE: ./src/mappings/index.ts
 
 
 
-/* harmony default export */ var src_mappings = ([default_mapping, xbox_mapping, nintendo_switch]);
+var mappings_mappings = [default_mapping, xbox_mapping, nintendo_switch];
+/* harmony default export */ var src_mappings = (mappings_mappings);
 // CONCATENATED MODULE: ./src/generate-button-state.ts
 
 function generateButtonState(id, customMappings) {
-  var gamepadMap = src_mappings.concat(customMappings).find(function (mapping) {
+  var gamepadMap = customMappings.concat(src_mappings).find(function (mapping) {
     return mapping.ids.includes(id);
-  }) || src_mappings[0];
-  var buttons = (gamepadMap.buttons || []).map(function (button) {
+  });
+  var buttons = ((gamepadMap === null || gamepadMap === void 0 ? void 0 : gamepadMap.buttons) || []).map(function (button) {
     return {
-      analog: !!button.analog,
       value: 0,
       name: button.name
     };
   });
-  var axes = (gamepadMap.axes || []).map(function (axis) {
+  var sticks = ((gamepadMap === null || gamepadMap === void 0 ? void 0 : gamepadMap.sticks) || []).map(function (stick) {
     return {
-      value: 0,
-      name: axis.name
+      name: stick.name,
+      value: {
+        x: 0,
+        y: 0,
+        angle: 0
+      }
     };
   });
   return {
-    axes: axes,
-    buttons: buttons
+    mapping: gamepadMap,
+    buttons: buttons,
+    sticks: sticks
   };
 }
 // CONCATENATED MODULE: ./src/Joypad.ts
@@ -1386,14 +1395,28 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
   }, {
     key: "update",
     value: function update(nativePad) {
-      var _this2 = this;
+      var connected = this.syncNativePad(nativePad);
 
+      if (!connected) {
+        return;
+      }
+
+      this.loopButtons();
+      this.loopSticks();
+    }
+    /**
+     * Sync this.nativePad with the updated gamepad, return whether or not it is connected.
+     */
+
+  }, {
+    key: "syncNativePad",
+    value: function syncNativePad(nativePad) {
       if (!nativePad || !nativePad.connected) {
         if (this.connected) {
           this.disconnect(nativePad);
         }
 
-        return;
+        return false;
       }
 
       if ((nativePad === null || nativePad === void 0 ? void 0 : nativePad.connected) && !this.connected) {
@@ -1408,23 +1431,36 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         this.setId(nativePad.id);
       }
 
-      nativePad.buttons.forEach(function (nativeButton, index) {
-        var buttonState = _this2.buttonState.buttons[index];
+      return true;
+    }
+    /**
+     * Loop through buttons
+     */
 
-        if (!buttonState) {
+  }, {
+    key: "loopButtons",
+    value: function loopButtons() {
+      var _this2 = this;
+
+      var nativePad = this.nativePad;
+      this.buttonMap.forEach(function (buttonMapping, index) {
+        var nativeButton = nativePad.buttons[index];
+
+        if (!nativeButton) {
           return;
-        } // if a button value is different than the new value
+        }
 
+        var buttonState = _this2.buttonState.buttons[index]; // if a button value is different than the new value
 
         if (nativeButton.value !== buttonState.value) {
           // if it is analog, check against the threshold
-          if (buttonState.analog) {
+          if (buttonMapping.analog) {
             if ( // always send event if value is 0 or 1
             nativeButton.value === 1 || buttonState.value === 1 || nativeButton.value === 0 || buttonState.value === 0 // send event if the change is larger than the threshold
             || Math.abs(nativeButton.value - buttonState.value) >= _this2.joypadConfig.analogThreshold) {
               buttonState.value = nativeButton.value;
 
-              _this2.dispatchEvent('buttonchange', {
+              _this2.dispatchEvent(BUTTON_CHANGE, {
                 button: buttonState,
                 joypad: _this2,
                 nativeButton: nativeButton,
@@ -1438,7 +1474,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
           if (nativeButton.value === 1 && buttonState.value === 0) {
             buttonState.value = nativeButton.value;
 
-            _this2.dispatchEvent('buttonpress', {
+            _this2.dispatchEvent(BUTTON_PRESS, {
               button: buttonState,
               joypad: _this2,
               nativeButton: nativeButton,
@@ -1448,7 +1484,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
           } else if (nativeButton.value === 0 && buttonState.value === 1) {
             buttonState.value = nativeButton.value;
 
-            _this2.dispatchEvent('buttonrelease', {
+            _this2.dispatchEvent(BUTTON_RELEASE, {
               button: buttonState,
               joypad: _this2,
               nativeButton: nativeButton,
@@ -1458,35 +1494,69 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
           }
         }
       });
-      nativePad.axes.forEach(function (value, index) {
-        var axisState = _this2.buttonState.axes[index];
-        var nativeValue = Math.abs(value);
-        var stateValue = Math.abs(axisState.value);
-        var nativeIsDead = nativeValue <= _this2.joypadConfig.axisDeadzone;
-        var stateIsDead = stateValue <= _this2.joypadConfig.axisDeadzone;
+    }
+    /**
+     * Loop through analog sticks
+     */
 
-        if (!axisState) {
+  }, {
+    key: "loopSticks",
+    value: function loopSticks() {
+      var _this3 = this;
+
+      var nativePad = this.nativePad;
+      this.stickMap.forEach(function (stickMapping, index) {
+        var nativeX = nativePad.axes[stickMapping.axes.x];
+        var nativeY = nativePad.axes[stickMapping.axes.y]; // if both are undefined - no event
+
+        if (nativeX === undefined && !nativeY === undefined) {
+          return;
+        } // set either to 0 if they are undefined
+
+
+        nativeX = nativeX === undefined ? 0 : nativeX;
+        nativeY = nativeY === undefined ? 0 : nativeY;
+        var stickState = _this3.sticks[index];
+        var stateX = stickState.value.x; // sticks aren't forced to have a y value
+
+        var stateY = stickState.value.y; // if the values are the same - no event
+
+        if (nativeX === stateX && nativeY === stateY) {
           return;
         }
 
-        if (nativeValue !== stateValue) {
-          if ( // do not send event if both are dead - means both are considered zero
-          stateIsDead !== nativeIsDead // OR send event if either are dead or either are 1
-          || !stateIsDead || !nativeIsDead // OR send event if they are 1
-          || nativeValue === 1 || stateValue === 1) {
-            axisState.value = nativeIsDead ? 0 : value;
+        var nativeXDead = Math.abs(nativeX) <= _this3.joypadConfig.axisDeadzone;
 
-            _this2.dispatchEvent(AXIS_MOVE, {
-              axis: axisState,
-              joypad: _this2,
-              nativePad: nativePad,
-              nativeAxis: {
-                value: value
-              },
-              index: index
-            });
-          }
+        var nativeYDead = Math.abs(nativeY) <= _this3.joypadConfig.axisDeadzone;
+
+        var stateXDead = Math.abs(stateX) <= _this3.joypadConfig.axisDeadzone;
+
+        var stateYDead = Math.abs(stateY) <= _this3.joypadConfig.axisDeadzone; // if everything is dead, they are all considered 0 - no change = no event
+
+
+        if (nativeXDead && nativeYDead && stateXDead && stateYDead) {
+          return;
+        } // if nothing exceeds the analog movement threshold AND the values are not 1 or 0
+
+
+        if ((Math.abs(stateX - nativeX) <= _this3.joypadConfig.analogThreshold || Math.abs(stateY - nativeY) <= _this3.joypadConfig.analogThreshold) && !nativeXDead && Math.abs(nativeX) !== 1 && !nativeYDead && Math.abs(nativeY) !== 1) {
+          return;
         }
+
+        stickState.value.x = nativeXDead ? 0 : nativeX;
+        stickState.value.y = nativeYDead ? 0 : nativeY;
+        stickState.value.angle = (Math.atan2(stickState.value.x, stickState.value.y) * (180 / Math.PI) + 270) % 360;
+
+        _this3.dispatchEvent(STICK_MOVE, {
+          stick: stickState,
+          joypad: _this3,
+          nativePad: nativePad,
+          nativeAxes: {
+            x: nativeX,
+            y: nativeY
+          },
+          index: [stickMapping.axes.x, stickMapping.axes.y]
+        });
       });
     }
     /**
@@ -1574,9 +1644,28 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
       return this.buttonState.buttons;
     }
   }, {
-    key: "axes",
+    key: "sticks",
     get: function get() {
-      return this.buttonState.axes;
+      return this.buttonState.sticks;
+    }
+  }, {
+    key: "buttonMap",
+    get: function get() {
+      var _this$buttonState$map;
+
+      return ((_this$buttonState$map = this.buttonState.mapping) === null || _this$buttonState$map === void 0 ? void 0 : _this$buttonState$map.buttons) || [];
+    }
+  }, {
+    key: "stickMap",
+    get: function get() {
+      var _this$buttonState$map2;
+
+      return ((_this$buttonState$map2 = this.buttonState.mapping) === null || _this$buttonState$map2 === void 0 ? void 0 : _this$buttonState$map2.sticks) || [];
+    }
+  }, {
+    key: "mapping",
+    get: function get() {
+      return this.buttonState.mapping;
     }
   }, {
     key: "isConnected",

@@ -5,13 +5,13 @@ const GAMEPAD_DISCONNECT = 'disconnect' as JoypadEventName;
 const BUTTON_PRESS = 'buttonpress' as JoypadEventName;
 const BUTTON_RELEASE = 'buttonrelease' as JoypadEventName;
 const BUTTON_CHANGE = 'buttonchange' as JoypadEventName;
-const AXIS_MOVE = 'axismove' as JoypadEventName;
+const STICK_MOVE = 'stickmove' as JoypadEventName;
 
 export {
   GAMEPAD_CONNECT,
   GAMEPAD_DISCONNECT,
   BUTTON_PRESS,
   BUTTON_RELEASE,
-  AXIS_MOVE,
+  STICK_MOVE,
   BUTTON_CHANGE,
 };

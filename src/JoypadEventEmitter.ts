@@ -1,9 +1,7 @@
 import JoypadEventTracker from './JoypadEventTracker';
 import * as JOYPAD_EVENTS from './event-names';
-// eslint-disable-next-line import/no-duplicates
+import type { StickState, ButtonState } from './generate-button-state';
 import type Joypad from './Joypad';
-// eslint-disable-next-line import/no-duplicates
-import type { ButtonState, AxisState } from './Joypad';
 
 export interface JoypadButtonEvent {
   button: ButtonState;
@@ -14,14 +12,15 @@ export interface JoypadButtonEvent {
 }
 
 // no need for native axis - it's just a value
-export interface JoypadAxisEvent {
-  axis: AxisState;
+export interface JoypadStickEvent {
+  stick: StickState;
   joypad: Joypad;
   nativePad: Gamepad;
-  nativeAxis: {
-    value: number;
+  nativeAxes: {
+    x: number;
+    y: number;
   };
-  index: number;
+  index: [number, number];
 }
 
 export interface JoypadEvent {
@@ -35,7 +34,7 @@ export interface JoypadEventMap {
   buttonpress: JoypadButtonEvent;
   buttonrelease: JoypadButtonEvent;
   buttonchange: JoypadButtonEvent;
-  axismove: JoypadAxisEvent;
+  stickmove: JoypadStickEvent;
 }
 
 export type JoypadEventName = keyof JoypadEventMap;
@@ -47,7 +46,7 @@ function generateEvents() {
     [JOYPAD_EVENTS.BUTTON_PRESS]: new JoypadEventTracker(JOYPAD_EVENTS.BUTTON_PRESS),
     [JOYPAD_EVENTS.BUTTON_RELEASE]: new JoypadEventTracker(JOYPAD_EVENTS.BUTTON_RELEASE),
     [JOYPAD_EVENTS.BUTTON_CHANGE]: new JoypadEventTracker(JOYPAD_EVENTS.BUTTON_CHANGE),
-    [JOYPAD_EVENTS.AXIS_MOVE]: new JoypadEventTracker(JOYPAD_EVENTS.AXIS_MOVE),
+    [JOYPAD_EVENTS.STICK_MOVE]: new JoypadEventTracker(JOYPAD_EVENTS.STICK_MOVE),
   } as {[key in JoypadEventName]: JoypadEventTracker};
 }
 

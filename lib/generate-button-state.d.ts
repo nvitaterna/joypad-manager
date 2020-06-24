@@ -1,6 +1,18 @@
 import { JoypadMap } from './mappings';
-import type { ButtonState, AxisState } from './Joypad';
+export interface StickState {
+    name: string;
+    value: {
+        x: number;
+        y: number;
+        angle: number;
+    };
+}
+export interface ButtonState {
+    name: string;
+    value: number;
+}
 export default function generateButtonState(id: string, customMappings: JoypadMap[]): {
-    axes: AxisState[];
+    mapping: JoypadMap | undefined;
     buttons: ButtonState[];
+    sticks: StickState[];
 };
