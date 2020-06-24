@@ -1,4 +1,3 @@
-import JoypadEventTracker from './JoypadEventTracker';
 import type { ButtonState, StickState, Joypad } from './Joypad';
 export interface JoypadButtonEvent {
     button: ButtonState;
@@ -31,15 +30,22 @@ export interface JoypadEventMap {
 }
 export declare type JoypadEventName = keyof JoypadEventMap;
 export declare class JoypadEventEmitter {
-    events: {
-        connect: JoypadEventTracker;
-        disconnect: JoypadEventTracker;
-        buttonpress: JoypadEventTracker;
-        buttonrelease: JoypadEventTracker;
-        buttonchange: JoypadEventTracker;
-        stickmove: JoypadEventTracker;
-    };
-    dispatchEvent<K extends keyof JoypadEventMap>(eventName: JoypadEventName, event: JoypadEventMap[K]): void;
+    private events;
+    protected dispatchEvent<K extends keyof JoypadEventMap>(eventName: JoypadEventName, event: JoypadEventMap[K]): void;
+    /**
+     * Add an event listener from this Joypad.
+     * @param name The event name.
+     * @param callback The event callback to add to this event.
+     */
     addEventListener<K extends keyof JoypadEventMap>(name: K, callback: (event: JoypadEventMap[K]) => void): void;
+    /**
+     * Remove an event listener from this Joypad.
+     * @param name The event name.
+     * @param callback The event callback to remove from this event.
+     */
     removeEventListener<K extends keyof JoypadEventMap>(name: K, callback: (event: JoypadEventMap[K]) => void): void;
+    /**
+     * Remove all listeners from this Joypad.
+     */
+    clearEvents(): void;
 }

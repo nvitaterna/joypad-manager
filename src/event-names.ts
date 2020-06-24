@@ -1,11 +1,11 @@
 import type { JoypadEventName } from './JoypadEventEmitter';
 
-const GAMEPAD_CONNECT = 'connect' as JoypadEventName;
-const GAMEPAD_DISCONNECT = 'disconnect' as JoypadEventName;
-const BUTTON_PRESS = 'buttonpress' as JoypadEventName;
-const BUTTON_RELEASE = 'buttonrelease' as JoypadEventName;
-const BUTTON_CHANGE = 'buttonchange' as JoypadEventName;
-const STICK_MOVE = 'stickmove' as JoypadEventName;
+const GAMEPAD_CONNECT: JoypadEventName = 'connect';
+const GAMEPAD_DISCONNECT: JoypadEventName = 'disconnect';
+const BUTTON_PRESS: JoypadEventName = 'buttonpress';
+const BUTTON_RELEASE: JoypadEventName = 'buttonrelease';
+const BUTTON_CHANGE: JoypadEventName = 'buttonchange';
+const STICK_MOVE: JoypadEventName = 'stickmove';
 
 export {
   GAMEPAD_CONNECT,

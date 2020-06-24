@@ -1047,7 +1047,18 @@ module.exports = _assertThisInitialized;
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
+__webpack_require__.d(__webpack_exports__, "EVENT_NAMES", function() { return /* reexport */ event_names_namespaceObject; });
 __webpack_require__.d(__webpack_exports__, "Types", function() { return /* reexport */ types_namespaceObject; });
+
+// NAMESPACE OBJECT: ./src/event-names.ts
+var event_names_namespaceObject = {};
+__webpack_require__.r(event_names_namespaceObject);
+__webpack_require__.d(event_names_namespaceObject, "GAMEPAD_CONNECT", function() { return GAMEPAD_CONNECT; });
+__webpack_require__.d(event_names_namespaceObject, "GAMEPAD_DISCONNECT", function() { return GAMEPAD_DISCONNECT; });
+__webpack_require__.d(event_names_namespaceObject, "BUTTON_PRESS", function() { return BUTTON_PRESS; });
+__webpack_require__.d(event_names_namespaceObject, "BUTTON_RELEASE", function() { return BUTTON_RELEASE; });
+__webpack_require__.d(event_names_namespaceObject, "STICK_MOVE", function() { return STICK_MOVE; });
+__webpack_require__.d(event_names_namespaceObject, "BUTTON_CHANGE", function() { return BUTTON_CHANGE; });
 
 // NAMESPACE OBJECT: ./src/JoypadEventEmitter.ts
 var JoypadEventEmitter_namespaceObject = {};
@@ -1176,15 +1187,38 @@ var JoypadEventEmitter_JoypadEventEmitter = /*#__PURE__*/function () {
         callback(event);
       });
     }
+    /**
+     * Add an event listener from this Joypad.
+     * @param name The event name.
+     * @param callback The event callback to add to this event.
+     */
+
   }, {
     key: "addEventListener",
     value: function addEventListener(name, callback) {
       this.events[name].registerCallback(callback);
     }
+    /**
+     * Remove an event listener from this Joypad.
+     * @param name The event name.
+     * @param callback The event callback to remove from this event.
+     */
+
   }, {
     key: "removeEventListener",
     value: function removeEventListener(name, callback) {
       this.events[name].unRegisterCallback(callback);
+    }
+    /**
+     * Remove all listeners from this Joypad.
+     */
+
+  }, {
+    key: "clearEvents",
+    value: function clearEvents() {
+      Object.values(this.events).forEach(function (event) {
+        event.callbacks = [];
+      });
     }
   }]);
 
@@ -1305,16 +1339,27 @@ var mappings_mappings = [default_mapping, xbox_mapping, nintendo_switch];
 // CONCATENATED MODULE: ./src/generate-button-state.ts
 
 function generateButtonState(id, customMappings) {
+  var _gamepadMap, _gamepadMap2;
+
   var gamepadMap = customMappings.concat(src_mappings).find(function (mapping) {
-    return mapping.ids.includes(id);
+    return mapping.ids.some(function (mappingId) {
+      return mappingId.includes(id);
+    });
   });
-  var buttons = ((gamepadMap === null || gamepadMap === void 0 ? void 0 : gamepadMap.buttons) || []).map(function (button) {
+
+  if (!gamepadMap) {
+    gamepadMap = src_mappings.find(function (mapping) {
+      return mapping.ids.includes('default');
+    });
+  }
+
+  var buttons = (((_gamepadMap = gamepadMap) === null || _gamepadMap === void 0 ? void 0 : _gamepadMap.buttons) || []).map(function (button) {
     return {
       value: 0,
       name: button.name
     };
   });
-  var sticks = ((gamepadMap === null || gamepadMap === void 0 ? void 0 : gamepadMap.sticks) || []).map(function (stick) {
+  var sticks = (((_gamepadMap2 = gamepadMap) === null || _gamepadMap2 === void 0 ? void 0 : _gamepadMap2.sticks) || []).map(function (stick) {
     return {
       name: stick.name,
       value: {
@@ -1346,15 +1391,19 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 
 
+/**
+ * The Joypad class that is used to create joypads in the [JoypadManager]{@linkcode JoypadManager}.
+ */
+
 var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
   inherits_default()(Joypad, _JoypadEventEmitter);
 
   var _super = _createSuper(Joypad);
 
   /**
-   * @param index the gamepad index in the JoypadManager.joypads array
-   * @param joypadConfig the joypad config
-   * @param mappings custom gamepad button mappings
+   * @param index The gamepad index in the [JoypadManager.joypads]{@linkcode JoypadManager.joypads} array.
+   * @param joypadConfig The joypad configuration.
+   * @param mappings Custom gamepad button mappings.
    */
   function Joypad(index, joypadConfig, mappings) {
     var _this;
@@ -1368,6 +1417,10 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
     _this.connected = false;
     return _this;
   }
+  /**
+   * The key-value mappings of the joypad buttons.
+   */
+
 
   createClass_default()(Joypad, [{
     key: "setId",
@@ -1383,7 +1436,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
       }
     }
     /**
-     * Check of the controller is connected
+     * Is the controller connected? Determined by checking if this is attached to a native gamepad AND if that native gamepad is connected.
      */
 
   }, {
@@ -1482,14 +1535,15 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
           return;
         }
 
-        var buttonState = _this2.buttons[buttonMapping.name]; // if a button value is different than the new value
+        var buttonState = _this2.buttons[buttonMapping.name];
+        var previousValue = buttonState.value; // always set state every loop
 
-        if (nativeButton.value !== buttonState.value) {
+        buttonState.value = nativeButton.value; // if a button value is different than the new value
+
+        if (nativeButton.value !== previousValue) {
           if (buttonMapping.analog) {
             if ( // always send event if value is 0 or 1
-            nativeButton.value === 1 || buttonState.value === 1 || nativeButton.value === 0 || buttonState.value === 0) {
-              buttonState.value = nativeButton.value;
-
+            nativeButton.value === 1 || previousValue === 1 || nativeButton.value === 0 || previousValue === 0) {
               _this2.dispatchEvent(BUTTON_CHANGE, {
                 button: buttonState,
                 joypad: _this2,
@@ -1501,9 +1555,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
           } // we will still process these events for analog buttons so analog buttons can be treated as digital
 
 
-          if (nativeButton.value === 1 && buttonState.value === 0) {
-            buttonState.value = nativeButton.value;
-
+          if (nativeButton.value === 1 && previousValue === 0) {
             _this2.dispatchEvent(BUTTON_PRESS, {
               button: buttonState,
               joypad: _this2,
@@ -1511,9 +1563,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
               nativePad: nativePad,
               index: index
             });
-          } else if (nativeButton.value === 0 && buttonState.value === 1) {
-            buttonState.value = nativeButton.value;
-
+          } else if (nativeButton.value === 0 && previousValue === 1) {
             _this2.dispatchEvent(BUTTON_RELEASE, {
               button: buttonState,
               joypad: _this2,
@@ -1573,20 +1623,20 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         nativeX = nativeX === undefined ? 0 : nativeX;
         nativeY = nativeY === undefined ? 0 : nativeY;
         var stickState = _this3.sticks[stickMapping.name];
-        var stateX = stickState.value.x;
-        var stateY = stickState.value.y;
+        var previousX = stickState.value.x;
+        var previousY = stickState.value.y; // make sure we update state every loop
 
-        if (_this3.checkAxis(stateX, nativeX) || _this3.checkAxis(stateY, nativeY)) {
-          stickState.value.x = Math.abs(nativeX) <= _this3.joypadConfig.axisDeadzone ? 0 : nativeX;
-          stickState.value.y = Math.abs(nativeY) <= _this3.joypadConfig.axisDeadzone ? 0 : nativeY;
-          var radians = Math.atan2(stickState.value.y, stickState.value.x);
+        stickState.value.x = Math.abs(nativeX) <= _this3.joypadConfig.axisDeadzone ? 0 : nativeX;
+        stickState.value.y = Math.abs(nativeY) <= _this3.joypadConfig.axisDeadzone ? 0 : nativeY;
+        var radians = Math.atan2(stickState.value.y, stickState.value.x);
 
-          if (radians < 0) {
-            radians += 2 * Math.PI;
-          }
+        if (radians < 0) {
+          radians += 2 * Math.PI;
+        }
 
-          stickState.value.angle = radians;
+        stickState.value.angle = radians;
 
+        if (_this3.checkAxis(previousX, nativeX) || _this3.checkAxis(previousY, nativeY)) {
           _this3.dispatchEvent(STICK_MOVE, {
             stick: stickState,
             joypad: _this3,
@@ -1601,9 +1651,8 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
       });
     }
     /**
-    *
-    * @param parameters vibrations paramter
-    */
+     * Vibrate the controller if supported.
+     */
 
   }, {
     key: "vibrate",
@@ -1611,14 +1660,14 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
       var _vibrate = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee() {
         var _this$nativePad, _this$nativePad$vibra;
 
-        var _ref,
-            _ref$startDelay,
+        var vibrationParameters,
+            _vibrationParameters$,
             startDelay,
-            _ref$duration,
+            _vibrationParameters$2,
             duration,
-            _ref$weakMagnitude,
+            _vibrationParameters$3,
             weakMagnitude,
-            _ref$strongMagnitude,
+            _vibrationParameters$4,
             strongMagnitude,
             _args = arguments;
 
@@ -1626,12 +1675,13 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _ref = _args.length > 0 && _args[0] !== undefined ? _args[0] : {
+                vibrationParameters = _args.length > 0 && _args[0] !== undefined ? _args[0] : {
                   startDelay: 0,
                   duration: 1000,
                   weakMagnitude: 1,
                   strongMagnitude: 1
-                }, _ref$startDelay = _ref.startDelay, startDelay = _ref$startDelay === void 0 ? 0 : _ref$startDelay, _ref$duration = _ref.duration, duration = _ref$duration === void 0 ? 1000 : _ref$duration, _ref$weakMagnitude = _ref.weakMagnitude, weakMagnitude = _ref$weakMagnitude === void 0 ? 1 : _ref$weakMagnitude, _ref$strongMagnitude = _ref.strongMagnitude, strongMagnitude = _ref$strongMagnitude === void 0 ? 1 : _ref$strongMagnitude;
+                };
+                _vibrationParameters$ = vibrationParameters.startDelay, startDelay = _vibrationParameters$ === void 0 ? 0 : _vibrationParameters$, _vibrationParameters$2 = vibrationParameters.duration, duration = _vibrationParameters$2 === void 0 ? 1000 : _vibrationParameters$2, _vibrationParameters$3 = vibrationParameters.weakMagnitude, weakMagnitude = _vibrationParameters$3 === void 0 ? 1 : _vibrationParameters$3, _vibrationParameters$4 = vibrationParameters.strongMagnitude, strongMagnitude = _vibrationParameters$4 === void 0 ? 1 : _vibrationParameters$4;
                 return _context.abrupt("return", (_this$nativePad = this.nativePad) === null || _this$nativePad === void 0 ? void 0 : (_this$nativePad$vibra = _this$nativePad.vibrationActuator) === null || _this$nativePad$vibra === void 0 ? void 0 : _this$nativePad$vibra.playEffect('dual-rumble', {
                   startDelay: startDelay,
                   duration: duration,
@@ -1639,7 +1689,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
                   strongMagnitude: strongMagnitude
                 }));
 
-              case 2:
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -1653,6 +1703,10 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
 
       return vibrate;
     }()
+    /**
+     * Stop any current vibrations.
+     */
+
   }, {
     key: "stopVibrate",
     value: function stopVibrate() {
@@ -1671,6 +1725,10 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         return buttonMap;
       }, {});
     }
+    /**
+     * The key-value mappings of the joypad sticks.
+     */
+
   }, {
     key: "sticks",
     get: function get() {
@@ -1682,6 +1740,10 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         return stickMap;
       }, {});
     }
+    /**
+     * The current mapping this gamepad is using.
+     */
+
   }, {
     key: "mapping",
     get: function get() {
@@ -1704,18 +1766,13 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
   /**
    * Initiate the JoypadManager
    * @param joypadConfig Optional Joypad configuration
-   * @param mappings Custom list of mappings
+   * @param mappings Optional custom list of mappings
    */
   function JoypadManager() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    var joypadConfig = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
       axisDeadzone: 0.15,
       maxJoypads: 4
-    },
-        _ref$axisDeadzone = _ref.axisDeadzone,
-        axisDeadzone = _ref$axisDeadzone === void 0 ? 0.15 : _ref$axisDeadzone,
-        _ref$maxJoypads = _ref.maxJoypads,
-        maxJoypads = _ref$maxJoypads === void 0 ? 4 : _ref$maxJoypads;
-
+    };
     var mappings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
     classCallCheck_default()(this, JoypadManager);
@@ -1724,6 +1781,10 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
      * The array of joypads.
      */
     this.joypads = [];
+    var _joypadConfig$axisDea = joypadConfig.axisDeadzone,
+        axisDeadzone = _joypadConfig$axisDea === void 0 ? 0.15 : _joypadConfig$axisDea,
+        _joypadConfig$maxJoyp = joypadConfig.maxJoypads,
+        maxJoypads = _joypadConfig$maxJoyp === void 0 ? 4 : _joypadConfig$maxJoyp;
 
     for (var i = 0; i < maxJoypads; i += 1) {
       this.joypads[i] = new Joypad_Joypad(i, {
@@ -1757,6 +1818,7 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
 
 
 // CONCATENATED MODULE: ./src/index.ts
+
 
 
 /* harmony default export */ var src = __webpack_exports__["default"] = (JoypadManager_JoypadManager);

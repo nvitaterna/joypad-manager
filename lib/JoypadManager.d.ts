@@ -19,9 +19,9 @@ export declare class JoypadManager {
     /**
      * Initiate the JoypadManager
      * @param joypadConfig Optional Joypad configuration
-     * @param mappings Custom list of mappings
+     * @param mappings Optional custom list of mappings
      */
-    constructor({ axisDeadzone, maxJoypads, }?: Partial<JoypadConfig>, mappings?: JoypadMap[]);
+    constructor(joypadConfig?: Partial<JoypadConfig>, mappings?: JoypadMap[]);
     /**
      * The main update loop - updates every joypad and passes the reference to the native gamepad.
      */

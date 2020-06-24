@@ -51,19 +51,38 @@ function generateEvents() {
 }
 
 export class JoypadEventEmitter {
-  events = generateEvents();
+  private events = generateEvents();
 
-  dispatchEvent<K extends keyof JoypadEventMap>(eventName: JoypadEventName, event: JoypadEventMap[K]) {
+  protected dispatchEvent<K extends keyof JoypadEventMap>(eventName: JoypadEventName, event: JoypadEventMap[K]) {
     this.events[eventName].callbacks.forEach((callback) => {
       callback(event);
     });
   }
 
+  /**
+   * Add an event listener from this Joypad.
+   * @param name The event name.
+   * @param callback The event callback to add to this event.
+   */
   addEventListener<K extends keyof JoypadEventMap>(name: K, callback: (event: JoypadEventMap[K]) => void) {
     this.events[name].registerCallback(callback);
   }
 
+  /**
+   * Remove an event listener from this Joypad.
+   * @param name The event name.
+   * @param callback The event callback to remove from this event.
+   */
   removeEventListener<K extends keyof JoypadEventMap>(name: K, callback: (event: JoypadEventMap[K]) => void) {
     this.events[name].unRegisterCallback(callback);
+  }
+
+  /**
+   * Remove all listeners from this Joypad.
+   */
+  clearEvents() {
+    Object.values(this.events).forEach((event) => {
+      event.callbacks = [];
+    });
   }
 }

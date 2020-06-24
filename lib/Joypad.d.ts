@@ -1,31 +1,85 @@
 import { JoypadEventEmitter } from './JoypadEventEmitter';
 import type { JoypadConfig } from './JoypadManager';
 import type { JoypadMap } from './mappings';
+/**
+ * Vibration parameters for the Chrome-specific vibration actuator interface.
+ */
 export interface VibrationParameters {
+    /**
+     * Delay in milliseconds before starting the vibration.
+     */
     startDelay: number;
+    /**
+     * Duration in milliseconds.
+     */
     duration: number;
+    /**
+     * The magnitude of the weak motor between 0 and 1.
+     */
     weakMagnitude: number;
+    /**
+     * The magnitude of the strong motor between 0 and 1.
+     */
     strongMagnitude: number;
 }
+/**
+ * Chrome-specific vibration actuator
+ */
 interface VibrationActuator {
+    /**
+     * Play a vibration effect - returns the result of the vibration.
+     */
     playEffect: (type: 'dual-rumble', parameters: VibrationParameters) => Promise<'invalid-parameter' | 'complete' | 'preempted'>;
+    /**
+     * Reset the running (if any) vibration effect. Will cause that vibration to be resolved with "preempted".
+     */
     reset: () => Promise<'complete'>;
 }
+/**
+ * Extends the native gamepad API with the Chrome-specific vibration actuator
+ */
 interface Gamepad extends globalThis.Gamepad {
     vibrationActuator?: VibrationActuator;
 }
+/**
+ * The state of an individual analog stick.
+ */
 export interface StickState {
+    /**
+     * The name/alias of the stick.
+     */
     name: string;
     value: {
+        /**
+         * The value of the mapped X axis.
+         */
         x: number;
+        /**
+         * The value of the mapped Y axis.
+         */
         y: number;
+        /**
+         * The angle of the stick in radians.
+         */
         angle: number;
     };
 }
+/**
+ * The state of a button.
+ */
 export interface ButtonState {
+    /**
+     * The name/alias of the button.
+     */
     name: string;
+    /**
+     * The value of the mapped button.
+     */
     value: number;
 }
+/**
+ * The Joypad class that is used to create joypads in the [JoypadManager]{@linkcode JoypadManager}.
+ */
 export declare class Joypad extends JoypadEventEmitter {
     readonly index: number;
     private joypadConfig;
@@ -34,21 +88,30 @@ export declare class Joypad extends JoypadEventEmitter {
     private connected;
     private nativePad?;
     /**
-     * The id - retrieved from the native id
+     * The id retrieved from the native gamepad id.
      */
-    id?: string;
+    private id?;
     /**
-     * @param index the gamepad index in the JoypadManager.joypads array
-     * @param joypadConfig the joypad config
-     * @param mappings custom gamepad button mappings
+     * @param index The gamepad index in the [JoypadManager.joypads]{@linkcode JoypadManager.joypads} array.
+     * @param joypadConfig The joypad configuration.
+     * @param mappings Custom gamepad button mappings.
      */
     constructor(index: number, joypadConfig: JoypadConfig, mappings: JoypadMap[]);
+    /**
+     * The key-value mappings of the joypad buttons.
+     */
     get buttons(): {
         [key: string]: ButtonState;
     };
+    /**
+     * The key-value mappings of the joypad sticks.
+     */
     get sticks(): {
         [key: string]: StickState;
     };
+    /**
+     * The current mapping this gamepad is using.
+     */
     get mapping(): JoypadMap | undefined;
     /**
      * Set the id
@@ -56,7 +119,7 @@ export declare class Joypad extends JoypadEventEmitter {
      */
     private setId;
     /**
-     * Check of the controller is connected
+     * Is the controller connected? Determined by checking if this is attached to a native gamepad AND if that native gamepad is connected.
      */
     get isConnected(): boolean;
     /**
@@ -93,10 +156,12 @@ export declare class Joypad extends JoypadEventEmitter {
      */
     private loopSticks;
     /**
-   *
-   * @param parameters vibrations paramter
-   */
-    vibrate({ startDelay, duration, weakMagnitude, strongMagnitude, }?: Partial<VibrationParameters>): Promise<"complete" | "invalid-parameter" | "preempted" | undefined>;
+     * Vibrate the controller if supported.
+     */
+    vibrate(vibrationParameters?: Partial<VibrationParameters>): Promise<"complete" | "invalid-parameter" | "preempted" | undefined>;
+    /**
+     * Stop any current vibrations.
+     */
     stopVibrate(): Promise<"complete"> | undefined;
 }
 export {};

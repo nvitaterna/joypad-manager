@@ -1,4 +1,5 @@
 import { JoypadManager } from './JoypadManager';
 import * as Types from './types';
+import * as EVENT_NAMES from './event-names';
 export default JoypadManager;
-export { Types };
+export { EVENT_NAMES, Types, };
