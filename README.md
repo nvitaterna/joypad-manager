@@ -45,8 +45,6 @@ or
 
 ```js
 const config = {
-  // The minimum value change needed to emit an axis change or button change event.
-  analogThreshold: 0.1,
   // The axis deadzone - any values below this will return 0.
   axisDeadzone: 0.15,
   // The max number of joypads to loop through. If you connect more joypads than this number, they will not be processed by this plugin.
@@ -87,7 +85,7 @@ joypadOne.addEventListener('connect', (event) => {
 // this is fired when a gamepad is unplugged. The event has the same parameters as the connect event.
 joypadOne.addEventListener('disconnect', (event) => { });
 
-// this is fired whenever an axis value changes more than the axis threshold
+// this is fired whenever an axis value changes
 joypadOne.addEventListener('stickmove', (event) => {
   // the stick state
   event.stick == {

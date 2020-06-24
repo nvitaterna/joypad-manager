@@ -8,10 +8,6 @@ export interface JoypadConfig {
    */
   maxJoypads: number;
   /**
-   * The threshold for analog movement.
-   */
-  analogThreshold: number;
-  /**
    * The analog stick deadzone
    */
   axisDeadzone: number;
@@ -30,18 +26,16 @@ export default class JoypadManager {
    */
   constructor(
     {
-      analogThreshold = 0.1,
       axisDeadzone = 0.15,
       maxJoypads = 4,
     }: Partial<JoypadConfig> = {
-      analogThreshold: 0.1,
       axisDeadzone: 0.15,
       maxJoypads: 4,
     },
     mappings: JoypadMap[] = [],
   ) {
     for (let i = 0; i < maxJoypads; i += 1) {
-      this.joypads[i] = new Joypad(i, { analogThreshold, axisDeadzone, maxJoypads }, mappings);
+      this.joypads[i] = new Joypad(i, { axisDeadzone, maxJoypads }, mappings);
     }
   }
 

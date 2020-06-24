@@ -73,8 +73,8 @@ export default {
     {
       name: 'rightStick',
       axes: {
-        x: 0,
-        y: 1,
+        x: 2,
+        y: 3,
       },
     },
   ],

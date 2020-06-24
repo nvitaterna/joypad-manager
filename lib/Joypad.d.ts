@@ -1,4 +1,5 @@
 import JoypadEventEmitter from './JoypadEventEmitter';
+import { ButtonState, StickState } from './generate-button-state';
 import type { JoypadConfig } from './JoypadManager';
 import type { JoypadMap } from './mappings';
 export interface VibrationParameters {
@@ -31,10 +32,12 @@ export default class Joypad extends JoypadEventEmitter {
      * @param mappings custom gamepad button mappings
      */
     constructor(index: number, joypadConfig: JoypadConfig, mappings: JoypadMap[]);
-    get buttons(): import("./generate-button-state").ButtonState[];
-    get sticks(): import("./generate-button-state").StickState[];
-    private get buttonMap();
-    private get stickMap();
+    get buttons(): {
+        [key: string]: ButtonState;
+    };
+    get sticks(): {
+        [key: string]: StickState;
+    };
     get mapping(): JoypadMap | undefined;
     /**
      * Set the id
@@ -69,14 +72,20 @@ export default class Joypad extends JoypadEventEmitter {
      */
     private loopButtons;
     /**
+     * Determine whether or not an axis should fire the change event
+     * @param stateValue the previous value
+     * @param nativeValue the new value
+     */
+    private checkAxis;
+    /**
      * Loop through analog sticks
      */
     private loopSticks;
     /**
-     *
-     * @param parameters vibrations paramter
-     */
+   *
+   * @param parameters vibrations paramter
+   */
     vibrate({ startDelay, duration, weakMagnitude, strongMagnitude, }?: Partial<VibrationParameters>): Promise<"complete" | "invalid-parameter" | "preempted" | undefined>;
-    stopVibrate(): Promise<"complete" | undefined>;
+    stopVibrate(): Promise<"complete"> | undefined;
 }
 export {};

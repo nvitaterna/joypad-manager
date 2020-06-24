@@ -7,10 +7,6 @@ export interface JoypadConfig {
      */
     maxJoypads: number;
     /**
-     * The threshold for analog movement.
-     */
-    analogThreshold: number;
-    /**
      * The analog stick deadzone
      */
     axisDeadzone: number;
@@ -25,7 +21,7 @@ export default class JoypadManager {
      * @param joypadConfig Optional Joypad configuration
      * @param mappings Custom list of mappings
      */
-    constructor({ analogThreshold, axisDeadzone, maxJoypads, }?: Partial<JoypadConfig>, mappings?: JoypadMap[]);
+    constructor({ axisDeadzone, maxJoypads, }?: Partial<JoypadConfig>, mappings?: JoypadMap[]);
     /**
      * The main update loop - updates every joypad and passes the reference to the native gamepad.
      */

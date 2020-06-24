@@ -1,6 +1,6 @@
 import JoypadEventEmitter from './JoypadEventEmitter';
 import * as JOYPAD_EVENTS from './event-names';
-import generateButtonState from './generate-button-state';
+import generateButtonState, { ButtonState, StickState } from './generate-button-state';
 import type { JoypadConfig } from './JoypadManager';
 import type { JoypadMap } from './mappings';
 
@@ -46,19 +46,19 @@ export default class Joypad extends JoypadEventEmitter {
   }
 
   get buttons() {
-    return this.buttonState.buttons;
+    return (this.buttonState?.buttons || []).reduce((buttonMap, button) => {
+      // eslint-disable-next-line no-param-reassign
+      buttonMap[button.name] = button;
+      return buttonMap;
+    }, {} as { [key: string]: ButtonState });
   }
 
   get sticks() {
-    return this.buttonState.sticks;
-  }
-
-  private get buttonMap() {
-    return this.buttonState.mapping?.buttons || [];
-  }
-
-  private get stickMap() {
-    return this.buttonState.mapping?.sticks || [];
+    return (this.buttonState?.sticks || []).reduce((stickMap, stick) => {
+      // eslint-disable-next-line no-param-reassign
+      stickMap[stick.name] = stick;
+      return stickMap;
+    }, {} as { [key: string]: StickState });
   }
 
   get mapping() {
@@ -151,24 +151,21 @@ export default class Joypad extends JoypadEventEmitter {
    */
   private loopButtons() {
     const nativePad = this.nativePad!;
-    this.buttonMap.forEach((buttonMapping, index) => {
+    this.buttonState.mapping?.buttons?.forEach((buttonMapping, index) => {
       const nativeButton = nativePad.buttons[index];
 
       if (!nativeButton) {
         return;
       }
 
-      const buttonState = this.buttonState.buttons[index];
+      const buttonState = this.buttons[buttonMapping.name];
 
       // if a button value is different than the new value
       if (nativeButton.value !== buttonState.value) {
-        // if it is analog, check against the threshold
         if (buttonMapping.analog) {
           if (
             // always send event if value is 0 or 1
-            nativeButton.value === 1 || buttonState.value === 1 || nativeButton.value === 0 || buttonState.value === 0
-            // send event if the change is larger than the threshold
-            || Math.abs(nativeButton.value - buttonState.value) >= this.joypadConfig.analogThreshold) {
+            nativeButton.value === 1 || buttonState.value === 1 || nativeButton.value === 0 || buttonState.value === 0) {
             buttonState.value = nativeButton.value;
             this.dispatchEvent(JOYPAD_EVENTS.BUTTON_CHANGE, {
               button: buttonState,
@@ -205,16 +202,40 @@ export default class Joypad extends JoypadEventEmitter {
   }
 
   /**
+   * Determine whether or not an axis should fire the change event
+   * @param stateValue the previous value
+   * @param nativeValue the new value
+   */
+  private checkAxis(stateValue: number, nativeValue: number) {
+    if (stateValue === nativeValue) {
+      return false;
+    }
+
+    const stateAbs = Math.abs(stateValue);
+    const nativeAbs = Math.abs(nativeValue);
+
+    const stateIsDead = Math.abs(stateAbs) <= this.joypadConfig.axisDeadzone;
+    const nativeIsDead = Math.abs(nativeAbs) <= this.joypadConfig.axisDeadzone;
+
+    // if both are dead - no event
+    if (stateIsDead && nativeIsDead) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
    * Loop through analog sticks
    */
   private loopSticks() {
     const nativePad = this.nativePad!;
-    this.stickMap.forEach((stickMapping, index) => {
+    this.buttonState.mapping?.sticks?.forEach((stickMapping) => {
       let nativeX = nativePad.axes[stickMapping.axes.x];
       let nativeY = nativePad.axes[stickMapping.axes.y];
 
       // if both are undefined - no event
-      if (nativeX === undefined && !nativeY === undefined) {
+      if (nativeX === undefined && nativeY === undefined) {
         return;
       }
 
@@ -222,62 +243,43 @@ export default class Joypad extends JoypadEventEmitter {
       nativeX = nativeX === undefined ? 0 : nativeX;
       nativeY = nativeY === undefined ? 0 : nativeY;
 
-      const stickState = this.sticks[index];
+      const stickState = this.sticks[stickMapping.name];
       const stateX = stickState.value.x;
-      // sticks aren't forced to have a y value
       const stateY = stickState.value.y;
 
-      // if the values are the same - no event
-      if (nativeX === stateX && nativeY === stateY) {
-        return;
+      if (this.checkAxis(stateX, nativeX) || this.checkAxis(stateY, nativeY)) {
+        stickState.value.x = Math.abs(nativeX) <= this.joypadConfig.axisDeadzone ? 0 : nativeX;
+        stickState.value.y = Math.abs(nativeY) <= this.joypadConfig.axisDeadzone ? 0 : nativeY;
+        let radians = Math.atan2(stickState.value.y, stickState.value.x);
+        if (radians < 0) {
+          radians += 2 * Math.PI;
+        }
+        stickState.value.angle = radians;
+
+        this.dispatchEvent(JOYPAD_EVENTS.STICK_MOVE, {
+          stick: stickState,
+          joypad: this,
+          nativePad,
+          nativeAxes: {
+            x: nativeX,
+            y: nativeY,
+          },
+          index: [stickMapping.axes.x, stickMapping.axes.y],
+        });
       }
-
-      const nativeXDead = Math.abs(nativeX) <= this.joypadConfig.axisDeadzone;
-      const nativeYDead = Math.abs(nativeY) <= this.joypadConfig.axisDeadzone;
-      const stateXDead = Math.abs(stateX) <= this.joypadConfig.axisDeadzone;
-      const stateYDead = Math.abs(stateY) <= this.joypadConfig.axisDeadzone;
-
-      // if everything is dead, they are all considered 0 - no change = no event
-      if (nativeXDead && nativeYDead && stateXDead && stateYDead) {
-        return;
-      }
-
-      // if nothing exceeds the analog movement threshold AND the values are not 1 or 0
-      if (
-        (Math.abs(stateX - nativeX) <= this.joypadConfig.analogThreshold
-        || Math.abs(stateY - nativeY) <= this.joypadConfig.analogThreshold)
-        && !nativeXDead && Math.abs(nativeX) !== 1 && !nativeYDead && Math.abs(nativeY) !== 1
-      ) {
-        return;
-      }
-
-      stickState.value.x = nativeXDead ? 0 : nativeX;
-      stickState.value.y = nativeYDead ? 0 : nativeY;
-      stickState.value.angle = (Math.atan2(stickState.value.x, stickState.value.y) * (180 / Math.PI) + 270) % 360;
-
-      this.dispatchEvent(JOYPAD_EVENTS.STICK_MOVE, {
-        stick: stickState,
-        joypad: this,
-        nativePad,
-        nativeAxes: {
-          x: nativeX,
-          y: nativeY,
-        },
-        index: [stickMapping.axes.x, stickMapping.axes.y],
-      });
     });
   }
 
   /**
-   *
-   * @param parameters vibrations paramter
-   */
+ *
+ * @param parameters vibrations paramter
+ */
   async vibrate({
     startDelay = 0,
     duration = 1000,
     weakMagnitude = 1,
     strongMagnitude = 1,
-  }: Partial<VibrationParameters> = {
+  }: Partial < VibrationParameters > = {
     startDelay: 0,
     duration: 1000,
     weakMagnitude: 1,
@@ -291,7 +293,7 @@ export default class Joypad extends JoypadEventEmitter {
     });
   }
 
-  async stopVibrate() {
+  stopVibrate() {
     return this.nativePad?.vibrationActuator?.reset();
   }
 }

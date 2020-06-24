@@ -160,6 +160,19 @@ module.exports = __webpack_require__(8);
 /* 4 */
 /***/ (function(module, exports) {
 
+function _getPrototypeOf(o) {
+  module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+module.exports = _getPrototypeOf;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -197,19 +210,6 @@ function _asyncToGenerator(fn) {
 }
 
 module.exports = _asyncToGenerator;
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-function _getPrototypeOf(o) {
-  module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-module.exports = _getPrototypeOf;
 
 /***/ }),
 /* 6 */
@@ -1059,7 +1059,7 @@ var regenerator = __webpack_require__(3);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(4);
+var asyncToGenerator = __webpack_require__(5);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/inherits.js
@@ -1071,7 +1071,7 @@ var possibleConstructorReturn = __webpack_require__(7);
 var possibleConstructorReturn_default = /*#__PURE__*/__webpack_require__.n(possibleConstructorReturn);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/getPrototypeOf.js
-var getPrototypeOf = __webpack_require__(5);
+var getPrototypeOf = __webpack_require__(4);
 var getPrototypeOf_default = /*#__PURE__*/__webpack_require__.n(getPrototypeOf);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
@@ -1210,8 +1210,8 @@ var JoypadEventEmitter_JoypadEventEmitter = /*#__PURE__*/function () {
   }, {
     name: 'rightStick',
     axes: {
-      x: 0,
-      y: 1
+      x: 2,
+      y: 3
     }
   }]
 });
@@ -1440,24 +1440,24 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
   }, {
     key: "loopButtons",
     value: function loopButtons() {
-      var _this2 = this;
+      var _this$buttonState$map,
+          _this$buttonState$map2,
+          _this2 = this;
 
       var nativePad = this.nativePad;
-      this.buttonMap.forEach(function (buttonMapping, index) {
+      (_this$buttonState$map = this.buttonState.mapping) === null || _this$buttonState$map === void 0 ? void 0 : (_this$buttonState$map2 = _this$buttonState$map.buttons) === null || _this$buttonState$map2 === void 0 ? void 0 : _this$buttonState$map2.forEach(function (buttonMapping, index) {
         var nativeButton = nativePad.buttons[index];
 
         if (!nativeButton) {
           return;
         }
 
-        var buttonState = _this2.buttonState.buttons[index]; // if a button value is different than the new value
+        var buttonState = _this2.buttons[buttonMapping.name]; // if a button value is different than the new value
 
         if (nativeButton.value !== buttonState.value) {
-          // if it is analog, check against the threshold
           if (buttonMapping.analog) {
             if ( // always send event if value is 0 or 1
-            nativeButton.value === 1 || buttonState.value === 1 || nativeButton.value === 0 || buttonState.value === 0 // send event if the change is larger than the threshold
-            || Math.abs(nativeButton.value - buttonState.value) >= _this2.joypadConfig.analogThreshold) {
+            nativeButton.value === 1 || buttonState.value === 1 || nativeButton.value === 0 || buttonState.value === 0) {
               buttonState.value = nativeButton.value;
 
               _this2.dispatchEvent(BUTTON_CHANGE, {
@@ -1496,73 +1496,84 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
       });
     }
     /**
+     * Determine whether or not an axis should fire the change event
+     * @param stateValue the previous value
+     * @param nativeValue the new value
+     */
+
+  }, {
+    key: "checkAxis",
+    value: function checkAxis(stateValue, nativeValue) {
+      if (stateValue === nativeValue) {
+        return false;
+      }
+
+      var stateAbs = Math.abs(stateValue);
+      var nativeAbs = Math.abs(nativeValue);
+      var stateIsDead = Math.abs(stateAbs) <= this.joypadConfig.axisDeadzone;
+      var nativeIsDead = Math.abs(nativeAbs) <= this.joypadConfig.axisDeadzone; // if both are dead - no event
+
+      if (stateIsDead && nativeIsDead) {
+        return false;
+      }
+
+      return true;
+    }
+    /**
      * Loop through analog sticks
      */
 
   }, {
     key: "loopSticks",
     value: function loopSticks() {
-      var _this3 = this;
+      var _this$buttonState$map3,
+          _this$buttonState$map4,
+          _this3 = this;
 
       var nativePad = this.nativePad;
-      this.stickMap.forEach(function (stickMapping, index) {
+      (_this$buttonState$map3 = this.buttonState.mapping) === null || _this$buttonState$map3 === void 0 ? void 0 : (_this$buttonState$map4 = _this$buttonState$map3.sticks) === null || _this$buttonState$map4 === void 0 ? void 0 : _this$buttonState$map4.forEach(function (stickMapping) {
         var nativeX = nativePad.axes[stickMapping.axes.x];
         var nativeY = nativePad.axes[stickMapping.axes.y]; // if both are undefined - no event
 
-        if (nativeX === undefined && !nativeY === undefined) {
+        if (nativeX === undefined && nativeY === undefined) {
           return;
         } // set either to 0 if they are undefined
 
 
         nativeX = nativeX === undefined ? 0 : nativeX;
         nativeY = nativeY === undefined ? 0 : nativeY;
-        var stickState = _this3.sticks[index];
-        var stateX = stickState.value.x; // sticks aren't forced to have a y value
+        var stickState = _this3.sticks[stickMapping.name];
+        var stateX = stickState.value.x;
+        var stateY = stickState.value.y;
 
-        var stateY = stickState.value.y; // if the values are the same - no event
+        if (_this3.checkAxis(stateX, nativeX) || _this3.checkAxis(stateY, nativeY)) {
+          stickState.value.x = Math.abs(nativeX) <= _this3.joypadConfig.axisDeadzone ? 0 : nativeX;
+          stickState.value.y = Math.abs(nativeY) <= _this3.joypadConfig.axisDeadzone ? 0 : nativeY;
+          var radians = Math.atan2(stickState.value.y, stickState.value.x);
 
-        if (nativeX === stateX && nativeY === stateY) {
-          return;
+          if (radians < 0) {
+            radians += 2 * Math.PI;
+          }
+
+          stickState.value.angle = radians;
+
+          _this3.dispatchEvent(STICK_MOVE, {
+            stick: stickState,
+            joypad: _this3,
+            nativePad: nativePad,
+            nativeAxes: {
+              x: nativeX,
+              y: nativeY
+            },
+            index: [stickMapping.axes.x, stickMapping.axes.y]
+          });
         }
-
-        var nativeXDead = Math.abs(nativeX) <= _this3.joypadConfig.axisDeadzone;
-
-        var nativeYDead = Math.abs(nativeY) <= _this3.joypadConfig.axisDeadzone;
-
-        var stateXDead = Math.abs(stateX) <= _this3.joypadConfig.axisDeadzone;
-
-        var stateYDead = Math.abs(stateY) <= _this3.joypadConfig.axisDeadzone; // if everything is dead, they are all considered 0 - no change = no event
-
-
-        if (nativeXDead && nativeYDead && stateXDead && stateYDead) {
-          return;
-        } // if nothing exceeds the analog movement threshold AND the values are not 1 or 0
-
-
-        if ((Math.abs(stateX - nativeX) <= _this3.joypadConfig.analogThreshold || Math.abs(stateY - nativeY) <= _this3.joypadConfig.analogThreshold) && !nativeXDead && Math.abs(nativeX) !== 1 && !nativeYDead && Math.abs(nativeY) !== 1) {
-          return;
-        }
-
-        stickState.value.x = nativeXDead ? 0 : nativeX;
-        stickState.value.y = nativeYDead ? 0 : nativeY;
-        stickState.value.angle = (Math.atan2(stickState.value.x, stickState.value.y) * (180 / Math.PI) + 270) % 360;
-
-        _this3.dispatchEvent(STICK_MOVE, {
-          stick: stickState,
-          joypad: _this3,
-          nativePad: nativePad,
-          nativeAxes: {
-            x: nativeX,
-            y: nativeY
-          },
-          index: [stickMapping.axes.x, stickMapping.axes.y]
-        });
       });
     }
     /**
-     *
-     * @param parameters vibrations paramter
-     */
+    *
+    * @param parameters vibrations paramter
+    */
 
   }, {
     key: "vibrate",
@@ -1614,53 +1625,32 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
     }()
   }, {
     key: "stopVibrate",
-    value: function () {
-      var _stopVibrate = asyncToGenerator_default()( /*#__PURE__*/regenerator_default.a.mark(function _callee2() {
-        var _this$nativePad2, _this$nativePad2$vibr;
+    value: function stopVibrate() {
+      var _this$nativePad2, _this$nativePad2$vibr;
 
-        return regenerator_default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                return _context2.abrupt("return", (_this$nativePad2 = this.nativePad) === null || _this$nativePad2 === void 0 ? void 0 : (_this$nativePad2$vibr = _this$nativePad2.vibrationActuator) === null || _this$nativePad2$vibr === void 0 ? void 0 : _this$nativePad2$vibr.reset());
-
-              case 1:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function stopVibrate() {
-        return _stopVibrate.apply(this, arguments);
-      }
-
-      return stopVibrate;
-    }()
+      return (_this$nativePad2 = this.nativePad) === null || _this$nativePad2 === void 0 ? void 0 : (_this$nativePad2$vibr = _this$nativePad2.vibrationActuator) === null || _this$nativePad2$vibr === void 0 ? void 0 : _this$nativePad2$vibr.reset();
+    }
   }, {
     key: "buttons",
     get: function get() {
-      return this.buttonState.buttons;
+      var _this$buttonState;
+
+      return (((_this$buttonState = this.buttonState) === null || _this$buttonState === void 0 ? void 0 : _this$buttonState.buttons) || []).reduce(function (buttonMap, button) {
+        // eslint-disable-next-line no-param-reassign
+        buttonMap[button.name] = button;
+        return buttonMap;
+      }, {});
     }
   }, {
     key: "sticks",
     get: function get() {
-      return this.buttonState.sticks;
-    }
-  }, {
-    key: "buttonMap",
-    get: function get() {
-      var _this$buttonState$map;
+      var _this$buttonState2;
 
-      return ((_this$buttonState$map = this.buttonState.mapping) === null || _this$buttonState$map === void 0 ? void 0 : _this$buttonState$map.buttons) || [];
-    }
-  }, {
-    key: "stickMap",
-    get: function get() {
-      var _this$buttonState$map2;
-
-      return ((_this$buttonState$map2 = this.buttonState.mapping) === null || _this$buttonState$map2 === void 0 ? void 0 : _this$buttonState$map2.sticks) || [];
+      return (((_this$buttonState2 = this.buttonState) === null || _this$buttonState2 === void 0 ? void 0 : _this$buttonState2.sticks) || []).reduce(function (stickMap, stick) {
+        // eslint-disable-next-line no-param-reassign
+        stickMap[stick.name] = stick;
+        return stickMap;
+      }, {});
     }
   }, {
     key: "mapping",
@@ -1691,12 +1681,9 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
    */
   function JoypadManager() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-      analogThreshold: 0.1,
       axisDeadzone: 0.15,
       maxJoypads: 4
     },
-        _ref$analogThreshold = _ref.analogThreshold,
-        analogThreshold = _ref$analogThreshold === void 0 ? 0.1 : _ref$analogThreshold,
         _ref$axisDeadzone = _ref.axisDeadzone,
         axisDeadzone = _ref$axisDeadzone === void 0 ? 0.15 : _ref$axisDeadzone,
         _ref$maxJoypads = _ref.maxJoypads,
@@ -1713,7 +1700,6 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
 
     for (var i = 0; i < maxJoypads; i += 1) {
       this.joypads[i] = new Joypad_Joypad(i, {
-        analogThreshold: analogThreshold,
         axisDeadzone: axisDeadzone,
         maxJoypads: maxJoypads
       }, mappings);
