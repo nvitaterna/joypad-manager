@@ -26,7 +26,7 @@
 
 \+ **new JoypadManager**(`joypadConfig`: Partial‹[JoypadConfig](../interfaces/_joypadmanager_.joypadconfig.md)›, `mappings`: [JoypadMap](../interfaces/_mappings_index_.joypadmap.md)[]): *[JoypadManager](_joypadmanager_.joypadmanager.md)*
 
-*Defined in [JoypadManager.ts:20](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadManager.ts#L20)*
+Defined in JoypadManager.ts:20
 
 Initiate the JoypadManager
 
@@ -48,7 +48,7 @@ Name | Type | Default | Description |
 
 • **joypads**: *[Joypad](_joypad_.joypad.md)[]* = []
 
-*Defined in [JoypadManager.ts:20](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadManager.ts#L20)*
+Defined in JoypadManager.ts:20
 
 The array of joypads.
 
@@ -58,7 +58,7 @@ The array of joypads.
 
 ▸ **update**(): *void*
 
-*Defined in [JoypadManager.ts:46](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadManager.ts#L46)*
+Defined in JoypadManager.ts:46
 
 The main update loop - updates every joypad and passes the reference to the native gamepad.
 

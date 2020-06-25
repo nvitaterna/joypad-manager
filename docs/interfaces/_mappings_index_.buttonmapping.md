@@ -21,7 +21,7 @@ The button mapping interface.
 
 • **analog**? : *undefined | false | true*
 
-*Defined in [mappings/index.ts:22](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/mappings/index.ts#L22)*
+Defined in mappings/index.ts:22
 
 Whether or not this is an analog button.
 
@@ -31,6 +31,6 @@ ___
 
 • **name**: *string*
 
-*Defined in [mappings/index.ts:20](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/mappings/index.ts#L20)*
+Defined in mappings/index.ts:20
 
 The mapped name of the button.

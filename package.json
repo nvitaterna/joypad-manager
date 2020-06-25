@@ -11,8 +11,7 @@
   "author": "Nicolas Vitaterna <nvitaterna@gmail.com>",
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server",
-    "prepare": "yarn build",
-    "preversion": "yarn build",
+    "preversion": "yarn build && yarn docs",
     "version": "git add .",
     "postversion": "git push && git push --tags",
     "build": "yarn build:web && yarn build:lib",
@@ -58,7 +57,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "yarn build && git add ."
+      "pre-commit": "yarn build && yarn docs && git add ."
     }
   },
   "dependencies": {}

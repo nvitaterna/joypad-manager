@@ -23,7 +23,7 @@ Vibration parameters for the Chrome-specific vibration actuator interface.
 
 • **duration**: *number*
 
-*Defined in [Joypad.ts:18](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L18)*
+Defined in Joypad.ts:18
 
 Duration in milliseconds.
 
@@ -33,7 +33,7 @@ ___
 
 • **startDelay**: *number*
 
-*Defined in [Joypad.ts:14](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L14)*
+Defined in Joypad.ts:14
 
 Delay in milliseconds before starting the vibration.
 
@@ -43,7 +43,7 @@ ___
 
 • **strongMagnitude**: *number*
 
-*Defined in [Joypad.ts:26](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L26)*
+Defined in Joypad.ts:26
 
 The magnitude of the strong motor between 0 and 1.
 
@@ -53,6 +53,6 @@ ___
 
 • **weakMagnitude**: *number*
 
-*Defined in [Joypad.ts:22](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L22)*
+Defined in Joypad.ts:22
 
 The magnitude of the weak motor between 0 and 1.

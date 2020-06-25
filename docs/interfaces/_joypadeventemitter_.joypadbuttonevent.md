@@ -24,7 +24,7 @@
 
 • **button**: *[ButtonState](_joypad_.buttonstate.md)*
 
-*Defined in [JoypadEventEmitter.ts:13](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L13)*
+Defined in JoypadEventEmitter.ts:13
 
 ___
 
@@ -32,7 +32,7 @@ ___
 
 • **index**: *number*
 
-*Defined in [JoypadEventEmitter.ts:15](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L15)*
+Defined in JoypadEventEmitter.ts:15
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 *Inherited from [JoypadEvent](_joypadeventemitter_.joypadevent.md).[joypad](_joypadeventemitter_.joypadevent.md#joypad)*
 
-*Defined in [JoypadEventEmitter.ts:8](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L8)*
+Defined in JoypadEventEmitter.ts:8
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 • **nativeButton**: *GamepadButton*
 
-*Defined in [JoypadEventEmitter.ts:14](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L14)*
+Defined in JoypadEventEmitter.ts:14
 
 ___
 
@@ -60,4 +60,4 @@ ___
 
 *Overrides [JoypadEvent](_joypadeventemitter_.joypadevent.md).[nativePad](_joypadeventemitter_.joypadevent.md#nativepad)*
 
-*Defined in [JoypadEventEmitter.ts:16](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L16)*
+Defined in JoypadEventEmitter.ts:16

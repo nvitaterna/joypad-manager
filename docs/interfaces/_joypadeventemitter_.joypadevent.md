@@ -25,7 +25,7 @@ The base joypad event - used for connect/disconnect events.
 
 • **joypad**: *[Joypad](../classes/_joypad_.joypad.md)*
 
-*Defined in [JoypadEventEmitter.ts:8](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L8)*
+Defined in JoypadEventEmitter.ts:8
 
 ___
 
@@ -33,4 +33,4 @@ ___
 
 • **nativePad**: *Gamepad | null*
 
-*Defined in [JoypadEventEmitter.ts:9](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L9)*
+Defined in JoypadEventEmitter.ts:9

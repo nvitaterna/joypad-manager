@@ -19,7 +19,7 @@
 
 • **BUTTON_CHANGE**: *[JoypadEventName](_joypadeventemitter_.md#joypadeventname)* = "buttonchange"
 
-*Defined in [event-names.ts:7](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/event-names.ts#L7)*
+Defined in event-names.ts:7
 
 ___
 
@@ -27,7 +27,7 @@ ___
 
 • **BUTTON_PRESS**: *[JoypadEventName](_joypadeventemitter_.md#joypadeventname)* = "buttonpress"
 
-*Defined in [event-names.ts:5](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/event-names.ts#L5)*
+Defined in event-names.ts:5
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 • **BUTTON_RELEASE**: *[JoypadEventName](_joypadeventemitter_.md#joypadeventname)* = "buttonrelease"
 
-*Defined in [event-names.ts:6](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/event-names.ts#L6)*
+Defined in event-names.ts:6
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 • **GAMEPAD_CONNECT**: *[JoypadEventName](_joypadeventemitter_.md#joypadeventname)* = "connect"
 
-*Defined in [event-names.ts:3](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/event-names.ts#L3)*
+Defined in event-names.ts:3
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 • **GAMEPAD_DISCONNECT**: *[JoypadEventName](_joypadeventemitter_.md#joypadeventname)* = "disconnect"
 
-*Defined in [event-names.ts:4](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/event-names.ts#L4)*
+Defined in event-names.ts:4
 
 ___
 
@@ -59,4 +59,4 @@ ___
 
 • **STICK_MOVE**: *[JoypadEventName](_joypadeventemitter_.md#joypadeventname)* = "stickmove"
 
-*Defined in [event-names.ts:8](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/event-names.ts#L8)*
+Defined in event-names.ts:8

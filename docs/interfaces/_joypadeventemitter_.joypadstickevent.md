@@ -24,7 +24,7 @@
 
 • **index**: *[number, number]*
 
-*Defined in [JoypadEventEmitter.ts:26](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L26)*
+Defined in JoypadEventEmitter.ts:26
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 *Inherited from [JoypadEvent](_joypadeventemitter_.joypadevent.md).[joypad](_joypadeventemitter_.joypadevent.md#joypad)*
 
-*Defined in [JoypadEventEmitter.ts:8](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L8)*
+Defined in JoypadEventEmitter.ts:8
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 • **nativeAxes**: *object*
 
-*Defined in [JoypadEventEmitter.ts:22](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L22)*
+Defined in JoypadEventEmitter.ts:22
 
 #### Type declaration:
 
@@ -58,7 +58,7 @@ ___
 
 *Overrides [JoypadEvent](_joypadeventemitter_.joypadevent.md).[nativePad](_joypadeventemitter_.joypadevent.md#nativepad)*
 
-*Defined in [JoypadEventEmitter.ts:27](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L27)*
+Defined in JoypadEventEmitter.ts:27
 
 ___
 
@@ -66,4 +66,4 @@ ___
 
 • **stick**: *[StickState](_joypad_.stickstate.md)*
 
-*Defined in [JoypadEventEmitter.ts:21](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L21)*
+Defined in JoypadEventEmitter.ts:21
