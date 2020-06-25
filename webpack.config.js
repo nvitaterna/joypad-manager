@@ -3,6 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 let mode = 'development';
 
@@ -35,8 +36,9 @@ const baseConfig = {
             compilerOptions: {
               target: 'ESNext',
             },
+            transpileOnly: true,
           },
-        }, 'eslint-loader'],
+        }],
         exclude: /node_modules/,
       },
     ],
@@ -45,6 +47,11 @@ const baseConfig = {
     extensions: ['.ts', '.js'],
   },
   target: 'web',
+  plugins: [new ForkTsCheckerWebpackPlugin({
+    eslint: {
+      files: './src/**/*.{ts,tsx,js,jsx}',
+    },
+  })],
 };
 
 if (devMode) {

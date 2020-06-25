@@ -14,5 +14,7 @@
       "**/lib": true,
       "**/dist": true,
       "**/dev": true
-    }
+    },
+    "npm.packageManager": "yarn",
+    "eslint.packageManager": "yarn"
   }
