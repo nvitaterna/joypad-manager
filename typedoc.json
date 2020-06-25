@@ -2,11 +2,14 @@
   "mode": "modules",
   "out": "docs",
   "exclude": [
-    "**/*+(types).ts"
+    "**/*+(types|JoypadEventTracker).ts",
+    "**/*mappings.ts",
+    "**/*mapping.ts",
+    "**/src/index.ts"
   ],
   "excludePrivate": true,
   "excludeNotExported": true,
   "excludeProtected": true,
   "ignoreCompilerErrors": true,
-  "plugin": "typedoc-plugin-markdown"
+  "readme": "none"
 }

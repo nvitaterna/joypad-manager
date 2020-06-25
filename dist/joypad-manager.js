@@ -1280,9 +1280,9 @@ var JoypadEventEmitter_JoypadEventEmitter = /*#__PURE__*/function () {
     }
   }]
 });
-// CONCATENATED MODULE: ./src/mappings/nintendo-switch.ts
+// CONCATENATED MODULE: ./src/mappings/nintendo-switch-mappings.ts
 
-/* harmony default export */ var nintendo_switch = ({
+/* harmony default export */ var nintendo_switch_mappings = ({
   ids: ['Pro Controller (STANDARD GAMEPAD Vendor: 057e Product: 2009)', '057e-2009-Pro Controller', 'Joy-Con L+R (STANDARD GAMEPAD Vendor: 057e Product: 200e)'],
   buttons: [{
     name: 'buttonSouth'
@@ -1323,9 +1323,9 @@ var JoypadEventEmitter_JoypadEventEmitter = /*#__PURE__*/function () {
   }],
   sticks: default_mapping.sticks
 });
-// CONCATENATED MODULE: ./src/mappings/xbox-mapping.ts
+// CONCATENATED MODULE: ./src/mappings/xbox-mappings.ts
 
-/* harmony default export */ var xbox_mapping = ({
+/* harmony default export */ var xbox_mappings = ({
   ids: ['Xbox 360 Controller (XInput STANDARD GAMEPAD)', 'xinput'],
   buttons: default_mapping.buttons,
   sticks: default_mapping.sticks
@@ -1334,7 +1334,7 @@ var JoypadEventEmitter_JoypadEventEmitter = /*#__PURE__*/function () {
 
 
 
-var mappings_mappings = [default_mapping, xbox_mapping, nintendo_switch];
+var mappings_mappings = [default_mapping, xbox_mappings, nintendo_switch_mappings];
 /* harmony default export */ var src_mappings = (mappings_mappings);
 // CONCATENATED MODULE: ./src/generate-button-state.ts
 
