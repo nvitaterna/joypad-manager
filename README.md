@@ -89,7 +89,7 @@ const joypad = joypads[0];
 const joypadTwo = joypads[1];
 ...
 ```
-The default number of joypads is 4. It will create the joypad instances even if there is no gamepad connected. The `joypad.isConnected` property can be used to check if a joypad is connected:
+The default number of joypads is 4. It will create the joypad instances even if there is no gamepad connected. The [`joypad.isConnected`](/src/Joypad.ts#L159) property can be used to check if a joypad is connected:
 ```js
 // after connecting one gamepad to your device:
 joypad.isConnected; // true
