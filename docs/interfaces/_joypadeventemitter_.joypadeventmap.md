@@ -23,7 +23,7 @@
 
 • **buttonchange**: *[JoypadButtonEvent](_joypadeventemitter_.joypadbuttonevent.md)*
 
-*Defined in [JoypadEventEmitter.ts:36](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L36)*
+*Defined in [JoypadEventEmitter.ts:35](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L35)*
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 • **buttonpress**: *[JoypadButtonEvent](_joypadeventemitter_.joypadbuttonevent.md)*
 
-*Defined in [JoypadEventEmitter.ts:34](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L34)*
+*Defined in [JoypadEventEmitter.ts:33](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L33)*
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 • **buttonrelease**: *[JoypadButtonEvent](_joypadeventemitter_.joypadbuttonevent.md)*
 
-*Defined in [JoypadEventEmitter.ts:35](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L35)*
+*Defined in [JoypadEventEmitter.ts:34](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L34)*
 
 ___
 
@@ -47,7 +47,7 @@ ___
 
 • **connect**: *[JoypadEvent](_joypadeventemitter_.joypadevent.md)*
 
-*Defined in [JoypadEventEmitter.ts:32](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L32)*
+*Defined in [JoypadEventEmitter.ts:31](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L31)*
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 • **disconnect**: *[JoypadEvent](_joypadeventemitter_.joypadevent.md)*
 
-*Defined in [JoypadEventEmitter.ts:33](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L33)*
+*Defined in [JoypadEventEmitter.ts:32](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L32)*
 
 ___
 
@@ -63,4 +63,4 @@ ___
 
 • **stickmove**: *[JoypadStickEvent](_joypadeventemitter_.joypadstickevent.md)*
 
-*Defined in [JoypadEventEmitter.ts:37](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L37)*
+*Defined in [JoypadEventEmitter.ts:36](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L36)*

@@ -42,7 +42,7 @@ The Joypad class that is used to create joypads in the [`JoypadManager`](_joypad
 
 \+ **new Joypad**(`index`: number, `joypadConfig`: [JoypadConfig](../interfaces/_joypadmanager_.joypadconfig.md), `mappings`: [JoypadMap](../interfaces/_mappings_index_.joypadmap.md)[]): *[Joypad](_joypad_.joypad.md)*
 
-*Defined in [Joypad.ts:101](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/Joypad.ts#L101)*
+*Defined in [Joypad.ts:101](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L101)*
 
 **Parameters:**
 
@@ -60,7 +60,7 @@ Name | Type | Description |
 
 • **index**: *number*
 
-*Defined in [Joypad.ts:109](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/Joypad.ts#L109)*
+*Defined in [Joypad.ts:109](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L109)*
 
 The gamepad index in the [`JoypadManager.joypads`](_joypadmanager_.joypadmanager.md#readonly-joypads) array.
 
@@ -70,7 +70,7 @@ The gamepad index in the [`JoypadManager.joypads`](_joypadmanager_.joypadmanager
 
 • **get buttons**(): *object*
 
-*Defined in [Joypad.ts:119](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/Joypad.ts#L119)*
+*Defined in [Joypad.ts:119](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L119)*
 
 The key-value mappings of the joypad buttons.
 
@@ -84,7 +84,7 @@ ___
 
 • **get isConnected**(): *boolean*
 
-*Defined in [Joypad.ts:159](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/Joypad.ts#L159)*
+*Defined in [Joypad.ts:159](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L159)*
 
 Is the controller connected? Determined by checking if this is attached to a native gamepad AND if that native gamepad is connected.
 
@@ -96,7 +96,7 @@ ___
 
 • **get mapping**(): *undefined | [JoypadMap](../interfaces/_mappings_index_.joypadmap.md)*
 
-*Defined in [Joypad.ts:141](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/Joypad.ts#L141)*
+*Defined in [Joypad.ts:141](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L141)*
 
 The current mapping this gamepad is using.
 
@@ -108,7 +108,7 @@ ___
 
 • **get sticks**(): *object*
 
-*Defined in [Joypad.ts:130](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/Joypad.ts#L130)*
+*Defined in [Joypad.ts:130](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L130)*
 
 The key-value mappings of the joypad sticks.
 
@@ -124,9 +124,9 @@ The key-value mappings of the joypad sticks.
 
 *Inherited from [JoypadEventEmitter](_joypadeventemitter_.joypadeventemitter.md).[addEventListener](_joypadeventemitter_.joypadeventemitter.md#addeventlistener)*
 
-*Defined in [JoypadEventEmitter.ts:67](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L67)*
+*Defined in [JoypadEventEmitter.ts:66](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L66)*
 
-Add an event listener from this Joypad.
+Add an event listener to this Joypad.
 
 **Type parameters:**
 
@@ -160,7 +160,7 @@ ___
 
 *Inherited from [JoypadEventEmitter](_joypadeventemitter_.joypadeventemitter.md).[clearEvents](_joypadeventemitter_.joypadeventemitter.md#clearevents)*
 
-*Defined in [JoypadEventEmitter.ts:83](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L83)*
+*Defined in [JoypadEventEmitter.ts:82](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L82)*
 
 Remove all listeners from this Joypad.
 
@@ -174,7 +174,7 @@ ___
 
 *Inherited from [JoypadEventEmitter](_joypadeventemitter_.joypadeventemitter.md).[removeEventListener](_joypadeventemitter_.joypadeventemitter.md#removeeventlistener)*
 
-*Defined in [JoypadEventEmitter.ts:76](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L76)*
+*Defined in [JoypadEventEmitter.ts:75](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L75)*
 
 Remove an event listener from this Joypad.
 
@@ -208,7 +208,7 @@ ___
 
 ▸ **stopVibrate**(): *undefined | Promise‹"complete"›*
 
-*Defined in [Joypad.ts:379](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/Joypad.ts#L379)*
+*Defined in [Joypad.ts:379](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L379)*
 
 Stop any current vibrations.
 
@@ -220,7 +220,7 @@ ___
 
 ▸ **update**(`nativePad`: Gamepad | null): *void*
 
-*Defined in [Joypad.ts:194](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/Joypad.ts#L194)*
+*Defined in [Joypad.ts:194](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L194)*
 
 The main update loop function
 
@@ -238,7 +238,7 @@ ___
 
 ▸ **vibrate**(`vibrationParameters`: Partial‹[VibrationParameters](../interfaces/_joypad_.vibrationparameters.md)›): *Promise‹undefined | "invalid-parameter" | "complete" | "preempted"›*
 
-*Defined in [Joypad.ts:356](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/Joypad.ts#L356)*
+*Defined in [Joypad.ts:356](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L356)*
 
 Vibrate the controller if supported.
 

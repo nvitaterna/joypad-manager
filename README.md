@@ -56,7 +56,7 @@ window.JoypadManager
 ### Usage
 
 #### Setup
-Initiate the [`JoypadManager`](/src/JoypadManager.ts#L16):
+Initiate the [`JoypadManager`](/docs/classes/_joypadmanager_.joypadmanager.md):
 
 ```js
 const joypadManager = new Joypadmanager();
@@ -82,14 +82,14 @@ update();
 ```
 #### Access Joypads
 
-[Joypads](/src/Joypad.ts#L91) may be accessed via the `joypadManager.joypads` property:
+[Joypads](/docs/classes/_joypad_.joypad.md) may be accessed via the `joypadManager.joypads` property:
 ```js
 const joypads = joypadManager.joypads;
 const joypad = joypads[0];
 const joypadTwo = joypads[1];
 ...
 ```
-The default number of joypads is 4. It will create the joypad instances even if there is no gamepad connected. The [`joypad.isConnected`](/src/Joypad.ts#L159) property can be used to check if a joypad is connected:
+The default number of joypads is 4. It will create the joypad instances even if there is no gamepad connected. The [`joypad.isConnected`](/docs/classes/_joypad_.joypad.md#isconnected) property can be used to check if a joypad is connected:
 ```js
 // after connecting one gamepad to your device:
 joypad.isConnected; // true
@@ -98,20 +98,20 @@ joypadTwo.isConnected; // false
 
 #### Add Event Listeners
 
-Adding event listeners is done through the `joypad.addEventListener` function. Event listeners may be added to both connected and disconnected joypads.
+Adding event listeners is done through the [`joypad.addEventListener`](/docs/classes/_joypad_.joypad.md#addeventlistener) function. Event listeners may be added to both connected and disconnected joypads.
 ```js
 joypad.addEventListener('connect', (event) => {
   // do something with this joypad on connect
 })
 ```
-All events include the following properties:
+All [events](/docs/interfaces/_joypadeventemitter_.joypadevent.md) include the following properties:
 
 * `joypad` - the Joypad instance.  
 * `nativePad` - the native Gamepad instance.
 
 ##### Button Events
 
-There are three button events:
+There are three [button events](docs/interfaces/_joypadeventemitter_.joypadbuttonevent.md):
 
 * `buttonpress` - dispatched when a button is pressed.  
 * `buttonrelease` - dispatched when a button is released.
@@ -131,7 +131,7 @@ All button events include the previously mentioned `joypad` and `nativePad` prop
 * `nativeButton` - the native gamepad button object
 
 #### Stick Events
-There is one stick event: 
+There is one [stick event](docs/interfaces/_joypadeventemitter_.joypadstickevent.md): 
 * `stickmove` - dispatched when one of the axes for a stick is changed.
 ```js
 joypad.addEventListener('stickmove', (event) => {
@@ -152,7 +152,7 @@ All stick events include the previously mentioned `joypad` and `nativePad` prope
   * `y`
 
 #### Vibration
-As of now - vibration is only available in Chrome:
+As of now - [vibration](/docs/classes/_joypad_.joypad.md#vibrate) is only available in Chrome:
 ```js
 joypad.vibrate(params)
 ```
@@ -162,4 +162,4 @@ The vibration paramaters are taken from the native Chrome paramaters, and will l
 * `weakMagnitude` - the magnitude of the weak motor between 0 and 1.
 * `strongMagnitude` - the magnitude of the strong motor between 0 and 1.
 
-A vibration may be stopped prematurely by calling `joypad.stopVibrate()`.
+A vibration may be stopped prematurely by calling [`joypad.stopVibrate()`](/docs/classes/_joypad_.joypad.md#stopvibrate).

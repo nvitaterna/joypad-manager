@@ -4,7 +4,9 @@
 
 ## Hierarchy
 
-* **JoypadStickEvent**
+* [JoypadEvent](_joypadeventemitter_.joypadevent.md)
+
+  ↳ **JoypadStickEvent**
 
 ## Index
 
@@ -22,7 +24,7 @@
 
 • **index**: *[number, number]*
 
-*Defined in [JoypadEventEmitter.ts:23](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L23)*
+*Defined in [JoypadEventEmitter.ts:26](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L26)*
 
 ___
 
@@ -30,7 +32,9 @@ ___
 
 • **joypad**: *[Joypad](../classes/_joypad_.joypad.md)*
 
-*Defined in [JoypadEventEmitter.ts:17](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L17)*
+*Inherited from [JoypadEvent](_joypadeventemitter_.joypadevent.md).[joypad](_joypadeventemitter_.joypadevent.md#joypad)*
+
+*Defined in [JoypadEventEmitter.ts:8](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L8)*
 
 ___
 
@@ -38,7 +42,7 @@ ___
 
 • **nativeAxes**: *object*
 
-*Defined in [JoypadEventEmitter.ts:19](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L19)*
+*Defined in [JoypadEventEmitter.ts:22](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L22)*
 
 #### Type declaration:
 
@@ -52,7 +56,9 @@ ___
 
 • **nativePad**: *Gamepad*
 
-*Defined in [JoypadEventEmitter.ts:18](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L18)*
+*Overrides [JoypadEvent](_joypadeventemitter_.joypadevent.md).[nativePad](_joypadeventemitter_.joypadevent.md#nativepad)*
+
+*Defined in [JoypadEventEmitter.ts:27](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L27)*
 
 ___
 
@@ -60,4 +66,4 @@ ___
 
 • **stick**: *[StickState](_joypad_.stickstate.md)*
 
-*Defined in [JoypadEventEmitter.ts:16](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L16)*
+*Defined in [JoypadEventEmitter.ts:21](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L21)*

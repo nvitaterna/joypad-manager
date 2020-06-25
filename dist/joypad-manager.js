@@ -1188,7 +1188,7 @@ var JoypadEventEmitter_JoypadEventEmitter = /*#__PURE__*/function () {
       });
     }
     /**
-     * Add an event listener from this Joypad.
+     * Add an event listener to this Joypad.
      * @param name The event name.
      * @param callback The event callback to add to this event.
      */

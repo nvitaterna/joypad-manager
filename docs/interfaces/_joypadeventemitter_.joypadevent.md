@@ -2,9 +2,15 @@
 
 # Interface: JoypadEvent
 
+The base joypad event - used for connect/disconnect events.
+
 ## Hierarchy
 
 * **JoypadEvent**
+
+  ↳ [JoypadButtonEvent](_joypadeventemitter_.joypadbuttonevent.md)
+
+  ↳ [JoypadStickEvent](_joypadeventemitter_.joypadstickevent.md)
 
 ## Index
 
@@ -19,7 +25,7 @@
 
 • **joypad**: *[Joypad](../classes/_joypad_.joypad.md)*
 
-*Defined in [JoypadEventEmitter.ts:27](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L27)*
+*Defined in [JoypadEventEmitter.ts:8](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L8)*
 
 ___
 
@@ -27,4 +33,4 @@ ___
 
 • **nativePad**: *Gamepad | null*
 
-*Defined in [JoypadEventEmitter.ts:28](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L28)*
+*Defined in [JoypadEventEmitter.ts:9](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L9)*

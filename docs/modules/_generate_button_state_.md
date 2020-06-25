@@ -14,7 +14,7 @@
 
 ▸ **generateButtonState**(`id`: string, `customMappings`: [JoypadMap](../interfaces/_mappings_index_.joypadmap.md)[]): *object*
 
-*Defined in [generate-button-state.ts:4](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/generate-button-state.ts#L4)*
+*Defined in [generate-button-state.ts:4](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/generate-button-state.ts#L4)*
 
 **Parameters:**
 

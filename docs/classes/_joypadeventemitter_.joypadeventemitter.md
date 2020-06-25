@@ -22,9 +22,9 @@
 
 ▸ **addEventListener**‹**K**›(`name`: K, `callback`: function): *void*
 
-*Defined in [JoypadEventEmitter.ts:67](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L67)*
+*Defined in [JoypadEventEmitter.ts:66](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L66)*
 
-Add an event listener from this Joypad.
+Add an event listener to this Joypad.
 
 **Type parameters:**
 
@@ -56,7 +56,7 @@ ___
 
 ▸ **clearEvents**(): *void*
 
-*Defined in [JoypadEventEmitter.ts:83](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L83)*
+*Defined in [JoypadEventEmitter.ts:82](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L82)*
 
 Remove all listeners from this Joypad.
 
@@ -68,7 +68,7 @@ ___
 
 ▸ **removeEventListener**‹**K**›(`name`: K, `callback`: function): *void*
 
-*Defined in [JoypadEventEmitter.ts:76](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L76)*
+*Defined in [JoypadEventEmitter.ts:75](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L75)*
 
 Remove an event listener from this Joypad.
 

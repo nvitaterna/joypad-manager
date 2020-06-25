@@ -21,7 +21,7 @@ The state of a button.
 
 • **name**: *string*
 
-*Defined in [Joypad.ts:81](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/Joypad.ts#L81)*
+*Defined in [Joypad.ts:81](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L81)*
 
 The name/alias of the button.
 
@@ -31,6 +31,6 @@ ___
 
 • **value**: *number*
 
-*Defined in [Joypad.ts:85](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/Joypad.ts#L85)*
+*Defined in [Joypad.ts:85](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/Joypad.ts#L85)*
 
 The value of the mapped button.

@@ -25,4 +25,4 @@
 
 Ƭ **JoypadEventName**: *keyof JoypadEventMap*
 
-*Defined in [JoypadEventEmitter.ts:40](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L40)*
+*Defined in [JoypadEventEmitter.ts:39](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L39)*

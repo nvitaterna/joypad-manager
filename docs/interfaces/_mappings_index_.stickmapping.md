@@ -21,7 +21,7 @@ The analog stick mapping interface.
 
 • **axes**: *object*
 
-*Defined in [mappings/index.ts:9](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/mappings/index.ts#L9)*
+*Defined in [mappings/index.ts:9](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/mappings/index.ts#L9)*
 
 #### Type declaration:
 
@@ -35,6 +35,6 @@ ___
 
 • **name**: *string*
 
-*Defined in [mappings/index.ts:8](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/mappings/index.ts#L8)*
+*Defined in [mappings/index.ts:8](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/mappings/index.ts#L8)*
 
 The mapped name of the stick.

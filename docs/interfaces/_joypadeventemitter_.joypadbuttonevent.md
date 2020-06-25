@@ -4,7 +4,9 @@
 
 ## Hierarchy
 
-* **JoypadButtonEvent**
+* [JoypadEvent](_joypadeventemitter_.joypadevent.md)
+
+  ↳ **JoypadButtonEvent**
 
 ## Index
 
@@ -22,7 +24,7 @@
 
 • **button**: *[ButtonState](_joypad_.buttonstate.md)*
 
-*Defined in [JoypadEventEmitter.ts:7](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L7)*
+*Defined in [JoypadEventEmitter.ts:13](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L13)*
 
 ___
 
@@ -30,7 +32,7 @@ ___
 
 • **index**: *number*
 
-*Defined in [JoypadEventEmitter.ts:11](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L11)*
+*Defined in [JoypadEventEmitter.ts:15](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L15)*
 
 ___
 
@@ -38,7 +40,9 @@ ___
 
 • **joypad**: *[Joypad](../classes/_joypad_.joypad.md)*
 
-*Defined in [JoypadEventEmitter.ts:8](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L8)*
+*Inherited from [JoypadEvent](_joypadeventemitter_.joypadevent.md).[joypad](_joypadeventemitter_.joypadevent.md#joypad)*
+
+*Defined in [JoypadEventEmitter.ts:8](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L8)*
 
 ___
 
@@ -46,7 +50,7 @@ ___
 
 • **nativeButton**: *GamepadButton*
 
-*Defined in [JoypadEventEmitter.ts:9](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L9)*
+*Defined in [JoypadEventEmitter.ts:14](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L14)*
 
 ___
 
@@ -54,4 +58,6 @@ ___
 
 • **nativePad**: *Gamepad*
 
-*Defined in [JoypadEventEmitter.ts:10](https://github.com/nvitaterna/joypad-manager/blob/d0042f5/src/JoypadEventEmitter.ts#L10)*
+*Overrides [JoypadEvent](_joypadeventemitter_.joypadevent.md).[nativePad](_joypadeventemitter_.joypadevent.md#nativepad)*
+
+*Defined in [JoypadEventEmitter.ts:16](https://github.com/nvitaterna/joypad-manager/blob/ef07d3f/src/JoypadEventEmitter.ts#L16)*
