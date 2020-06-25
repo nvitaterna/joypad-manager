@@ -56,7 +56,7 @@ window.JoypadManager
 ### Usage
 
 #### Setup
-Initiate the `JoypadManager`:
+Initiate the [`JoypadManager`](/src/JoypadManager.ts#L16):
 
 ```js
 const joypadManager = new Joypadmanager();
@@ -82,7 +82,7 @@ update();
 ```
 #### Access Joypads
 
-Joypads may be accessed via the `joypadManager.joypads` property:
+[Joypads](/src/Joypad.ts#L91) may be accessed via the `joypadManager.joypads` property:
 ```js
 const joypads = joypadManager.joypads;
 const joypad = joypads[0];
