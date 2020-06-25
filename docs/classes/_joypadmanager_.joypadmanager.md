@@ -58,7 +58,7 @@ The array of joypads.
 
 ▸ **update**(): *void*
 
-Defined in JoypadManager.ts:46
+Defined in JoypadManager.ts:43
 
 The main update loop - updates every joypad and passes the reference to the native gamepad.
 

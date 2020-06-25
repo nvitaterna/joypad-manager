@@ -21,7 +21,7 @@ The state of a button.
 
 • **name**: *string*
 
-Defined in Joypad.ts:81
+Defined in Joypad.ts:52
 
 The name/alias of the button.
 
@@ -31,6 +31,6 @@ ___
 
 • **value**: *number*
 
-Defined in Joypad.ts:85
+Defined in Joypad.ts:54
 
 The value of the mapped button.

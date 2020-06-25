@@ -23,7 +23,7 @@ Vibration parameters for the Chrome-specific vibration actuator interface.
 
 • **duration**: *number*
 
-Defined in Joypad.ts:18
+Defined in Joypad.ts:12
 
 Duration in milliseconds.
 
@@ -33,7 +33,7 @@ ___
 
 • **startDelay**: *number*
 
-Defined in Joypad.ts:14
+Defined in Joypad.ts:10
 
 Delay in milliseconds before starting the vibration.
 
@@ -43,7 +43,7 @@ ___
 
 • **strongMagnitude**: *number*
 
-Defined in Joypad.ts:26
+Defined in Joypad.ts:16
 
 The magnitude of the strong motor between 0 and 1.
 
@@ -53,6 +53,6 @@ ___
 
 • **weakMagnitude**: *number*
 
-Defined in Joypad.ts:22
+Defined in Joypad.ts:14
 
 The magnitude of the weak motor between 0 and 1.

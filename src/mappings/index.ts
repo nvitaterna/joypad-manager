@@ -32,10 +32,6 @@ export interface JoypadMap {
   sticks?: StickMapping[];
 }
 
-const mappings = [
-  defaultMapping,
-  xboxoneMapping,
-  nintendoSwitch,
-];
+const mappings = [defaultMapping, xboxoneMapping, nintendoSwitch];
 
 export default mappings;

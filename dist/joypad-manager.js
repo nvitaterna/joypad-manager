@@ -1391,9 +1391,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 
 
-/**
- * The Joypad class that is used to create joypads in the [JoypadManager]{@linkcode JoypadManager}.
- */
+/** The Joypad class that is used to create joypads in the [JoypadManager]{@linkcode JoypadManager}. */
 
 var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
   inherits_default()(Joypad, _JoypadEventEmitter);
@@ -1417,9 +1415,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
     _this.connected = false;
     return _this;
   }
-  /**
-   * The key-value mappings of the joypad buttons.
-   */
+  /** The key-value mappings of the joypad buttons. */
 
 
   createClass_default()(Joypad, [{
@@ -1435,9 +1431,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         this.buttonState = generateButtonState(this.id, this.mappings);
       }
     }
-    /**
-     * Is the controller connected? Determined by checking if this is attached to a native gamepad AND if that native gamepad is connected.
-     */
+    /** Is the controller connected? Determined by checking if this is attached to a native gamepad AND if that native gamepad is connected. */
 
   }, {
     key: "connect",
@@ -1487,9 +1481,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
       this.loopButtons();
       this.loopSticks();
     }
-    /**
-     * Sync this.nativePad with the updated gamepad, return whether or not it is connected.
-     */
+    /** Sync this.nativePad with the updated gamepad, return whether or not it is connected. */
 
   }, {
     key: "syncNativePad",
@@ -1516,9 +1508,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
 
       return true;
     }
-    /**
-     * Loop through buttons
-     */
+    /** Loop through buttons */
 
   }, {
     key: "loopButtons",
@@ -1599,9 +1589,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
 
       return true;
     }
-    /**
-     * Loop through analog sticks
-     */
+    /** Loop through analog sticks */
 
   }, {
     key: "loopSticks",
@@ -1650,9 +1638,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         }
       });
     }
-    /**
-     * Vibrate the controller if supported.
-     */
+    /** Vibrate the controller if supported. */
 
   }, {
     key: "vibrate",
@@ -1703,9 +1689,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
 
       return vibrate;
     }()
-    /**
-     * Stop any current vibrations.
-     */
+    /** Stop any current vibrations. */
 
   }, {
     key: "stopVibrate",
@@ -1720,14 +1704,11 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
       var _this$buttonState;
 
       return (((_this$buttonState = this.buttonState) === null || _this$buttonState === void 0 ? void 0 : _this$buttonState.buttons) || []).reduce(function (buttonMap, button) {
-        // eslint-disable-next-line no-param-reassign
         buttonMap[button.name] = button;
         return buttonMap;
       }, {});
     }
-    /**
-     * The key-value mappings of the joypad sticks.
-     */
+    /** The key-value mappings of the joypad sticks. */
 
   }, {
     key: "sticks",
@@ -1740,9 +1721,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         return stickMap;
       }, {});
     }
-    /**
-     * The current mapping this gamepad is using.
-     */
+    /** The current mapping this gamepad is using. */
 
   }, {
     key: "mapping",

@@ -3,9 +3,4 @@ import * as JoypadManager from './JoypadManager';
 import * as Events from './JoypadEventEmitter';
 import * as Mapping from './mappings';
 
-export {
-  Joypad,
-  JoypadManager,
-  Events,
-  Mapping,
-};
+export { Joypad, JoypadManager, Events, Mapping };

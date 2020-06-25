@@ -21,7 +21,7 @@ The state of an individual analog stick.
 
 • **name**: *string*
 
-Defined in Joypad.ts:57
+Defined in Joypad.ts:38
 
 The name/alias of the stick.
 
@@ -31,7 +31,7 @@ ___
 
 • **value**: *object*
 
-Defined in Joypad.ts:58
+Defined in Joypad.ts:39
 
 #### Type declaration:
 

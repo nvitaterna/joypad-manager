@@ -46,13 +46,16 @@ function generateEvents() {
     [JOYPAD_EVENTS.BUTTON_RELEASE]: new JoypadEventTracker(JOYPAD_EVENTS.BUTTON_RELEASE),
     [JOYPAD_EVENTS.BUTTON_CHANGE]: new JoypadEventTracker(JOYPAD_EVENTS.BUTTON_CHANGE),
     [JOYPAD_EVENTS.STICK_MOVE]: new JoypadEventTracker(JOYPAD_EVENTS.STICK_MOVE),
-  } as {[key in JoypadEventName]: JoypadEventTracker};
+  } as { [key in JoypadEventName]: JoypadEventTracker };
 }
 
 export class JoypadEventEmitter {
   private events = generateEvents();
 
-  protected dispatchEvent<K extends keyof JoypadEventMap>(eventName: JoypadEventName, event: JoypadEventMap[K]) {
+  protected dispatchEvent<K extends keyof JoypadEventMap>(
+    eventName: JoypadEventName,
+    event: JoypadEventMap[K],
+  ) {
     this.events[eventName].callbacks.forEach((callback) => {
       callback(event);
     });
@@ -63,7 +66,10 @@ export class JoypadEventEmitter {
    * @param name The event name.
    * @param callback The event callback to add to this event.
    */
-  addEventListener<K extends keyof JoypadEventMap>(name: K, callback: (event: JoypadEventMap[K]) => void) {
+  addEventListener<K extends keyof JoypadEventMap>(
+    name: K,
+    callback: (event: JoypadEventMap[K]) => void,
+  ) {
     this.events[name].registerCallback(callback);
   }
 
@@ -72,7 +78,10 @@ export class JoypadEventEmitter {
    * @param name The event name.
    * @param callback The event callback to remove from this event.
    */
-  removeEventListener<K extends keyof JoypadEventMap>(name: K, callback: (event: JoypadEventMap[K]) => void) {
+  removeEventListener<K extends keyof JoypadEventMap>(
+    name: K,
+    callback: (event: JoypadEventMap[K]) => void,
+  ) {
     this.events[name].unRegisterCallback(callback);
   }
 

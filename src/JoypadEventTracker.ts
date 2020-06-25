@@ -3,9 +3,7 @@ import type { JoypadEventName } from './JoypadEventEmitter';
 export default class JoypadEventTracker {
   callbacks: Function[] = [];
 
-  constructor(
-    public name: JoypadEventName,
-  ) {}
+  constructor(public name: JoypadEventName) {}
 
   registerCallback(callback: Function) {
     this.callbacks.push(callback);

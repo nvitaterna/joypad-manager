@@ -22,7 +22,7 @@
 
 ▸ **addEventListener**‹**K**›(`name`: K, `callback`: function): *void*
 
-Defined in JoypadEventEmitter.ts:66
+Defined in JoypadEventEmitter.ts:69
 
 Add an event listener to this Joypad.
 
@@ -56,7 +56,7 @@ ___
 
 ▸ **clearEvents**(): *void*
 
-Defined in JoypadEventEmitter.ts:82
+Defined in JoypadEventEmitter.ts:91
 
 Remove all listeners from this Joypad.
 
@@ -68,7 +68,7 @@ ___
 
 ▸ **removeEventListener**‹**K**›(`name`: K, `callback`: function): *void*
 
-Defined in JoypadEventEmitter.ts:75
+Defined in JoypadEventEmitter.ts:81
 
 Remove an event listener from this Joypad.
 

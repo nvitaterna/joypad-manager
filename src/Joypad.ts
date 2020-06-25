@@ -4,90 +4,57 @@ import generateButtonState from './generate-button-state';
 import type { JoypadConfig } from './JoypadManager';
 import type { JoypadMap } from './mappings';
 
-/**
- * Vibration parameters for the Chrome-specific vibration actuator interface.
- */
+/** Vibration parameters for the Chrome-specific vibration actuator interface. */
 export interface VibrationParameters {
-  /**
-   * Delay in milliseconds before starting the vibration.
-   */
+  /** Delay in milliseconds before starting the vibration. */
   startDelay: number;
-  /**
-   * Duration in milliseconds.
-   */
+  /** Duration in milliseconds. */
   duration: number;
-  /**
-   * The magnitude of the weak motor between 0 and 1.
-   */
+  /** The magnitude of the weak motor between 0 and 1. */
   weakMagnitude: number;
-  /**
-   * The magnitude of the strong motor between 0 and 1.
-   */
+  /** The magnitude of the strong motor between 0 and 1. */
   strongMagnitude: number;
 }
 
-/**
- * Chrome-specific vibration actuator
- */
+/** Chrome-specific vibration actuator */
 interface VibrationActuator {
-  /**
-   * Play a vibration effect - returns the result of the vibration.
-   */
-  playEffect: (type: 'dual-rumble', parameters: VibrationParameters) => Promise<'invalid-parameter' | 'complete' | 'preempted'>;
-  /**
-   * Reset the running (if any) vibration effect. Will cause that vibration to be resolved with "preempted".
-   */
+  /** Play a vibration effect - returns the result of the vibration. */
+  playEffect: (
+    type: 'dual-rumble',
+    parameters: VibrationParameters,
+  ) => Promise<'invalid-parameter' | 'complete' | 'preempted'>;
+  /** Reset the running (if any) vibration effect. Will cause that vibration to be resolved with "preempted". */
   reset: () => Promise<'complete'>;
 }
 
-/**
- * Extends the native gamepad API with the Chrome-specific vibration actuator
- */
+/** Extends the native gamepad API with the Chrome-specific vibration actuator */
 interface Gamepad extends globalThis.Gamepad {
   vibrationActuator?: VibrationActuator;
 }
 
-/**
- * The state of an individual analog stick.
- */
+/** The state of an individual analog stick. */
 export interface StickState {
-  /**
-   * The name/alias of the stick.
-   */
+  /** The name/alias of the stick. */
   name: string;
   value: {
-    /**
-     * The value of the mapped X axis.
-     */
+    /** The value of the mapped X axis. */
     x: number;
-    /**
-     * The value of the mapped Y axis.
-     */
+    /** The value of the mapped Y axis. */
     y: number;
-    /**
-     * The angle of the stick in radians.
-     */
+    /** The angle of the stick in radians. */
     angle: number;
   };
 }
 
-/**
- * The state of a button.
- */
+/** The state of a button. */
 export interface ButtonState {
-  /**
-   * The name/alias of the button.
-   */
+  /** The name/alias of the button. */
   name: string;
-  /**
-   * The value of the mapped button.
-   */
+  /** The value of the mapped button. */
   value: number;
 }
 
-/**
- * The Joypad class that is used to create joypads in the [JoypadManager]{@linkcode JoypadManager}.
- */
+/** The Joypad class that is used to create joypads in the [JoypadManager]{@linkcode JoypadManager}. */
 export class Joypad extends JoypadEventEmitter {
   private buttonState!: ReturnType<typeof generateButtonState>;
 
@@ -95,9 +62,7 @@ export class Joypad extends JoypadEventEmitter {
 
   private nativePad?: Gamepad;
 
-  /**
-   * The id retrieved from the native gamepad id.
-   */
+  /** The id retrieved from the native gamepad id. */
   private id?: string;
 
   /**
@@ -113,20 +78,15 @@ export class Joypad extends JoypadEventEmitter {
     super();
   }
 
-  /**
-   * The key-value mappings of the joypad buttons.
-   */
+  /** The key-value mappings of the joypad buttons. */
   get buttons() {
     return (this.buttonState?.buttons || []).reduce((buttonMap, button) => {
-      // eslint-disable-next-line no-param-reassign
       buttonMap[button.name] = button;
       return buttonMap;
     }, {} as { [key: string]: ButtonState });
   }
 
-  /**
-   * The key-value mappings of the joypad sticks.
-   */
+  /** The key-value mappings of the joypad sticks. */
   get sticks() {
     return (this.buttonState?.sticks || []).reduce((stickMap, stick) => {
       // eslint-disable-next-line no-param-reassign
@@ -135,9 +95,7 @@ export class Joypad extends JoypadEventEmitter {
     }, {} as { [key: string]: StickState });
   }
 
-  /**
-   * The current mapping this gamepad is using.
-   */
+  /** The current mapping this gamepad is using. */
   get mapping() {
     return this.buttonState.mapping;
   }
@@ -153,9 +111,7 @@ export class Joypad extends JoypadEventEmitter {
     }
   }
 
-  /**
-   * Is the controller connected? Determined by checking if this is attached to a native gamepad AND if that native gamepad is connected.
-   */
+  /** Is the controller connected? Determined by checking if this is attached to a native gamepad AND if that native gamepad is connected. */
   get isConnected() {
     return this.connected;
   }
@@ -202,16 +158,15 @@ export class Joypad extends JoypadEventEmitter {
     this.loopSticks();
   }
 
-  /**
-   * Sync this.nativePad with the updated gamepad, return whether or not it is connected.
-   */
+  /** Sync this.nativePad with the updated gamepad, return whether or not it is connected. */
   private syncNativePad(nativePad: Gamepad | null) {
     if (!nativePad || !nativePad.connected) {
       if (this.connected) {
         this.disconnect(nativePad);
       }
       return false;
-    } if (nativePad?.connected && !this.connected) {
+    }
+    if (nativePad?.connected && !this.connected) {
       this.connect(nativePad);
     }
     if (nativePad && this.nativePad !== nativePad) {
@@ -223,9 +178,7 @@ export class Joypad extends JoypadEventEmitter {
     return true;
   }
 
-  /**
-   * Loop through buttons
-   */
+  /** Loop through buttons */
   private loopButtons() {
     const nativePad = this.nativePad!;
     this.buttonState.mapping?.buttons?.forEach((buttonMapping, index) => {
@@ -246,7 +199,11 @@ export class Joypad extends JoypadEventEmitter {
         if (buttonMapping.analog) {
           if (
             // always send event if value is 0 or 1
-            nativeButton.value === 1 || previousValue === 1 || nativeButton.value === 0 || previousValue === 0) {
+            nativeButton.value === 1 ||
+            previousValue === 1 ||
+            nativeButton.value === 0 ||
+            previousValue === 0
+          ) {
             this.dispatchEvent(JOYPAD_EVENTS.BUTTON_CHANGE, {
               button: buttonState,
               joypad: this,
@@ -303,9 +260,7 @@ export class Joypad extends JoypadEventEmitter {
     return true;
   }
 
-  /**
-   * Loop through analog sticks
-   */
+  /** Loop through analog sticks */
   private loopSticks() {
     const nativePad = this.nativePad!;
     this.buttonState.mapping?.sticks?.forEach((stickMapping) => {
@@ -350,15 +305,15 @@ export class Joypad extends JoypadEventEmitter {
     });
   }
 
-  /**
-   * Vibrate the controller if supported.
-   */
-  async vibrate(vibrationParameters: Partial<VibrationParameters> = {
-    startDelay: 0,
-    duration: 1000,
-    weakMagnitude: 1,
-    strongMagnitude: 1,
-  }) {
+  /** Vibrate the controller if supported. */
+  async vibrate(
+    vibrationParameters: Partial<VibrationParameters> = {
+      startDelay: 0,
+      duration: 1000,
+      weakMagnitude: 1,
+      strongMagnitude: 1,
+    },
+  ) {
     const {
       startDelay = 0,
       duration = 1000,
@@ -373,9 +328,7 @@ export class Joypad extends JoypadEventEmitter {
     });
   }
 
-  /**
-   * Stop any current vibrations.
-   */
+  /** Stop any current vibrations. */
   stopVibrate() {
     return this.nativePad?.vibrationActuator?.reset();
   }

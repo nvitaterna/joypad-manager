@@ -2,7 +2,9 @@ import mappings, { JoypadMap } from './mappings';
 import type { ButtonState, StickState } from './Joypad';
 
 export default function generateButtonState(id: string, customMappings: JoypadMap[]) {
-  let gamepadMap = customMappings.concat(mappings).find((mapping) => mapping.ids.some((mappingId) => mappingId.includes(id)));
+  let gamepadMap = customMappings
+    .concat(mappings)
+    .find((mapping) => mapping.ids.some((mappingId) => mappingId.includes(id)));
 
   if (!gamepadMap) {
     gamepadMap = mappings.find((mapping) => mapping.ids.includes('default'));
@@ -23,7 +25,7 @@ export default function generateButtonState(id: string, customMappings: JoypadMa
   }));
 
   return {
-    mapping!: gamepadMap,
+    mapping: gamepadMap,
     buttons,
     sticks,
   };
