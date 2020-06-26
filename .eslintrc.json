@@ -1,40 +1,7 @@
 {
   "root": true,
-  "extends": [
-    "airbnb-typescript/base",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
-  ],
+  "extends": "@nvitaterna/eslint-config-prettier",
   "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "rules": {
-    "@typescript-eslint/member-delimiter-style": [
-      "error",
-      {
-        "multiline": {
-          "delimiter": "semi",
-          "requireLast": true
-        },
-        "singleline": {
-          "delimiter": "semi",
-          "requireLast": false
-        }
-      }
-    ],
-    "max-len": [
-      "off"
-    ],
-    "no-param-reassign": [
-      "error",
-      {
-        "props": false
-      }
-    ]
-  },
-  "ignorePatterns": [
-    "**/lib",
-    "**/dist",
-    "**/dev"
-  ]
+    "project": "tsconfig.json"
+  }
 }

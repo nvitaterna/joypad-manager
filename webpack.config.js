@@ -29,16 +29,22 @@ const baseConfig = {
     rules: [
       {
         test: /\.ts$/,
-        use: ['babel-loader', {
-          loader: 'ts-loader',
-          options: {
-            configFile: path.resolve(__dirname, devMode ? './tsconfig.json' : './tsconfig.web.json'),
-            compilerOptions: {
-              target: 'ESNext',
+        use: [
+          'babel-loader',
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: path.resolve(
+                __dirname,
+                devMode ? './tsconfig.json' : './tsconfig.web.json',
+              ),
+              compilerOptions: {
+                target: 'ESNext',
+              },
+              transpileOnly: true,
             },
-            transpileOnly: true,
           },
-        }],
+        ],
         exclude: /node_modules/,
       },
     ],
@@ -47,11 +53,13 @@ const baseConfig = {
     extensions: ['.ts', '.js'],
   },
   target: 'web',
-  plugins: [new ForkTsCheckerWebpackPlugin({
-    eslint: {
-      files: './src/**/*.{ts,tsx,js,jsx}',
-    },
-  })],
+  plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      eslint: {
+        files: './src/**/*.{ts,tsx,js,jsx}',
+      },
+    }),
+  ],
 };
 
 if (devMode) {
@@ -86,9 +94,11 @@ if (devMode) {
     },
     optimization: {
       minimize: true,
-      minimizer: [new TerserPlugin({
-        terserOptions,
-      })],
+      minimizer: [
+        new TerserPlugin({
+          terserOptions,
+        }),
+      ],
     },
   };
   const prodConfig = {
@@ -99,13 +109,13 @@ if (devMode) {
     },
     optimization: {
       minimize: false,
-      minimizer: [new TerserPlugin({
-        terserOptions,
-      })],
+      minimizer: [
+        new TerserPlugin({
+          terserOptions,
+        }),
+      ],
     },
-    plugins: [
-      new CleanWebpackPlugin(),
-    ],
+    plugins: [new CleanWebpackPlugin()],
   };
   configs = [minConfig, prodConfig];
 }
