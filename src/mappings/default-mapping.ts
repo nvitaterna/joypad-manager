@@ -1,9 +1,7 @@
 import type { JoypadMap } from '.';
 
 export default {
-  ids: [
-    'default',
-  ],
+  ids: ['default'],
   buttons: [
     {
       name: 'buttonSouth',

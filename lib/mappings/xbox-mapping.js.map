@@ -1,1 +1,0 @@
-{"version":3,"file":"xbox-mapping.js","sourceRoot":"","sources":["../../src/mappings/xbox-mapping.ts"],"names":[],"mappings":"AAAA,OAAO,cAAc,MAAM,mBAAmB,CAAC;AAG/C,eAAe;IACb,GAAG,EAAE;QACH,+CAA+C;QAC/C,QAAQ;KACT;IACD,OAAO,EAAE,cAAc,CAAC,OAAO;IAC/B,MAAM,EAAE,cAAc,CAAC,MAAM;CACjB,CAAC"}

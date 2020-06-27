@@ -3,6 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 let mode = 'development';
 
@@ -28,15 +29,22 @@ const baseConfig = {
     rules: [
       {
         test: /\.ts$/,
-        use: ['babel-loader', {
-          loader: 'ts-loader',
-          options: {
-            configFile: path.resolve(__dirname, devMode ? './tsconfig.json' : './tsconfig.web.json'),
-            compilerOptions: {
-              target: 'ESNext',
+        use: [
+          'babel-loader',
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: path.resolve(
+                __dirname,
+                devMode ? './tsconfig.json' : './tsconfig.web.json',
+              ),
+              compilerOptions: {
+                target: 'ESNext',
+              },
+              transpileOnly: true,
             },
           },
-        }, 'eslint-loader'],
+        ],
         exclude: /node_modules/,
       },
     ],
@@ -45,6 +53,13 @@ const baseConfig = {
     extensions: ['.ts', '.js'],
   },
   target: 'web',
+  plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      eslint: {
+        files: './src/**/*.{ts,tsx,js,jsx}',
+      },
+    }),
+  ],
 };
 
 if (devMode) {
@@ -79,9 +94,11 @@ if (devMode) {
     },
     optimization: {
       minimize: true,
-      minimizer: [new TerserPlugin({
-        terserOptions,
-      })],
+      minimizer: [
+        new TerserPlugin({
+          terserOptions,
+        }),
+      ],
     },
   };
   const prodConfig = {
@@ -92,13 +109,13 @@ if (devMode) {
     },
     optimization: {
       minimize: false,
-      minimizer: [new TerserPlugin({
-        terserOptions,
-      })],
+      minimizer: [
+        new TerserPlugin({
+          terserOptions,
+        }),
+      ],
     },
-    plugins: [
-      new CleanWebpackPlugin(),
-    ],
+    plugins: [new CleanWebpackPlugin()],
   };
   configs = [minConfig, prodConfig];
 }

@@ -3,10 +3,18 @@
       "source.fixAll": true
     },
     "search.exclude": {
-      "**/dev": true,
-      "**/dist": true,
       "**/examples": true,
+    },
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
       "**/lib": true,
-      "**/test": true
-    }
+      "**/dist": true,
+      "**/dev": true
+    },
+    "npm.packageManager": "yarn",
+    "eslint.packageManager": "yarn"
   }

@@ -1,41 +1,74 @@
-import JoypadEventEmitter from './JoypadEventEmitter';
+import { JoypadEventEmitter } from './JoypadEventEmitter';
 import * as JOYPAD_EVENTS from './event-names';
-import generateButtonState, { ButtonState, StickState } from './generate-button-state';
+import generateButtonState from './generate-button-state';
 import type { JoypadConfig } from './JoypadManager';
 import type { JoypadMap } from './mappings';
 
+/** Vibration parameters for the Chrome-specific vibration actuator interface. */
 export interface VibrationParameters {
+  /** Delay in milliseconds before starting the vibration. */
   startDelay: number;
+  /** Duration in milliseconds. */
   duration: number;
+  /** The magnitude of the weak motor between 0 and 1. */
   weakMagnitude: number;
+  /** The magnitude of the strong motor between 0 and 1. */
   strongMagnitude: number;
 }
 
-export interface VibrationActuator {
-  playEffect: (type: 'dual-rumble', parameters: VibrationParameters) => Promise<'invalid-parameter' | 'complete' | 'preempted'>;
+/** Chrome-specific vibration actuator */
+interface VibrationActuator {
+  /** Play a vibration effect - returns the result of the vibration. */
+  playEffect: (
+    type: 'dual-rumble',
+    parameters: VibrationParameters,
+  ) => Promise<'invalid-parameter' | 'complete' | 'preempted'>;
+  /** Reset the running (if any) vibration effect. Will cause that vibration to be resolved with "preempted". */
   reset: () => Promise<'complete'>;
 }
 
+/** Extends the native gamepad API with the Chrome-specific vibration actuator */
 interface Gamepad extends globalThis.Gamepad {
   vibrationActuator?: VibrationActuator;
 }
 
-export default class Joypad extends JoypadEventEmitter {
+/** The state of an individual analog stick. */
+export interface StickState {
+  /** The name/alias of the stick. */
+  name: string;
+  value: {
+    /** The value of the mapped X axis. */
+    x: number;
+    /** The value of the mapped Y axis. */
+    y: number;
+    /** The angle of the stick in radians. */
+    angle: number;
+  };
+}
+
+/** The state of a button. */
+export interface ButtonState {
+  /** The name/alias of the button. */
+  name: string;
+  /** The value of the mapped button. */
+  value: number;
+}
+
+/** The Joypad class that is used to create joypads in the [JoypadManager]{@linkcode JoypadManager}. */
+export class Joypad extends JoypadEventEmitter {
   private buttonState!: ReturnType<typeof generateButtonState>;
 
   private connected = false;
 
   private nativePad?: Gamepad;
 
-  /**
-   * The id - retrieved from the native id
-   */
-  id?: string;
+  /** The id retrieved from the native gamepad id. */
+  private id?: string;
 
   /**
-   * @param index the gamepad index in the JoypadManager.joypads array
-   * @param joypadConfig the joypad config
-   * @param mappings custom gamepad button mappings
+   * @param index The gamepad index in the [JoypadManager.joypads]{@linkcode JoypadManager.joypads} array.
+   * @param joypadConfig The joypad configuration.
+   * @param mappings Custom gamepad button mappings.
    */
   constructor(
     readonly index: number,
@@ -45,14 +78,15 @@ export default class Joypad extends JoypadEventEmitter {
     super();
   }
 
+  /** The key-value mappings of the joypad buttons. */
   get buttons() {
     return (this.buttonState?.buttons || []).reduce((buttonMap, button) => {
-      // eslint-disable-next-line no-param-reassign
       buttonMap[button.name] = button;
       return buttonMap;
     }, {} as { [key: string]: ButtonState });
   }
 
+  /** The key-value mappings of the joypad sticks. */
   get sticks() {
     return (this.buttonState?.sticks || []).reduce((stickMap, stick) => {
       // eslint-disable-next-line no-param-reassign
@@ -61,6 +95,7 @@ export default class Joypad extends JoypadEventEmitter {
     }, {} as { [key: string]: StickState });
   }
 
+  /** The current mapping this gamepad is using. */
   get mapping() {
     return this.buttonState.mapping;
   }
@@ -76,9 +111,7 @@ export default class Joypad extends JoypadEventEmitter {
     }
   }
 
-  /**
-   * Check of the controller is connected
-   */
+  /** Is the controller connected? Determined by checking if this has a reference to a native gamepad AND if that native gamepad is connected. */
   get isConnected() {
     return this.connected;
   }
@@ -125,16 +158,15 @@ export default class Joypad extends JoypadEventEmitter {
     this.loopSticks();
   }
 
-  /**
-   * Sync this.nativePad with the updated gamepad, return whether or not it is connected.
-   */
+  /** Sync this.nativePad with the updated gamepad, return whether or not it is connected. */
   private syncNativePad(nativePad: Gamepad | null) {
     if (!nativePad || !nativePad.connected) {
       if (this.connected) {
         this.disconnect(nativePad);
       }
       return false;
-    } if (nativePad?.connected && !this.connected) {
+    }
+    if (nativePad?.connected && !this.connected) {
       this.connect(nativePad);
     }
     if (nativePad && this.nativePad !== nativePad) {
@@ -146,9 +178,7 @@ export default class Joypad extends JoypadEventEmitter {
     return true;
   }
 
-  /**
-   * Loop through buttons
-   */
+  /** Loop through buttons */
   private loopButtons() {
     const nativePad = this.nativePad!;
     this.buttonState.mapping?.buttons?.forEach((buttonMapping, index) => {
@@ -159,14 +189,21 @@ export default class Joypad extends JoypadEventEmitter {
       }
 
       const buttonState = this.buttons[buttonMapping.name];
+      const previousValue = buttonState.value;
+
+      // always set state every loop
+      buttonState.value = nativeButton.value;
 
       // if a button value is different than the new value
-      if (nativeButton.value !== buttonState.value) {
+      if (nativeButton.value !== previousValue) {
         if (buttonMapping.analog) {
           if (
             // always send event if value is 0 or 1
-            nativeButton.value === 1 || buttonState.value === 1 || nativeButton.value === 0 || buttonState.value === 0) {
-            buttonState.value = nativeButton.value;
+            nativeButton.value === 1 ||
+            previousValue === 1 ||
+            nativeButton.value === 0 ||
+            previousValue === 0
+          ) {
             this.dispatchEvent(JOYPAD_EVENTS.BUTTON_CHANGE, {
               button: buttonState,
               joypad: this,
@@ -178,8 +215,7 @@ export default class Joypad extends JoypadEventEmitter {
         }
 
         // we will still process these events for analog buttons so analog buttons can be treated as digital
-        if (nativeButton.value === 1 && buttonState.value === 0) {
-          buttonState.value = nativeButton.value;
+        if (nativeButton.value === 1 && previousValue === 0) {
           this.dispatchEvent(JOYPAD_EVENTS.BUTTON_PRESS, {
             button: buttonState,
             joypad: this,
@@ -187,8 +223,7 @@ export default class Joypad extends JoypadEventEmitter {
             nativePad,
             index,
           });
-        } else if (nativeButton.value === 0 && buttonState.value === 1) {
-          buttonState.value = nativeButton.value;
+        } else if (nativeButton.value === 0 && previousValue === 1) {
           this.dispatchEvent(JOYPAD_EVENTS.BUTTON_RELEASE, {
             button: buttonState,
             joypad: this,
@@ -225,9 +260,7 @@ export default class Joypad extends JoypadEventEmitter {
     return true;
   }
 
-  /**
-   * Loop through analog sticks
-   */
+  /** Loop through analog sticks */
   private loopSticks() {
     const nativePad = this.nativePad!;
     this.buttonState.mapping?.sticks?.forEach((stickMapping) => {
@@ -244,18 +277,20 @@ export default class Joypad extends JoypadEventEmitter {
       nativeY = nativeY === undefined ? 0 : nativeY;
 
       const stickState = this.sticks[stickMapping.name];
-      const stateX = stickState.value.x;
-      const stateY = stickState.value.y;
+      const previousX = stickState.value.x;
+      const previousY = stickState.value.y;
 
-      if (this.checkAxis(stateX, nativeX) || this.checkAxis(stateY, nativeY)) {
-        stickState.value.x = Math.abs(nativeX) <= this.joypadConfig.axisDeadzone ? 0 : nativeX;
-        stickState.value.y = Math.abs(nativeY) <= this.joypadConfig.axisDeadzone ? 0 : nativeY;
-        let radians = Math.atan2(stickState.value.y, stickState.value.x);
-        if (radians < 0) {
-          radians += 2 * Math.PI;
-        }
-        stickState.value.angle = radians;
+      // make sure we update state every loop
+      stickState.value.x = Math.abs(nativeX) <= this.joypadConfig.axisDeadzone ? 0 : nativeX;
+      stickState.value.y = Math.abs(nativeY) <= this.joypadConfig.axisDeadzone ? 0 : nativeY;
 
+      let radians = Math.atan2(stickState.value.y, stickState.value.x);
+      if (radians < 0) {
+        radians += 2 * Math.PI;
+      }
+      stickState.value.angle = radians;
+
+      if (this.checkAxis(previousX, nativeX) || this.checkAxis(previousY, nativeY)) {
         this.dispatchEvent(JOYPAD_EVENTS.STICK_MOVE, {
           stick: stickState,
           joypad: this,
@@ -270,21 +305,14 @@ export default class Joypad extends JoypadEventEmitter {
     });
   }
 
-  /**
- *
- * @param parameters vibrations paramter
- */
-  async vibrate({
-    startDelay = 0,
-    duration = 1000,
-    weakMagnitude = 1,
-    strongMagnitude = 1,
-  }: Partial < VibrationParameters > = {
-    startDelay: 0,
-    duration: 1000,
-    weakMagnitude: 1,
-    strongMagnitude: 1,
-  }) {
+  /** Vibrate the controller if supported. */
+  async vibrate(vibrationParameters: Partial<VibrationParameters> = {}) {
+    const {
+      startDelay = 0,
+      duration = 1000,
+      weakMagnitude = 1,
+      strongMagnitude = 1,
+    } = vibrationParameters;
     return this.nativePad?.vibrationActuator?.playEffect('dual-rumble', {
       startDelay,
       duration,
@@ -293,6 +321,7 @@ export default class Joypad extends JoypadEventEmitter {
     });
   }
 
+  /** Stop any current vibrations. */
   stopVibrate() {
     return this.nativePad?.vibrationActuator?.reset();
   }

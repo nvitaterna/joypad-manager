@@ -1,0 +1,15 @@
+{
+  "mode": "modules",
+  "out": "docs",
+  "exclude": [
+    "**/*+(types|JoypadEventTracker).ts",
+    "**/*mappings.ts",
+    "**/*mapping.ts",
+    "**/src/index.ts"
+  ],
+  "excludePrivate": true,
+  "excludeNotExported": true,
+  "excludeProtected": true,
+  "ignoreCompilerErrors": true,
+  "readme": "none"
+}
