@@ -1661,12 +1661,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                vibrationParameters = _args.length > 0 && _args[0] !== undefined ? _args[0] : {
-                  startDelay: 0,
-                  duration: 1000,
-                  weakMagnitude: 1,
-                  strongMagnitude: 1
-                };
+                vibrationParameters = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};
                 _vibrationParameters$ = vibrationParameters.startDelay, startDelay = _vibrationParameters$ === void 0 ? 0 : _vibrationParameters$, _vibrationParameters$2 = vibrationParameters.duration, duration = _vibrationParameters$2 === void 0 ? 1000 : _vibrationParameters$2, _vibrationParameters$3 = vibrationParameters.weakMagnitude, weakMagnitude = _vibrationParameters$3 === void 0 ? 1 : _vibrationParameters$3, _vibrationParameters$4 = vibrationParameters.strongMagnitude, strongMagnitude = _vibrationParameters$4 === void 0 ? 1 : _vibrationParameters$4;
                 return _context.abrupt("return", (_this$nativePad = this.nativePad) === null || _this$nativePad === void 0 ? void 0 : (_this$nativePad$vibra = _this$nativePad.vibrationActuator) === null || _this$nativePad$vibra === void 0 ? void 0 : _this$nativePad$vibra.playEffect('dual-rumble', {
                   startDelay: startDelay,
@@ -1748,10 +1743,7 @@ var JoypadManager_JoypadManager = /*#__PURE__*/function () {
    * @param mappings Optional custom list of mappings
    */
   function JoypadManager() {
-    var joypadConfig = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-      axisDeadzone: 0.15,
-      maxJoypads: 4
-    };
+    var joypadConfig = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var mappings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
     classCallCheck_default()(this, JoypadManager);

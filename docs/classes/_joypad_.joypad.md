@@ -208,7 +208,7 @@ ___
 
 ▸ **stopVibrate**(): *undefined | Promise‹"complete"›*
 
-Defined in Joypad.ts:332
+Defined in Joypad.ts:325
 
 Stop any current vibrations.
 
@@ -246,11 +246,6 @@ Vibrate the controller if supported.
 
 Name | Type | Default |
 ------ | ------ | ------ |
-`vibrationParameters` | Partial‹[VibrationParameters](../interfaces/_joypad_.vibrationparameters.md)› | {
-      startDelay: 0,
-      duration: 1000,
-      weakMagnitude: 1,
-      strongMagnitude: 1,
-    } |
+`vibrationParameters` | Partial‹[VibrationParameters](../interfaces/_joypad_.vibrationparameters.md)› | {} |
 
 **Returns:** *Promise‹undefined | "invalid-parameter" | "complete" | "preempted"›*

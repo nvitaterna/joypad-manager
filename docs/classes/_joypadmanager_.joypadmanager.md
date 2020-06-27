@@ -34,10 +34,7 @@ Initiate the JoypadManager
 
 Name | Type | Default | Description |
 ------ | ------ | ------ | ------ |
-`joypadConfig` | Partial‹[JoypadConfig](../interfaces/_joypadmanager_.joypadconfig.md)› | {
-      axisDeadzone: 0.15,
-      maxJoypads: 4,
-    } | Optional Joypad configuration |
+`joypadConfig` | Partial‹[JoypadConfig](../interfaces/_joypadmanager_.joypadconfig.md)› | {} | Optional Joypad configuration |
 `mappings` | [JoypadMap](../interfaces/_mappings_index_.joypadmap.md)[] | [] | Optional custom list of mappings  |
 
 **Returns:** *[JoypadManager](_joypadmanager_.joypadmanager.md)*
@@ -58,7 +55,7 @@ The array of joypads.
 
 ▸ **update**(): *void*
 
-Defined in JoypadManager.ts:43
+Defined in JoypadManager.ts:37
 
 The main update loop - updates every joypad and passes the reference to the native gamepad.
 

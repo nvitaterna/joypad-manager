@@ -306,14 +306,7 @@ export class Joypad extends JoypadEventEmitter {
   }
 
   /** Vibrate the controller if supported. */
-  async vibrate(
-    vibrationParameters: Partial<VibrationParameters> = {
-      startDelay: 0,
-      duration: 1000,
-      weakMagnitude: 1,
-      strongMagnitude: 1,
-    },
-  ) {
+  async vibrate(vibrationParameters: Partial<VibrationParameters> = {}) {
     const {
       startDelay = 0,
       duration = 1000,
