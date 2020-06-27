@@ -1431,7 +1431,7 @@ var Joypad_Joypad = /*#__PURE__*/function (_JoypadEventEmitter) {
         this.buttonState = generateButtonState(this.id, this.mappings);
       }
     }
-    /** Is the controller connected? Determined by checking if this is attached to a native gamepad AND if that native gamepad is connected. */
+    /** Is the controller connected? Determined by checking if this has a reference to a native gamepad AND if that native gamepad is connected. */
 
   }, {
     key: "connect",

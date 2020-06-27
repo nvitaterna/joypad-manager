@@ -86,7 +86,7 @@ ___
 
 Defined in Joypad.ts:115
 
-Is the controller connected? Determined by checking if this is attached to a native gamepad AND if that native gamepad is connected.
+Is the controller connected? Determined by checking if this has a reference to a native gamepad AND if that native gamepad is connected.
 
 **Returns:** *boolean*
 
